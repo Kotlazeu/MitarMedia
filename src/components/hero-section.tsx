@@ -115,11 +115,10 @@ export function HeroSection() {
                 transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
             }}
             className={cn(
-                "group relative rounded-2xl shadow-2xl hover:shadow-primary/30 border-2 border-white/10"
+                "group relative rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.4)]"
             )}
         >
             <Button
-              variant="outline"
               className={cn(
                 "bg-transparent hover:bg-transparent text-white/90 hover:text-white font-headline px-12 py-8 text-2xl",
                 "glassmorphism"
