@@ -6,10 +6,14 @@ import { cn } from '@/lib/utils';
 export function Typewriter({ text, className }: { text: string; className?: string }) {
   const [displayedText, setDisplayedText] = useState('');
   const [isClient, setIsClient] = useState(false);
+  const [glowingIndex, setGlowingIndex] = useState(-1);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const words = text.split(' ');
+  const isMobile = isClient ? window.innerWidth < 768 : false;
 
   useEffect(() => {
     let i = 0;
@@ -25,24 +29,34 @@ export function Typewriter({ text, className }: { text: string; className?: stri
     return () => clearInterval(typingInterval);
   }, [text]);
 
-  const isMobile = isClient ? window.innerWidth < 768 : false;
-  const words = displayedText.split(' ');
-  const glowIndices = [2, 5, 8, 12, 17, 22]; // Pre-determined words to glow on mobile
+  useEffect(() => {
+    if (isMobile && displayedText.length === text.length) {
+      const glowInterval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * words.length);
+        setGlowingIndex(randomIndex);
+      }, 1500); // Change glowing word every 1.5 seconds
+
+      return () => clearInterval(glowInterval);
+    }
+  }, [isMobile, displayedText, text.length, words.length]);
+
+
+  const displayedWords = displayedText.split(' ');
 
   return (
     <p className={cn(className)}>
-      {words.map((word, index) => (
+      {displayedWords.map((word, index) => (
         <span
           key={index}
           className={cn({
             'word-glow': !isMobile,
-            'word-glow-mobile': isMobile && glowIndices.includes(index),
+            'word-glow-mobile': isMobile && index === glowingIndex,
           })}
         >
           {word}{' '}
         </span>
       ))}
-      <span className="blinking-cursor">|</span>
+      {displayedText.length === text.length && <span className="blinking-cursor">|</span>}
     </p>
   );
 }
