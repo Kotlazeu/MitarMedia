@@ -4,9 +4,24 @@ import { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+const useIsMobile = () => {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+    return isMobile;
+};
+
 const Typewriter = ({ text, speed = 50 }: { text: string, speed?: number }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
+  const [glowingIndex, setGlowingIndex] = useState<number | null>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setDisplayedText('');
@@ -24,12 +39,34 @@ const Typewriter = ({ text, speed = 50 }: { text: string, speed?: number }) => {
 
     return () => clearInterval(intervalId);
   }, [text, speed]);
+  
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | undefined;
+    if (isComplete && isMobile) {
+      const words = text.split(' ');
+      intervalId = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * words.length);
+        setGlowingIndex(randomIndex);
+      }, 1000);
+    } else {
+      setGlowingIndex(null);
+    }
+    return () => {
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
+    };
+  }, [isComplete, isMobile, text]);
+
 
   return (
     <p className="font-mono max-w-3xl mx-auto text-lg md:text-xl text-foreground/80 h-24">
       {isComplete ? (
         text.split(' ').map((word, index) => (
-          <span key={index} className="word-glow">
+          <span 
+            key={index}
+            className={cn('word-glow', { 'word-glow-mobile': index === glowingIndex})}
+          >
             {word}{' '}
           </span>
         ))
