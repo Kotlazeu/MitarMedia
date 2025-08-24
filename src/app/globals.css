@@ -190,13 +190,13 @@
   }
 
   .typewriter {
-    --typewriter-steps: 135; /* Default value */
+    --typewriter-steps: 1; /* Default value, will be overridden by JS */
     border-right: 2px solid rgba(255,255,255,.75);
     white-space: nowrap;
     overflow: hidden;
     animation: 
       typewriter-anim 4s steps(var(--typewriter-steps)) 1s 1 normal both, 
-      blinking-cursor 500ms steps(var(--typewriter-steps)) infinite normal;
+      blinking-cursor 500ms infinite normal;
   }
 }
 

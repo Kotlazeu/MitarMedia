@@ -61,11 +61,11 @@ export function HeroSection() {
 
   // Typewriter logic
   const typewriterRef = useRef<HTMLParagraphElement>(null);
-  const [text] = useState("We are a full-service media production house specializing in breathtaking visual storytelling that captivates and inspires.");
-
+  const text = "We are a full-service media production house specializing in breathtaking visual storytelling that captivates and inspires.";
+  
   useEffect(() => {
     if (typewriterRef.current) {
-      typewriterRef.current.style.setProperty('--typewriter-steps', String(text.length));
+      typewriterRef.current.style.setProperty('--typewriter-steps', text.length.toString());
     }
   }, [text]);
 
