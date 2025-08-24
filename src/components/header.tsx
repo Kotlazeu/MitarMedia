@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Film, Menu, Phone, Instagram, Youtube, Linkedin } from 'lucide-react';
+import { Film, Menu, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,14 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { TikTokIcon } from '@/components/icons/tiktok-icon';
-
-const socialLinks = [
-  { name: 'Instagram', icon: <Instagram />, href: '#' },
-  { name: 'YouTube', icon: <Youtube />, href: '#' },
-  { name: 'TikTok', icon: <TikTokIcon />, href: '#' },
-  { name: 'LinkedIn', icon: <Linkedin />, href: '#' },
-];
+import { socialLinks } from '@/lib/data.tsx';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);

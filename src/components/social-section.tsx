@@ -1,16 +1,8 @@
 "use client";
 
-import { Instagram, Youtube, Linkedin } from 'lucide-react';
-import { TikTokIcon } from '@/components/icons/tiktok-icon';
 import Script from 'next/script';
 import { cn } from '@/lib/utils';
-
-const socialLinks = [
-  { name: 'Instagram', icon: <Instagram size={32} />, href: '#' },
-  { name: 'YouTube', icon: <Youtube size={32} />, href: '#' },
-  { name: 'TikTok', icon: <TikTokIcon className="h-8 w-8" />, href: '#' },
-  { name: 'LinkedIn', icon: <Linkedin size={32} />, href: '#' },
-];
+import { socialLinks } from '@/lib/data.tsx';
 
 export function SocialSection() {
   return (
@@ -36,7 +28,7 @@ export function SocialSection() {
         <h2 className="text-3xl font-headline font-bold mb-2">Latest from Instagram</h2>
         <p className="text-foreground/70 mb-10">Follow us <a href="#" className="text-primary underline hover:text-primary/80">@visualedge</a></p>
         
-        <div style={{ perspective: '1000px' }}>
+        <div style={{ perspective: '2750px' }}>
           <div 
             className={cn(
               "glassmorphism rounded-2xl p-4 shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.4)]",
