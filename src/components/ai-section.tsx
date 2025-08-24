@@ -47,7 +47,7 @@ export function AiSection() {
 
           {/* Card 2: Video frame */}
           <GlassCard 
-            className="absolute bottom-0 right-0 w-[50%] transition-all duration-500 hover:scale-105 z-10 p-2 -rotate-3 hover:rotate-0"
+            className="absolute bottom-0 right-0 w-[50%] transition-all duration-500 hover:scale-105 z-10 p-2 rotate-3 hover:rotate-0"
             >
             <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
               <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
