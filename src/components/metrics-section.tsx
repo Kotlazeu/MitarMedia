@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
+import { cn } from '@/lib/utils';
 
 const AnimatedCounter = ({ end, duration = 2 }: { end: number; duration?: number }) => {
   const [count, setCount] = useState(0);
@@ -55,7 +56,11 @@ export function MetricsSection() {
 
   return (
     <section ref={ref} className="w-full">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 glassmorphism p-8 rounded-2xl">
+      <div className={cn(
+        "grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 p-8 rounded-2xl transition-shadow duration-300",
+        "glassmorphism",
+        "shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.4)]"
+        )}>
         {metrics.map((metric, index) => (
           <div key={index} className="text-center">
             <h3 className="text-4xl md:text-6xl font-headline font-bold text-primary">
