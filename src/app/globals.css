@@ -71,9 +71,9 @@
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(-45deg, #1e1b34, #122a4c);
-    background-size: 200% 200%;
-    animation: gradient-bg 20s ease infinite;
+    background: linear-gradient(-45deg, #2c0b4d, #0d3a6e, #000000);
+    background-size: 400% 400%;
+    animation: gradient-bg 15s ease infinite;
     position: relative;
     overflow-x: hidden;
   }
@@ -103,9 +103,14 @@
 }
 
 @layer components {
+  .glassmorphism {
+    background: hsl(var(--foreground) / 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    @apply border border-white/20 shadow-lg;
+  }
+
   .btn-glass {
-    width: 240px;
-    height: 360px;
     background: rgba(255, 255, 255, 0.22);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
