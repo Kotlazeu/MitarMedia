@@ -50,7 +50,9 @@ export function HeroSection() {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           style={{
-            transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`,
+            transform: isHovering
+              ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`
+              : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05)',
             transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
           }}
           className={cn(
