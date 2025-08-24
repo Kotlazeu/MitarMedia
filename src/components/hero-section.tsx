@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -59,6 +59,16 @@ export function HeroSection() {
     setRotateButton({ x: 0, y: 0 });
   };
 
+  // Typewriter logic
+  const typewriterRef = useRef<HTMLParagraphElement>(null);
+  const [text] = useState("We are a full-service media production house specializing in breathtaking visual storytelling that captivates and inspires.");
+
+  useEffect(() => {
+    if (typewriterRef.current) {
+      typewriterRef.current.style.setProperty('--typewriter-steps', String(text.length));
+    }
+  }, [text]);
+
 
   return (
     <section className="min-h-screen w-full flex items-center justify-center text-center text-white py-24">
@@ -68,8 +78,11 @@ export function HeroSection() {
           <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-shadow-lg">
             Crafting Visions, Creating Worlds
           </h1>
-          <p className="font-mono max-w-3xl mx-auto text-lg md:text-xl text-foreground/80 typewriter">
-            We are a full-service media production house specializing in breathtaking visual storytelling that captivates and inspires.
+          <p 
+            ref={typewriterRef}
+            className="font-mono max-w-3xl mx-auto text-lg md:text-xl text-foreground/80 typewriter"
+          >
+            {text}
           </p>
         </div>
 
