@@ -31,7 +31,32 @@ const AnimatedCounter = ({ end, duration = 2 }: { end: number; duration?: number
 
 export function MetricsSection() {
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
+  const [isHovering, setIsHovering] = useState(false);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const x = (mouseY / height - 0.5) * -10;
+    const y = (mouseX / width - 0.5) * 10;
+    setRotate({ x, y });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setRotate({ x: 0, y: 0 });
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,8 +68,12 @@ export function MetricsSection() {
       },
       { threshold: 0.1 }
     );
-    if(ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    if(sectionRef.current) observer.observe(sectionRef.current);
+    return () => {
+      if(sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   const metrics = [
@@ -55,9 +84,23 @@ export function MetricsSection() {
   ];
 
   return (
-    <section ref={ref} className="w-full">
-      <div className={cn(
-        "grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 p-8 rounded-2xl transition-shadow duration-300",
+    <section 
+      ref={sectionRef} 
+      className="w-full"
+      style={{ perspective: '1000px' }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div 
+        style={{
+          transform: isHovering
+            ? `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`
+            : 'rotateX(0deg) rotateY(0deg)',
+          transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
+        }}
+        className={cn(
+        "grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 p-8 rounded-2xl",
         "glassmorphism",
         "shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.4)]"
         )}>
