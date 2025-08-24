@@ -58,6 +58,27 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  @property --purple-x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 25%;
+  }
+  @property --purple-y {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 80%;
+  }
+  @property --blue-x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 80%;
+  }
+  @property --blue-y {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 20%;
+  }
 }
 
 @layer base {
@@ -82,9 +103,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(-45deg, #c084fc, #6366f1, #030712, #1e293b);
-    background-size: 400% 400%;
-    animation: gradient-bg 15s ease infinite;
+    background: 
+      radial-gradient(40vmax 40vmax at var(--purple-x) var(--purple-y), rgba(192, 132, 252, 0.25), transparent 80%),
+      radial-gradient(30vmax 30vmax at var(--blue-x) var(--blue-y), rgba(99, 102, 241, 0.25), transparent 80%),
+      #030712;
+    animation: move-gradients 15s ease-in-out infinite;
     z-index: -2;
   }
 
@@ -167,14 +190,29 @@
   }
 }
 
-@keyframes gradient-bg {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+@keyframes move-gradients {
+  0%, 100% {
+    --purple-x: 25%;
+    --purple-y: 80%;
+    --blue-x: 80%;
+    --blue-y: 20%;
+  }
+  25% {
+    --purple-x: 15%;
+    --purple-y: 15%;
+    --blue-x: 85%;
+    --blue-y: 80%;
+  }
+  50% {
+    --purple-x: 80%;
+    --purple-y: 15%;
+    --blue-x: 15%;
+    --blue-y: 85%;
+  }
+  75% {
+    --purple-x: 85%;
+    --purple-y: 80%;
+    --blue-x: 15%;
+    --blue-y: 15%;
+  }
 }
