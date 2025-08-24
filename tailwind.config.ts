@@ -94,8 +94,8 @@ export default {
           'to': { transform: 'translateX(-50%)' },
         },
         'idle-perspective': {
-          '0%, 100%': { transform: 'rotateX(2deg) rotateY(-2deg)' },
-          '50%': { transform: 'rotateX(-2deg) rotateY(2deg)' },
+          '0%, 100%': { transform: 'rotateX(5deg) rotateY(-5deg)' },
+          '50%': { transform: 'rotateX(-5deg) rotateY(5deg)' },
         }
       },
       animation: {
