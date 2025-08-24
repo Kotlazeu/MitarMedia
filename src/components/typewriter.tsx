@@ -22,7 +22,7 @@ export function Typewriter({ text, className }: { text: string; className?: stri
             return text;
           }
         });
-      }, 50); // Adjust typing speed here (in ms)
+      }, 20); // Adjust typing speed here (in ms)
 
       return () => clearInterval(typingInterval);
     }

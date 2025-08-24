@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Header } from '@/components/header';
 
 export const metadata: Metadata = {
-  title: 'Visual Edge',
+  title: 'Mitar Media',
   description: 'Crafting Visions, Creating Worlds. A modern media production company.',
 };
 

@@ -25,7 +25,7 @@ export function Header() {
               <div className="bg-primary p-2 rounded-lg">
                 <Film className="h-6 w-6 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold font-headline">Visual Edge</span>
+              <span className="text-xl font-bold font-headline">Mitar Media</span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-2">
@@ -59,7 +59,7 @@ export function Header() {
                     <div className="bg-primary p-2 rounded-lg">
                       <Film className="h-6 w-6 text-primary-foreground" />
                     </div>
-                    <span className="text-xl font-bold font-headline">Visual Edge</span>
+                    <span className="text-xl font-bold font-headline">Mitar Media</span>
                   </Link>
                   <nav className="flex flex-col gap-4">
                      {socialLinks.map((link) => (
