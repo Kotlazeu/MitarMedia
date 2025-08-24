@@ -65,7 +65,7 @@ export function AiSection() {
           </GlassCard>
 
            {/* Floating element 1 */}
-          <GlassCard className="absolute top-[30%] right-[-5%] flex items-center gap-2 p-2 rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
+          <GlassCard className="absolute top-[30%] right-2 sm:right-[-5%] flex items-center gap-2 p-2 rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
             <Avatar>
                 <AvatarImage src="https://placehold.co/100x100" data-ai-hint="man portrait" />
                 <AvatarFallback>YT</AvatarFallback>
@@ -77,7 +77,7 @@ export function AiSection() {
           </GlassCard>
           
           {/* Floating element 2 */}
-          <GlassCard className="absolute bottom-[25%] left-[-10%] p-2 -rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
+          <GlassCard className="absolute bottom-[25%] left-2 sm:left-[-10%] p-2 -rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
             <Heart className="h-6 w-6 text-red-500 fill-red-500" />
           </GlassCard>
         </div>
