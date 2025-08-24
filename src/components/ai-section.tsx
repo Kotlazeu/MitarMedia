@@ -19,9 +19,9 @@ export function AiSection() {
         <div className="flex flex-col gap-6">
           <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
           </div>
-          <h1 className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
-            Be Diferent
-          </h1>
+          <div className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
+            <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-headline font-bold leading-tight text-foreground" />
+          </div>
           <div className="text-foreground/70 text-lg h-40">
             <Typewriter text="Soluții complete de producție video, de la concept la produsul final. Creăm videouri de marketing, social media, prezentări de companie și materiale de training, garantând o calitate excepțională și rezultate care depășesc așteptările." />
           </div>
