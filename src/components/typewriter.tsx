@@ -4,61 +4,34 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 export function Typewriter({ text, className }: { text: string; className?: string }) {
-  const [glowingIndex, setGlowingIndex] = useState(-1);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
 
-  // Effect to set client-side flag and check for mobile
   useEffect(() => {
-    setIsClient(true);
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const words = text.split(' ');
-
-  // Effect for the random glow on mobile
-  useEffect(() => {
-    if (isClient && isMobile) {
-      const glowInterval = setInterval(() => {
-        setGlowingIndex(prevIndex => {
-            let nextIndex;
-            do {
-                nextIndex = Math.floor(Math.random() * words.length);
-            } while (words.length > 1 && nextIndex === prevIndex);
-            return nextIndex;
+    setDisplayedText(''); // Reset on text change
+    setIsTyping(true);
+    
+    if (text) {
+      const typingInterval = setInterval(() => {
+        setDisplayedText((prev) => {
+          if (prev.length < text.length) {
+            return text.slice(0, prev.length + 1);
+          } else {
+            clearInterval(typingInterval);
+            setIsTyping(false);
+            return text;
+          }
         });
-      }, 1500); // Change glowing word every 1.5 seconds
+      }, 50); // Adjust typing speed here (in ms)
 
-      return () => clearInterval(glowInterval);
-    } else {
-        // Reset glow index if not mobile
-        setGlowingIndex(-1);
+      return () => clearInterval(typingInterval);
     }
-  }, [isClient, isMobile, words.length]);
+  }, [text]);
 
-
-  if (!isClient) {
-    // Render nothing or a placeholder on the server to avoid hydration mismatch
-    return <p className={cn(className, "h-[10em] md:h-auto")}>{text} <span className="blinking-cursor">|</span></p>;
-  }
-  
   return (
     <p className={cn(className, 'text-foreground/70')}>
-      {words.map((word, index) => (
-        <span
-          key={index}
-          className={cn('word-base', {
-            'word-glow': !isMobile,
-            'word-glow-mobile': isMobile && index === glowingIndex,
-          })}
-        >
-          {word}{' '}
-        </span>
-      ))}
-      <span className="blinking-cursor">|</span>
+      {displayedText}
+      {isTyping && <span className="blinking-cursor">|</span>}
     </p>
   );
 }
