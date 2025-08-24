@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 
 export function HeroSection() {
   const videoRef = useRef<HTMLDivElement>(null);
-  const [rotate, setRotate] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!videoRef.current) return;
@@ -52,7 +52,7 @@ export function HeroSection() {
           style={{
             transform: isHovering
               ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`
-              : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05)',
+              : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
             transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
           }}
           className={cn(
@@ -74,7 +74,10 @@ export function HeroSection() {
           <div className="absolute inset-0 bg-black/10 rounded-2xl pointer-events-none"></div>
         </div>
         
-        <Button variant="outline" size="lg" className="font-headline text-lg glassmorphism bg-transparent text-foreground hover:bg-primary/10 hover:text-foreground">
+        <Button
+          variant="outline"
+          className="font-headline bg-transparent text-foreground hover:bg-primary/10 hover:text-foreground glassmorphism px-12 py-4 text-xl"
+        >
           View Our Work
         </Button>
       </div>
