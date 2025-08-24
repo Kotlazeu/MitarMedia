@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { TikTokIcon } from '@/components/icons/tiktok-icon';
@@ -57,6 +59,9 @@ export function Header() {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[280px] p-6 flex flex-col">
+                  <SheetHeader>
+                    <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                  </SheetHeader>
                   <Link href="/" className="flex items-center gap-2 mb-8" onClick={() => setIsOpen(false)}>
                     <div className="bg-primary p-2 rounded-lg">
                       <Film className="h-6 w-6 text-primary-foreground" />
