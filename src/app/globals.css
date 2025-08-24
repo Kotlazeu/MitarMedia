@@ -195,6 +195,12 @@
     animation: blink 1s infinite;
   }
 
+  .word-base {
+    color: hsl(var(--foreground) / 0.7);
+    text-shadow: 0 0 8px hsl(var(--primary) / 0);
+    transition: color 1s ease-in-out, text-shadow 1s ease-in-out;
+  }
+
   .word-glow {
     @apply transition-all duration-300;
   }

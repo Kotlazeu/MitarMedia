@@ -46,11 +46,11 @@ export function Typewriter({ text, className }: { text: string; className?: stri
   }
   
   return (
-    <p className={cn(className)}>
+    <p className={cn(className, 'text-foreground/70')}>
       {words.map((word, index) => (
         <span
           key={index}
-          className={cn({
+          className={cn('word-base', {
             'word-glow': !isMobile,
             'word-glow-mobile': isMobile && index === glowingIndex,
           })}
