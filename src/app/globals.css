@@ -221,12 +221,19 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    background-size: 200% auto;
+    animation: move-text-gradient 10s linear infinite;
   }
 
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
   }
+}
+
+@keyframes move-text-gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 @keyframes move-gradients {
