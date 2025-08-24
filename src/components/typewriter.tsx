@@ -7,16 +7,18 @@ export function Typewriter({ text, className }: { text: string; className?: stri
   const [displayedText, setDisplayedText] = useState('');
   const [isClient, setIsClient] = useState(false);
   const [glowingIndex, setGlowingIndex] = useState(-1);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
   const words = text.split(' ');
-  const isMobile = isClient ? window.innerWidth < 768 : false;
 
   useEffect(() => {
     let i = 0;
+    setDisplayedText(''); // Reset text when `text` prop changes
     const typingInterval = setInterval(() => {
       if (i < text.length) {
         setDisplayedText((prev) => prev + text.charAt(i));
@@ -38,7 +40,7 @@ export function Typewriter({ text, className }: { text: string; className?: stri
 
       return () => clearInterval(glowInterval);
     }
-  }, [isMobile, displayedText, text.length, words.length]);
+  }, [isMobile, displayedText, text.length, words]);
 
 
   const displayedWords = displayedText.split(' ');
