@@ -5,8 +5,8 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Typewriter } from './typewriter';
 
-const GlassCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-  <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)}>
+const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
+  <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
     {children}
   </div>
 );
@@ -29,9 +29,12 @@ export function AiSection() {
         </div>
 
         {/* Right Column: Visual Composition */}
-        <div className="relative h-[500px] w-full">
+        <div className="relative h-[500px] w-full" style={{ perspective: '1000px' }}>
           {/* Card 1: Background */}
-          <GlassCard className="absolute top-0 left-0 w-[85%] h-[80%] -rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105">
+          <GlassCard 
+            className="absolute top-0 left-0 w-[85%] h-[80%] transition-all duration-500 hover:scale-105"
+            style={{ transform: 'rotateY(-5deg) rotateX(5deg) rotateZ(-3deg)' }}
+            >
             <div className="flex justify-between items-center mb-4">
               <p className="text-sm font-bold">Project Dashboard</p>
               <BarChart2 className="text-foreground/50" />
@@ -43,7 +46,10 @@ export function AiSection() {
           </GlassCard>
 
           {/* Card 2: Video frame */}
-          <GlassCard className="absolute bottom-0 right-0 w-[50%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10 p-2">
+          <GlassCard 
+            className="absolute bottom-0 right-0 w-[50%] transition-all duration-500 hover:scale-105 z-10 p-2"
+            style={{ transform: 'rotateY(5deg) rotateX(-5deg) rotateZ(3deg)' }}
+            >
             <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
               <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
             </div>
@@ -58,7 +64,10 @@ export function AiSection() {
           </GlassCard>
 
            {/* Floating element 1 */}
-          <GlassCard className="absolute top-[30%] right-2 sm:right-[-5%] flex items-center gap-2 p-2 rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
+          <GlassCard 
+            className="absolute top-[30%] right-2 sm:right-[-5%] flex items-center gap-2 p-2 transition-all duration-500 hover:scale-110 z-20"
+            style={{ transform: 'rotateY(-10deg) rotateX(10deg) rotateZ(12deg)' }}
+            >
             <Avatar>
                 <AvatarImage src="https://placehold.co/100x100" data-ai-hint="man portrait" />
                 <AvatarFallback>YT</AvatarFallback>
@@ -70,7 +79,10 @@ export function AiSection() {
           </GlassCard>
           
           {/* Floating element 2 */}
-          <GlassCard className="absolute top-[65%] left-[-5%] p-2 -rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
+          <GlassCard 
+            className="absolute top-[65%] left-[-5%] p-2 transition-all duration-500 hover:scale-110 z-20"
+            style={{ transform: 'rotateY(10deg) rotateX(-10deg) rotateZ(-12deg)' }}
+            >
             <Heart className="h-8 w-8 text-red-500 fill-red-500" />
           </GlassCard>
         </div>
