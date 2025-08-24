@@ -77,7 +77,7 @@
   }
 
   .glassmorphism {
-    @apply bg-foreground/5 backdrop-blur-lg border border-foreground/10;
+    @apply bg-foreground/10 backdrop-blur-lg border border-foreground/10;
   }
 
   [data-in-view='false'] {
