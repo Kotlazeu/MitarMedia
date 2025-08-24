@@ -23,7 +23,7 @@ export function ClientMarquee() {
       <div
         className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
       >
-        <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] transition-all duration-500 ease-out">
+        <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
           {duplicatedLogos.map((logo, index) => (
             <div key={index} className="flex items-center justify-center mx-8 w-40 text-foreground/60">
               <div className="w-12 h-12 mr-4">{React.cloneElement(logo.icon, { className: "w-full h-full" })}</div>
