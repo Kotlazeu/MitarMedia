@@ -27,8 +27,8 @@ export function AiSection() {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const x = (mouseY / height - 0.5) * -10;
-    const y = (mouseX / width - 0.5) * 10;
+    const x = (mouseY / height - 0.5) * -20;
+    const y = (mouseX / width - 0.5) * 20;
     setRotate({ x, y });
   };
 
