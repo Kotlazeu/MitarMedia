@@ -72,7 +72,7 @@ export function SocialSection() {
           style={{
             transform: isHovering
               ? `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`
-              : 'none',
+              : '',
             transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
           }}
           className={cn(
