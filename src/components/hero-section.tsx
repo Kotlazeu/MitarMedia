@@ -74,11 +74,27 @@ export function HeroSection() {
           <div className="absolute inset-0 bg-black/10 rounded-2xl pointer-events-none"></div>
         </div>
         
-        <Button
-          className="btn-glass font-headline text-xl px-12 py-7 rounded-2xl text-white/90 hover:text-white"
+        <div
+            ref={videoRef}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={{
+                transform: isHovering
+                ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`
+                : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
+                transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
+            }}
+            className={cn(
+                "group relative rounded-2xl shadow-2xl hover:shadow-primary/30 border-2 border-white/10"
+            )}
         >
-          View Our Work
-        </Button>
+            <Button
+            className="font-headline text-xl px-12 py-7 rounded-2xl text-white/90 hover:text-white bg-transparent"
+            >
+            View Our Work
+            </Button>
+        </div>
       </div>
     </section>
   );
