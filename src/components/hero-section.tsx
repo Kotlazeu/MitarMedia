@@ -74,7 +74,7 @@ export function HeroSection() {
           <div className="absolute inset-0 bg-black/10 rounded-2xl pointer-events-none"></div>
         </div>
         
-        <Button variant="outline" size="lg" className="font-headline text-lg glassmorphism text-foreground hover:bg-primary/10 hover:text-foreground">
+        <Button variant="outline" size="lg" className="font-headline text-lg glassmorphism bg-transparent text-foreground hover:bg-primary/10 hover:text-foreground">
           View Our Work
         </Button>
       </div>
