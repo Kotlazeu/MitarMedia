@@ -2,10 +2,12 @@
 
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export function HeroSection() {
   const videoRef = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!videoRef.current) return;
@@ -20,7 +22,12 @@ export function HeroSection() {
     setRotate({ x, y });
   };
 
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
   const handleMouseLeave = () => {
+    setIsHovering(false);
     setRotate({ x: 0, y: 0 });
   };
 
@@ -40,12 +47,18 @@ export function HeroSection() {
         <div
           ref={videoRef}
           onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          style={{
+          style={ isHovering ? {
             transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`,
             transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
+          } : {
+            transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
           }}
-          className="group relative w-full max-w-4xl aspect-video rounded-2xl shadow-2xl hover:shadow-primary/30 border-2 border-white/10"
+          className={cn(
+            "group relative w-full max-w-4xl aspect-video rounded-2xl shadow-2xl hover:shadow-primary/30 border-2 border-white/10",
+            !isHovering && "animate-gentle-float"
+          )}
         >
           <video
             autoPlay

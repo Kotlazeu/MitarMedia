@@ -92,11 +92,16 @@ export default {
           'from': { transform: 'translateX(0)' },
           'to': { transform: 'translateX(-50%)' },
         },
+        'gentle-float': {
+          '0%, 100%': { transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05)' },
+          '50%': { transform: 'perspective(1000px) rotateX(-2deg) rotateY(1.5deg) scale(1.05)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'marquee': 'marquee 40s linear infinite',
+        'gentle-float': 'gentle-float 8s ease-in-out infinite',
       },
     },
   },
