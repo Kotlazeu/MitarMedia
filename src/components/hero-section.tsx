@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef, useState, useEffect } from 'react';
@@ -144,14 +145,8 @@ export function HeroSection() {
       <div className="relative z-10 flex flex-col items-center px-4 space-y-12">
         <div className="space-y-4">
           <h2 className="text-2xl md:text-3xl font-headline tracking-widest text-primary font-bold">Visual Edge</h2>
-          <h1 className="title">
+          <h1 className="title text-gradient-aurora">
             Crafting Visions, Creating Worlds
-            <div className="aurora">
-              <div className="aurora__item"></div>
-              <div className="aurora__item"></div>
-              <div className="aurora__item"></div>
-              <div className="aurora__item"></div>
-            </div>
           </h1>
           <Typewriter text={text} />
         </div>
