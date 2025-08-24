@@ -140,12 +140,12 @@ export function HeroSection() {
 
 
   return (
-    <section className="min-h-screen w-full flex items-center justify-center text-center text-white py-24">
+    <section className="min-h-screen w-full flex items-center justify-center text-center py-24">
       <div className="relative z-10 flex flex-col items-center px-4 space-y-12">
         <div className="space-y-4">
           <h2 className="text-2xl md:text-3xl font-headline tracking-widest text-primary font-bold">Visual Edge</h2>
           <h1 className="title">
-            Crafting Visions, Creating Worlds
+            <span>Crafting Visions, Creating Worlds</span>
             <div className="aurora">
               <div className="aurora__item"></div>
               <div className="aurora__item"></div>

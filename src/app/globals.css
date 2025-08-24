@@ -224,9 +224,24 @@
     font-weight: 800;
     letter-spacing: var(--ls);
     position: relative;
-    overflow: hidden;
     margin: 0;
     color: #fff;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 400% 400%;
+    animation: aurora-1 12s ease-in-out infinite alternate;
+  }
+
+  .title > .aurora {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: -1;
   }
 
   .aurora {
@@ -235,8 +250,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
-    mix-blend-mode: darken;
+    z-index: -1;
+    mix-blend-mode: overlay;
     pointer-events: none;
   }
   
@@ -248,7 +263,6 @@
     background-color: var(--clr-1);
     border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
     filter: blur(var(--blur));
-    mix-blend-mode: overlay;
   }
 
   .aurora__item:nth-of-type(1) {
@@ -423,4 +437,3 @@
     border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
   }
 }
-
