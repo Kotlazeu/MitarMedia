@@ -217,11 +217,10 @@
   }
 
   .text-gradient-aurora {
-    background: linear-gradient(90deg, #e54cff, #a862ea, #5681d4, #009cb8, #33ff8c);
+    background: linear-gradient(90deg, #e54cff, #a862ea, white, #5681d4, #009cb8, #33ff8c);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow: 0 0 20px hsl(var(--primary) / 0.25);
   }
 
   @keyframes blink {
