@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Typewriter } from './typewriter';
 
 const GlassCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)}>
@@ -22,9 +23,9 @@ export function AiSection() {
             The Future of Visuals, <br />
             Generated On Demand
           </h1>
-          <p className="text-foreground/70 text-lg">
-            Our state-of-the-art AI understands your creative briefs, generating stunning visuals, animations, and video content that aligns perfectly with your brand's vision. From concept to final cut, accelerate your production pipeline instantly.
-          </p>
+          <div className="text-foreground/70 text-lg h-32">
+            <Typewriter text="Our state-of-the-art AI understands your creative briefs, generating stunning visuals, animations, and video content that aligns perfectly with your brand's vision. From concept to final cut, accelerate your production pipeline instantly." />
+          </div>
         </div>
 
         {/* Right Column: Visual Composition */}
