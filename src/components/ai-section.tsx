@@ -32,7 +32,7 @@ export function AiSection() {
         <div className="relative h-[500px] w-full">
           {/* Card 1: Background */}
           <GlassCard 
-            className="absolute top-0 left-0 w-[85%] h-[80%] transition-all duration-500 hover:scale-105 rotate-3 hover:rotate-0"
+            className="absolute top-0 left-0 w-[80%] h-[80%] transition-all duration-500 hover:scale-105 rotate-10 hover:rotate-0"
             >
             <div className="flex justify-between items-center mb-4">
               <p className="text-sm font-bold">Project Dashboard</p>
