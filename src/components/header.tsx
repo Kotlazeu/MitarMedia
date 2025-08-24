@@ -14,7 +14,7 @@ import { TikTokIcon } from '@/components/icons/tiktok-icon';
 const socialLinks = [
   { name: 'Instagram', icon: <Instagram />, href: '#' },
   { name: 'YouTube', icon: <Youtube />, href: '#' },
-  { name: 'TikTok', icon: <TikTokIcon className="h-5 w-5" />, href: '#' },
+  { name: 'TikTok', icon: <TikTokIcon />, href: '#' },
   { name: 'LinkedIn', icon: <Linkedin />, href: '#' },
 ];
 
@@ -35,7 +35,7 @@ export function Header() {
 
             <nav className="hidden md:flex items-center gap-2">
               {socialLinks.map((link) => (
-                <Button key={link.name} variant="ghost" size="icon" asChild>
+                <Button key={link.name} variant="ghost" size="icon" asChild className="[&_svg]:size-6">
                   <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
                     {link.icon}
                   </a>
@@ -65,7 +65,7 @@ export function Header() {
                   </Link>
                   <nav className="flex flex-col gap-4">
                      {socialLinks.map((link) => (
-                      <Button key={link.name} variant="ghost" className="justify-start text-lg" asChild>
+                      <Button key={link.name} variant="ghost" className="justify-start text-lg [&_svg]:size-6" asChild>
                         <a href={link.href} onClick={() => setIsOpen(false)} target="_blank" rel="noopener noreferrer">
                           {link.icon}
                           <span className="ml-4">{link.name}</span>
