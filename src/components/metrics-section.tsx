@@ -17,6 +17,11 @@ const AnimatedCounter = ({
   const [count, setCount] = useState(0);
   const animationFrameRef = useRef<number>();
   const startTimeRef = useRef<number>();
+  const onProgressRef = useRef(onProgress);
+
+  useEffect(() => {
+    onProgressRef.current = onProgress;
+  }, [onProgress]);
 
   const animate = useCallback((timestamp: number) => {
     if (startTimeRef.current === undefined) {
@@ -28,14 +33,14 @@ const AnimatedCounter = ({
     const currentCount = Math.round(end * easeOutProgress);
     
     setCount(currentCount);
-    onProgress(currentCount / end);
+    onProgressRef.current(currentCount / end);
 
     if (progress < 1) {
       animationFrameRef.current = requestAnimationFrame(animate);
     } else {
       setCount(end); // Ensure it ends on the exact value
     }
-  }, [end, duration, onProgress]);
+  }, [end, duration]);
   
   useEffect(() => {
     if (start) {
@@ -73,15 +78,15 @@ export function MetricsSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsIntersecting(entry.isIntersecting);
         if (entry.isIntersecting) {
-            setActiveCounters(prev => {
-                const newActive = [...prev];
-                if (!newActive[0]) {
-                    newActive[0] = true;
-                }
-                return newActive;
-            });
+          setIsIntersecting(true);
+          setActiveCounters(prev => {
+              const newActive = [...prev];
+              if (!newActive[0]) {
+                  newActive[0] = true;
+              }
+              return newActive;
+          });
           observer.disconnect();
         }
       },
@@ -99,10 +104,9 @@ export function MetricsSection() {
   const handleProgress = useCallback((index: number) => (progress: number) => {
     if (progress >= 0.8 && index < metrics.length - 1) {
       setActiveCounters(prev => {
+        if (prev[index + 1]) return prev; // Do nothing if already active
         const newActive = [...prev];
-        if (!newActive[index + 1]) {
-          newActive[index + 1] = true;
-        }
+        newActive[index + 1] = true;
         return newActive;
       });
     }
