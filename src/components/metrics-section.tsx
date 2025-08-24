@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 
 const AnimatedCounter = ({ 
@@ -19,6 +19,7 @@ const AnimatedCounter = ({
   useEffect(() => {
     if (!start) return;
 
+    setCount(0); // Reset count when starting
     const frameRate = 1000 / 60;
     const totalFrames = Math.round(duration * 1000 / frameRate);
     let frame = 0;
@@ -33,6 +34,7 @@ const AnimatedCounter = ({
       onProgress(currentCount / end);
 
       if (progress === 1) {
+        setCount(end); // Ensure it ends on the exact value
         clearInterval(counter);
       }
     }, frameRate);
@@ -56,7 +58,6 @@ export function MetricsSection() {
   ];
 
   const [activeCounters, setActiveCounters] = useState<boolean[]>(new Array(metrics.length).fill(false));
-  const progressRef = useRef<number[]>(new Array(metrics.length).fill(0));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -72,16 +73,16 @@ export function MetricsSection() {
       },
       { threshold: 0.1 }
     );
-    if(sectionRef.current) observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if(currentRef) observer.observe(currentRef);
     return () => {
-      if(sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if(currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
 
-  const handleProgress = (index: number) => (progress: number) => {
-    progressRef.current[index] = progress;
+  const handleProgress = useCallback((index: number) => (progress: number) => {
     if (progress >= 0.8 && index < metrics.length - 1) {
       setActiveCounters(prev => {
         const newActive = [...prev];
@@ -91,7 +92,7 @@ export function MetricsSection() {
         return newActive;
       });
     }
-  };
+  }, [metrics.length]);
 
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
