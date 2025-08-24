@@ -9,26 +9,11 @@ export function SocialSection() {
     <section 
       className="w-full"
     >
-      <div className="flex justify-center items-center gap-8 mb-16">
-        {socialLinks.map((social) => (
-          <a
-            key={social.name}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={social.name}
-            className="text-foreground/70 transition-all duration-300 hover:text-primary hover:scale-110"
-          >
-            {social.icon}
-          </a>
-        ))}
-      </div>
-
-      <div className="text-center">
-        <h2 className="text-3xl font-headline font-bold mb-2">Latest from Instagram</h2>
-        <p className="text-foreground/70 mb-10">Follow us <a href="#" className="text-primary underline hover:text-primary/80">@visualedge</a></p>
-        
-        <div style={{ perspective: '2750px' }}>
+      <div style={{ perspective: '2750px' }}>
+        <div className="text-center">
+          <h2 className="text-3xl font-headline font-bold mb-2">Latest from Instagram</h2>
+          <p className="text-foreground/70 mb-10">Follow us <a href="#" className="text-primary underline hover:text-primary/80">@visualedge</a></p>
+          
           <div 
             className={cn(
               "glassmorphism rounded-2xl p-4 shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.4)]",
