@@ -189,15 +189,13 @@
     );
   }
 
-  .typewriter {
-    --typewriter-steps: 1; /* Default value, will be overridden by JS */
-    --typewriter-duration: calc(var(--typewriter-steps) * 0.05s); /* Adjust 0.05s to control speed */
-    border-right: 2px solid rgba(255,255,255,.75);
-    white-space: nowrap;
-    overflow: hidden;
-    animation: 
-      typewriter-anim var(--typewriter-duration) steps(var(--typewriter-steps)) 1s 1 normal both, 
-      blinking-cursor 750ms infinite normal;
+  .blinking-cursor {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 }
 
@@ -226,13 +224,4 @@
     --blue-x: 15%;
     --blue-y: 15%;
   }
-}
-
-@keyframes typewriter-anim {
-  from { width: 0; }
-  to { width: 100%; }
-}
-@keyframes blinking-cursor {
-  from { border-right-color: rgba(255,255,255,.75); }
-  to { border-right-color: transparent; }
 }

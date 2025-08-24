@@ -4,6 +4,36 @@ import { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+const Typewriter = ({ text, speed = 50 }: { text: string, speed?: number }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    setDisplayedText('');
+    setIsComplete(false);
+    let i = 0;
+    const intervalId = setInterval(() => {
+      if (i < text.length) {
+        setDisplayedText(prev => prev + text.charAt(i));
+        i++;
+      } else {
+        clearInterval(intervalId);
+        setIsComplete(true);
+      }
+    }, speed);
+
+    return () => clearInterval(intervalId);
+  }, [text, speed]);
+
+  return (
+    <p className="font-mono max-w-3xl mx-auto text-lg md:text-xl text-foreground/80 h-24">
+      {displayedText}
+      {!isComplete && <span className="blinking-cursor">|</span>}
+    </p>
+  );
+};
+
+
 export function HeroSection() {
   // Logic for Video Container
   const videoRef = useRef<HTMLDivElement>(null);
@@ -58,16 +88,8 @@ export function HeroSection() {
     setIsHoveringButton(false);
     setRotateButton({ x: 0, y: 0 });
   };
-
-  // Typewriter logic
-  const typewriterRef = useRef<HTMLParagraphElement>(null);
-  const text = "We are a full-service media production house specializing in breathtaking visual storytelling that captivates and inspires.";
   
-  useEffect(() => {
-    if (typewriterRef.current) {
-      typewriterRef.current.style.setProperty('--typewriter-steps', text.length.toString());
-    }
-  }, [text]);
+  const text = "We are a full-service media production house specializing in breathtaking visual storytelling that captivates and inspires.";
 
 
   return (
@@ -78,12 +100,7 @@ export function HeroSection() {
           <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-shadow-lg">
             Crafting Visions, Creating Worlds
           </h1>
-          <p 
-            ref={typewriterRef}
-            className="font-mono max-w-3xl mx-auto text-lg md:text-xl text-foreground/80 typewriter"
-          >
-            {text}
-          </p>
+          <Typewriter text={text} />
         </div>
 
         <div
