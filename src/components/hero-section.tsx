@@ -27,8 +27,18 @@ const Typewriter = ({ text, speed = 50 }: { text: string, speed?: number }) => {
 
   return (
     <p className="font-mono max-w-3xl mx-auto text-lg md:text-xl text-foreground/80 h-24">
-      {displayedText}
-      {!isComplete && <span className="blinking-cursor">|</span>}
+      {isComplete ? (
+        text.split(' ').map((word, index) => (
+          <span key={index} className="word-glow">
+            {word}{' '}
+          </span>
+        ))
+      ) : (
+        <>
+          {displayedText}
+          <span className="blinking-cursor">|</span>
+        </>
+      )}
     </p>
   );
 };
