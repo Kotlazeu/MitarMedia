@@ -71,16 +71,26 @@
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(-45deg, #a855f7, #6366f1, #030712, #1e293b);
-    background-size: 400% 400%;
-    animation: gradient-bg 15s ease infinite;
     position: relative;
     overflow-x: hidden;
   }
   
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(-45deg, #c084fc, #6366f1, #030712, #1e293b);
+    background-size: 400% 400%;
+    animation: gradient-bg 15s ease infinite;
+    z-index: -2;
+  }
+
   body::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: -20px;
     left: -20px;
     right: -20px;
@@ -117,7 +127,6 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.5),
