@@ -5,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export function HeroSection() {
+  // Logic for Video Container
   const videoRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const [isHoveringVideo, setIsHoveringVideo] = useState(false);
+  const [rotateVideo, setRotateVideo] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleVideoMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!videoRef.current) return;
     const rect = videoRef.current.getBoundingClientRect();
     const width = rect.width;
@@ -17,19 +18,47 @@ export function HeroSection() {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const x = (mouseY / height - 0.5) * -15; // Rotirea pe axa X
-    const y = (mouseX / width - 0.5) * 15;   // Rotirea pe axa Y
-    setRotate({ x, y });
+    const x = (mouseY / height - 0.5) * -15;
+    const y = (mouseX / width - 0.5) * 15;
+    setRotateVideo({ x, y });
   };
 
-  const handleMouseEnter = () => {
-    setIsHovering(true);
+  const handleVideoMouseEnter = () => {
+    setIsHoveringVideo(true);
   };
 
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    setRotate({ x: 0, y: 0 });
+  const handleVideoMouseLeave = () => {
+    setIsHoveringVideo(false);
+    setRotateVideo({ x: 0, y: 0 });
   };
+
+  // Logic for Button Container
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const [isHoveringButton, setIsHoveringButton] = useState(false);
+  const [rotateButton, setRotateButton] = useState({ x: 0, y: 0 });
+
+  const handleButtonMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const x = (mouseY / height - 0.5) * -15;
+    const y = (mouseX / width - 0.5) * 15;
+    setRotateButton({ x, y });
+  };
+
+  const handleButtonMouseEnter = () => {
+    setIsHoveringButton(true);
+  };
+
+  const handleButtonMouseLeave = () => {
+    setIsHoveringButton(false);
+    setRotateButton({ x: 0, y: 0 });
+  };
+
 
   return (
     <section className="min-h-screen w-full flex items-center justify-center text-center text-white py-24">
@@ -46,12 +75,12 @@ export function HeroSection() {
 
         <div
           ref={videoRef}
-          onMouseMove={handleMouseMove}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleVideoMouseMove}
+          onMouseEnter={handleVideoMouseEnter}
+          onMouseLeave={handleVideoMouseLeave}
           style={{
-            transform: isHovering
-              ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`
+            transform: isHoveringVideo
+              ? `perspective(1000px) rotateX(${rotateVideo.x}deg) rotateY(${rotateVideo.y}deg) scale(1.05)`
               : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
             transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
           }}
@@ -75,13 +104,13 @@ export function HeroSection() {
         </div>
         
         <div
-            ref={videoRef}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            ref={buttonRef}
+            onMouseMove={handleButtonMouseMove}
+            onMouseEnter={handleButtonMouseEnter}
+            onMouseLeave={handleButtonMouseLeave}
             style={{
-                transform: isHovering
-                ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`
+                transform: isHoveringButton
+                ? `perspective(1000px) rotateX(${rotateButton.x}deg) rotateY(${rotateButton.y}deg) scale(1.05)`
                 : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
                 transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
             }}
@@ -90,9 +119,13 @@ export function HeroSection() {
             )}
         >
             <Button
-            className="font-headline text-xl px-12 py-7 rounded-2xl text-white/90 hover:text-white bg-transparent"
+              variant="outline"
+              className={cn(
+                "bg-transparent hover:bg-transparent text-white/90 hover:text-white font-headline px-12 py-8 text-2xl",
+                "glassmorphism"
+              )}
             >
-            View Our Work
+              View Our Work
             </Button>
         </div>
       </div>
