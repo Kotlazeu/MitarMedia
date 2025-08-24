@@ -74,7 +74,7 @@ export function HeroSection() {
     <section className="min-h-screen w-full flex items-center justify-center text-center text-white py-24">
       <div className="relative z-10 flex flex-col items-center px-4 space-y-12">
         <div className="space-y-4">
-          <h2 className="text-2xl md:text-3xl font-headline tracking-widest text-primary font-bold">Mitar Media</h2>
+          <h2 className="text-2xl md:text-3xl font-headline tracking-widest text-primary font-bold">Visual Edge</h2>
           <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-shadow-lg">
             Crafting Visions, Creating Worlds
           </h1>
