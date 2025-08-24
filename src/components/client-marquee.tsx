@@ -18,12 +18,12 @@ export function ClientMarquee() {
   const duplicatedLogos = [...logos, ...logos];
 
   return (
-    <section className="w-full py-12">
+    <section className="w-full py-12 group">
       <h2 className="text-3xl font-headline font-bold text-center mb-10">Trusted By Industry Leaders</h2>
       <div
         className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
       >
-        <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+        <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] transition-all duration-500 ease-out">
           {duplicatedLogos.map((logo, index) => (
             <div key={index} className="flex items-center justify-center mx-8 w-40 text-foreground/60">
               <div className="w-12 h-12 mr-4">{React.cloneElement(logo.icon, { className: "w-full h-full" })}</div>
