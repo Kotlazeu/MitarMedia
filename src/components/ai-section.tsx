@@ -35,7 +35,7 @@ export function AiSection() {
         {/* Right Column: Visual Composition */}
         <div className="relative h-[500px] w-full">
           {/* Card 1: Background */}
-          <GlassCard className="absolute top-0 left-0 w-[90%] h-[80%] -rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105">
+          <GlassCard className="absolute top-0 left-0 w-[85%] h-[80%] -rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105">
             <div className="flex justify-between items-center mb-4">
               <p className="text-sm font-bold">Project Dashboard</p>
               <BarChart2 className="text-foreground/50" />
@@ -47,7 +47,7 @@ export function AiSection() {
           </GlassCard>
 
           {/* Card 2: Video frame */}
-          <GlassCard className="absolute bottom-0 right-0 w-[60%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10 p-2">
+          <GlassCard className="absolute bottom-0 right-0 w-[50%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10 p-2">
             <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
               <Image src="https://placehold.co/400x400" data-ai-hint="abstract animation" alt="Video thumbnail" fill className="object-cover" />
               <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
