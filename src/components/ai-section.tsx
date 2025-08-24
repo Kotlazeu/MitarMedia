@@ -23,7 +23,7 @@ export function AiSection() {
             The Future of Visuals, <br />
             Generated On Demand
           </h1>
-          <div className="text-foreground/70 text-lg h-32">
+          <div className="text-foreground/70 text-lg h-40">
             <Typewriter text="Our state-of-the-art AI understands your creative briefs, generating stunning visuals, animations, and video content that aligns perfectly with your brand's vision. From concept to final cut, accelerate your production pipeline instantly." />
           </div>
         </div>
