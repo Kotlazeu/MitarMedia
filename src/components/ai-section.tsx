@@ -19,16 +19,21 @@ export function AiSection() {
         <div className="flex flex-col gap-6">
           <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
           </div>
-          <h1 className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
-            Be Diferent
-          </h1>
+          <div className="relative w-full h-40 font-headline font-bold grid place-items-center overflow-hidden">
+            <div className="marquee-blur absolute inset-0 grid place-items-center" aria-hidden="true">
+              <p className="marquee-text">Be Diferent</p>
+            </div>
+            <div className="marquee-clear absolute inset-0 grid place-items-center">
+              <p className="marquee-text">Be Diferent</p>
+            </div>
+          </div>
           <div className="text-foreground/70 text-lg h-40">
             <Typewriter text="Our state-of-the-art AI understands your creative briefs, generating stunning visuals, animations, and video content that aligns perfectly with your brand's vision. From concept to final cut, accelerate your production pipeline instantly." />
           </div>
         </div>
 
         {/* Right Column: Visual Composition */}
-        <div className="relative h-[500px] w-full">
+        <div className="relative h-[500px] w-full" style={{ perspective: '1000px' }}>
           {/* Card 1: Background */}
           <GlassCard 
             className="absolute top-0 left-0 w-[80%] h-[80%] transition-all duration-500 hover:scale-105 -rotate-3 hover:rotate-0"

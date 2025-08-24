@@ -231,6 +231,26 @@
     animation: move-text-gradient 10s linear infinite alternate;
   }
 
+  .marquee-text {
+    position: absolute;
+    min-width: 100%;
+    white-space: nowrap;
+    animation: marquee-text 16s infinite linear;
+    font-size: clamp(2rem, 6vw, 4rem);
+  }
+
+  .marquee-blur {
+    background-color: hsl(var(--background));
+    background-image:
+      linear-gradient(to right, hsl(var(--foreground)), 1rem, transparent 50%),
+      linear-gradient(to left, hsl(var(--foreground)), 1rem, transparent 50%);
+    filter: contrast(15);
+  }
+  
+  .marquee-blur p {
+    filter: blur(0.07em);
+  }
+
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
