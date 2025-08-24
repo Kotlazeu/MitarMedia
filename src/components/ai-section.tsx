@@ -12,17 +12,17 @@ const GlassCard = ({ children, className }: { children: React.ReactNode, classNa
 
 export function AiSection() {
   return (
-    <section className="w-full py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center container">
         {/* Left Column: Text Content */}
         <div className="flex flex-col gap-6">
           <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
             <Bot className="h-5 w-5" /> Powered by Gen V
           </div>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold leading-tight">
+          <h1 className="text-4xl md:text-5xl font-headline font-bold leading-tight">
             The Future of Visuals, <br />
             Generated On Demand
-          </h2>
+          </h1>
           <p className="text-foreground/70 text-lg">
             Our state-of-the-art AI understands your creative briefs, generating stunning visuals, animations, and video content that aligns perfectly with your brand's vision. From concept to final cut, accelerate your production pipeline instantly.
           </p>
