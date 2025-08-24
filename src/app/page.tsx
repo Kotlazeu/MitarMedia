@@ -10,17 +10,21 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center overflow-x-hidden">
       <AiSection />
-      <div className="container px-4 sm:px-6 lg:px-8 z-10 my-24 sm:my-32">
+      <div id="metrics" className="container px-4 sm:px-6 lg:px-8 z-10 my-24 sm:my-32">
         <ScrollAnimationWrapper>
           <MetricsSection />
         </ScrollAnimationWrapper>
       </div>
       <div className="container px-4 sm:px-6 lg:px-8 space-y-24 sm:space-y-32 md:space-y-40 mb-24 sm:mb-32">
         <ScrollAnimationWrapper>
-          <ClientMarquee />
+          <div id="clients">
+            <ClientMarquee />
+          </div>
         </ScrollAnimationWrapper>
         <ScrollAnimationWrapper>
-          <SocialSection />
+          <div id="social">
+            <SocialSection />
+          </div>
         </ScrollAnimationWrapper>
       </div>
       <BackToTopButton />

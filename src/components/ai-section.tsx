@@ -12,7 +12,7 @@ const GlassCard = ({ children, className }: { children: React.ReactNode, classNa
 
 export function AiSection() {
   return (
-    <section className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
+    <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center container">
         {/* Left Column: Text Content */}
         <div className="flex flex-col gap-6">
