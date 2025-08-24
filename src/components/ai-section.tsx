@@ -19,7 +19,7 @@ export function AiSection() {
         <div className="flex flex-col gap-6">
           <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
           </div>
-          <h1 className="text-4xl md:text-5xl font-headline font-bold leading-tight">
+          <h1 className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
             The Future of Visuals, <br />
             Generated On Demand
           </h1>
