@@ -1,4 +1,4 @@
-import { ArrowRight, Bot, MessageSquare, BarChart2, Heart } from 'lucide-react';
+import { ArrowRight, Bot, BarChart2, Heart, Play, Volume2, Maximize, Film } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -46,18 +46,22 @@ export function AiSection() {
             </div>
           </GlassCard>
 
-          {/* Card 2: User profile */}
-          <GlassCard className="absolute bottom-0 right-0 w-[60%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10">
-             <div className="flex items-center gap-4">
-                <div className="relative w-24 h-24 rounded-lg overflow-hidden">
-                    <Image src="https://placehold.co/400x400" data-ai-hint="woman portrait" alt="User portrait" fill className="object-cover" />
-                </div>
-                <div>
-                    <h3 className="font-bold">Ban Timona</h3>
-                    <p className="text-foreground/60 text-sm">Visual Request</p>
-                    <Button size="sm" className="mt-2">Answer</Button>
-                </div>
-             </div>
+          {/* Card 2: Video frame */}
+          <GlassCard className="absolute bottom-0 right-0 w-[70%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10 p-2">
+            <div className="relative w-full h-[150px] rounded-lg overflow-hidden mb-2">
+              <Image src="https://placehold.co/600x300" data-ai-hint="abstract animation" alt="Video thumbnail" fill className="object-cover" />
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <Play className="h-10 w-10 text-white/80" />
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-foreground/80">
+              <Film className="h-4 w-4" />
+              <div className="w-full h-1 bg-foreground/20 rounded-full">
+                <div className="w-1/3 h-1 bg-primary rounded-full"></div>
+              </div>
+              <Volume2 className="h-4 w-4" />
+              <Maximize className="h-4 w-4" />
+            </div>
           </GlassCard>
 
            {/* Floating element 1 */}
