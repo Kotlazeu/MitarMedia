@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Film, Menu, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -12,12 +12,23 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { socialLinks } from '@/lib/data.tsx';
+import { cn } from '@/lib/utils';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Trigger the animation shortly after the component mounts
+    const timer = setTimeout(() => setIsMounted(true), 100); 
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
+      isMounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+    )}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mt-4 rounded-2xl border border-white/10 p-2.5 shadow-2xl glassmorphism">
           <div className="flex items-center justify-between">
