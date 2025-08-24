@@ -3,44 +3,54 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 
-const AnimatedCounter = ({ 
-  end, 
-  duration = 2, 
+const AnimatedCounter = ({
+  end,
+  duration = 2,
   start,
   onProgress
-}: { 
-  end: number; 
-  duration?: number; 
+}: {
+  end: number;
+  duration?: number;
   start: boolean;
   onProgress: (progress: number) => void;
 }) => {
   const [count, setCount] = useState(0);
+  const animationFrameRef = useRef<number>();
+  const startTimeRef = useRef<number>();
 
+  const animate = useCallback((timestamp: number) => {
+    if (startTimeRef.current === undefined) {
+      startTimeRef.current = timestamp;
+    }
+    const elapsedTime = timestamp - startTimeRef.current;
+    const progress = Math.min(elapsedTime / (duration * 1000), 1);
+    const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+    const currentCount = Math.round(end * easeOutProgress);
+    
+    setCount(currentCount);
+    onProgress(currentCount / end);
+
+    if (progress < 1) {
+      animationFrameRef.current = requestAnimationFrame(animate);
+    } else {
+      setCount(end); // Ensure it ends on the exact value
+    }
+  }, [end, duration, onProgress]);
+  
   useEffect(() => {
-    if (!start) return;
+    if (start) {
+      startTimeRef.current = undefined;
+      animationFrameRef.current = requestAnimationFrame(animate);
+    } else {
+      setCount(0);
+    }
 
-    setCount(0); // Reset count when starting
-    const frameRate = 1000 / 60;
-    const totalFrames = Math.round(duration * 1000 / frameRate);
-    let frame = 0;
-
-    const counter = setInterval(() => {
-      frame++;
-      const progress = Math.min(1, frame / totalFrames);
-      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
-      const currentCount = Math.round(end * easeOutProgress);
-      
-      setCount(currentCount);
-      onProgress(currentCount / end);
-
-      if (progress === 1) {
-        setCount(end); // Ensure it ends on the exact value
-        clearInterval(counter);
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
-    }, frameRate);
-
-    return () => clearInterval(counter);
-  }, [start, end, duration, onProgress]);
+    };
+  }, [start, animate]);
 
   return <span>{count.toLocaleString()}</span>;
 };
@@ -49,6 +59,7 @@ export function MetricsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const [isIntersecting, setIsIntersecting] = useState(false);
 
   const metrics = [
     { value: 150, unit: 'M+', label: 'Views Generated' },
@@ -62,12 +73,15 @@ export function MetricsSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
         if (entry.isIntersecting) {
-          setActiveCounters(prev => {
-            const newActive = [...prev];
-            newActive[0] = true;
-            return newActive;
-          });
+            setActiveCounters(prev => {
+                const newActive = [...prev];
+                if (!newActive[0]) {
+                    newActive[0] = true;
+                }
+                return newActive;
+            });
           observer.disconnect();
         }
       },
