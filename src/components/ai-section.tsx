@@ -17,7 +17,6 @@ export function AiSection() {
         {/* Left Column: Text Content */}
         <div className="flex flex-col gap-6">
           <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Bot className="h-5 w-5" /> Powered by Gen V
           </div>
           <h1 className="text-4xl md:text-5xl font-headline font-bold leading-tight">
             The Future of Visuals, <br />
@@ -37,7 +36,7 @@ export function AiSection() {
               <BarChart2 className="text-foreground/50" />
             </div>
             <div className="relative w-full h-[80%] rounded-lg overflow-hidden">
-                <Image src="https://placehold.co/600x400" data-ai-hint="futuristic city" alt="AI generated futuristic city" fill className="object-cover" />
+                <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>
           </GlassCard>
@@ -45,10 +44,7 @@ export function AiSection() {
           {/* Card 2: Video frame */}
           <GlassCard className="absolute bottom-0 right-0 w-[50%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10 p-2">
             <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
-              <Image src="https://placehold.co/400x400" data-ai-hint="abstract animation" alt="Video thumbnail" fill className="object-cover" />
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <Play className="h-10 w-10 text-white/80" />
-              </div>
+              <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
             </div>
             <div className="flex items-center gap-2 text-foreground/80">
               <Film className="h-4 w-4" />
@@ -67,7 +63,7 @@ export function AiSection() {
                 <AvatarFallback>YT</AvatarFallback>
             </Avatar>
             <div>
-                <p className="text-xs font-bold">Yurie Kitajima</p>
+                <p className="text-xs font-bold">Client X</p>
                 <p className="text-xs text-foreground/60">That was super fast!</p>
             </div>
           </GlassCard>
