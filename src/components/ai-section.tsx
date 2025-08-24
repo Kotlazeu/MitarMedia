@@ -26,10 +26,6 @@ export function AiSection() {
           <p className="text-foreground/70 text-lg">
             Our state-of-the-art AI understands your creative briefs, generating stunning visuals, animations, and video content that aligns perfectly with your brand's vision. From concept to final cut, accelerate your production pipeline instantly.
           </p>
-          <Button size="lg" className="self-start group">
-            Explore AI Features
-            <ArrowRight className="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" />
-          </Button>
         </div>
 
         {/* Right Column: Visual Composition */}
