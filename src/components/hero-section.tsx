@@ -75,8 +75,7 @@ export function HeroSection() {
         </div>
         
         <Button
-          variant="outline"
-          className="font-headline bg-transparent text-foreground hover:bg-primary/10 hover:text-foreground glassmorphism px-12 py-4 text-xl"
+          className="btn-glass font-headline text-xl px-12 py-7 rounded-2xl text-white/90 hover:text-white"
         >
           View Our Work
         </Button>
