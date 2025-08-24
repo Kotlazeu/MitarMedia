@@ -120,7 +120,7 @@ export function HeroSection() {
         >
             <Button
               className={cn(
-                "bg-transparent hover:bg-transparent text-white/90 hover:text-white font-headline px-12 py-8 text-2xl",
+                "bg-transparent hover:bg-transparent text-white/90 hover:text-white font-headline px-12 py-8 text-2xl rounded-2xl",
                 "glassmorphism"
               )}
             >
