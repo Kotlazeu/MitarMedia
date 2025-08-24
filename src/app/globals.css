@@ -108,7 +108,7 @@
     background: 
       radial-gradient(40vmax 40vmax at var(--purple-x) var(--purple-y), rgba(192, 132, 252, 0.25), transparent 80%),
       radial-gradient(30vmax 30vmax at var(--blue-x) var(--blue-y), rgba(99, 102, 241, 0.25), transparent 80%),
-      #030712;
+      hsl(var(--background));
     animation: move-gradients 15s ease-in-out infinite;
     z-index: -2;
   }
@@ -254,6 +254,11 @@
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
+  }
+  
+  @keyframes marquee-text {
+      from { transform: translateX(70%); }
+      to { transform: translateX(-70%); }
   }
 }
 
