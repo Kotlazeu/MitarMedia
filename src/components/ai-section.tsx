@@ -73,8 +73,8 @@ export function AiSection() {
           </GlassCard>
           
           {/* Floating element 2 */}
-          <GlassCard className="absolute bottom-[25%] left-2 sm:left-[-10%] p-2 -rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
-            <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+          <GlassCard className="absolute top-[65%] left-[-5%] p-2 -rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 z-20">
+            <Heart className="h-8 w-8 text-red-500 fill-red-500" />
           </GlassCard>
         </div>
       </div>
