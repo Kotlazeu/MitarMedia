@@ -222,7 +222,7 @@
     background-clip: text;
     color: transparent;
     background-size: 200% auto;
-    animation: move-text-gradient 10s linear infinite;
+    animation: move-text-gradient 10s linear infinite alternate;
   }
 
   @keyframes blink {
@@ -232,8 +232,12 @@
 }
 
 @keyframes move-text-gradient {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
 }
 
 @keyframes move-gradients {
