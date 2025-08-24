@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Film, Menu, X } from 'lucide-react';
+import { Film, Menu, Phone, Instagram, Youtube, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,13 +9,13 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { cn } from '@/lib/utils';
+import { TikTokIcon } from '@/components/icons/tiktok-icon';
 
-const navLinks = [
-  { href: '#ai-services', label: 'Servicii AI' },
-  { href: '#metrics', label: 'Metrici' },
-  { href: '#clients', label: 'Clienți' },
-  { href: '#social', label: 'Social' },
+const socialLinks = [
+  { name: 'Instagram', icon: <Instagram />, href: '#' },
+  { name: 'YouTube', icon: <Youtube />, href: '#' },
+  { name: 'TikTok', icon: <TikTokIcon className="h-5 w-5" />, href: '#' },
+  { name: 'LinkedIn', icon: <Linkedin />, href: '#' },
 ];
 
 export function Header() {
@@ -34,11 +34,19 @@ export function Header() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-2">
-              {navLinks.map((link) => (
-                <Button key={link.href} variant="ghost" asChild>
-                  <Link href={link.href}>{link.label}</Link>
+              {socialLinks.map((link) => (
+                <Button key={link.name} variant="ghost" size="icon" asChild>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+                    {link.icon}
+                  </a>
                 </Button>
               ))}
+              <Button asChild>
+                <a href="tel:+40123456789">
+                  <Phone className="mr-2 h-4 w-4" />
+                  Contact
+                </a>
+              </Button>
             </nav>
 
             <div className="md:hidden">
@@ -48,7 +56,7 @@ export function Header() {
                     <Menu className="h-6 w-6" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[280px] p-6">
+                <SheetContent side="left" className="w-[280px] p-6 flex flex-col">
                   <Link href="/" className="flex items-center gap-2 mb-8" onClick={() => setIsOpen(false)}>
                     <div className="bg-primary p-2 rounded-lg">
                       <Film className="h-6 w-6 text-primary-foreground" />
@@ -56,12 +64,23 @@ export function Header() {
                     <span className="text-xl font-bold font-headline">Visual Edge</span>
                   </Link>
                   <nav className="flex flex-col gap-4">
-                    {navLinks.map((link) => (
-                      <Button key={link.href} variant="ghost" className="justify-start text-lg" asChild>
-                        <Link href={link.href} onClick={() => setIsOpen(false)}>{link.label}</Link>
+                     {socialLinks.map((link) => (
+                      <Button key={link.name} variant="ghost" className="justify-start text-lg" asChild>
+                        <a href={link.href} onClick={() => setIsOpen(false)} target="_blank" rel="noopener noreferrer">
+                          {link.icon}
+                          <span className="ml-4">{link.name}</span>
+                        </a>
                       </Button>
                     ))}
                   </nav>
+                  <div className="mt-auto">
+                     <Button asChild className="w-full">
+                        <a href="tel:+40123456789">
+                        <Phone className="mr-2 h-4 w-4" />
+                        Contactează-ne
+                        </a>
+                    </Button>
+                  </div>
                 </SheetContent>
               </Sheet>
             </div>
