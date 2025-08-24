@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Roboto', 'sans-serif'],
-        headline: ['Poppins', 'sans-serif'],
+        headline: ['"DM Serif Text"', 'serif'],
         code: ['monospace'],
         mono: ['Anonymous Pro', 'monospace'],
       },
