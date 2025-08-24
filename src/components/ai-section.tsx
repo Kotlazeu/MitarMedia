@@ -1,9 +1,12 @@
+"use client";
+
 import { ArrowRight, Bot, BarChart2, Heart, Play, Volume2, Maximize, Film } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Typewriter } from './typewriter';
+import React, { useState, useRef } from 'react';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -12,19 +15,60 @@ const GlassCard = ({ children, className, style }: { children: React.ReactNode, 
 );
 
 export function AiSection() {
+  const textRef = useRef<HTMLDivElement>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!textRef.current) return;
+    const rect = textRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const x = (mouseY / height - 0.5) * -10;
+    const y = (mouseX / width - 0.5) * 10;
+    setRotate({ x, y });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setRotate({ x: 0, y: 0 });
+  };
+  
   return (
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center container">
         {/* Left Column: Text Content */}
-        <div className="flex flex-col gap-6">
-          <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-          </div>
-          <div className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
-            <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-headline font-bold leading-tight text-foreground" />
-          </div>
-          <div className="text-foreground/70 text-lg h-40">
-            <Typewriter text="Soluții complete de producție video, de la concept la produsul final. Creăm videouri de marketing, social media, prezentări de companie și materiale de training, garantând o calitate excepțională și rezultate care depășesc așteptările." />
-          </div>
+        <div 
+          ref={textRef}
+          style={{ perspective: '1000px' }}
+          onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+            <div 
+                className="flex flex-col gap-6 transition-transform duration-300"
+                style={{
+                  transform: isHovering
+                    ? `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`
+                    : 'rotateX(0deg) rotateY(0deg)',
+                }}
+            >
+              <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
+              </div>
+              <div className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
+                <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-headline font-bold leading-tight text-foreground" />
+              </div>
+              <div className="text-foreground/70 text-lg h-40">
+                <Typewriter text="Soluții complete de producție video, de la concept la produsul final. Creăm videouri de marketing, social media, prezentări de companie și materiale de training, garantând o calitate excepțională și rezultate care depășesc așteptările." />
+              </div>
+            </div>
         </div>
 
         {/* Right Column: Visual Composition */}
