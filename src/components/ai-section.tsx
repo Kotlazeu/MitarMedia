@@ -32,7 +32,8 @@ export function AiSection() {
         <div className="relative h-[500px] w-full" style={{ perspective: '1000px' }}>
           {/* Card 1: Background */}
           <GlassCard 
-            className="absolute top-0 left-0 w-[85%] h-[80%] transition-all duration-500 hover:scale-105 -rotate-3 hover:rotate-0"
+            className="absolute top-0 left-0 w-[85%] h-[80%] transition-all duration-500 hover:scale-105 hover:rotate-0"
+            style={{ transform: 'rotateY(-10deg) rotateX(10deg) rotateZ(-3deg)' }}
             >
             <div className="flex justify-between items-center mb-4">
               <p className="text-sm font-bold">Project Dashboard</p>
@@ -46,7 +47,8 @@ export function AiSection() {
 
           {/* Card 2: Video frame */}
           <GlassCard 
-            className="absolute bottom-0 right-0 w-[50%] transition-all duration-500 hover:scale-105 z-10 p-2 rotate-3 hover:rotate-0"
+            className="absolute bottom-0 right-0 w-[50%] transition-all duration-500 hover:scale-105 z-10 p-2 hover:rotate-0"
+            style={{ transform: 'rotateY(15deg) rotateX(-5deg) rotateZ(3deg)' }}
             >
             <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
               <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
@@ -63,7 +65,8 @@ export function AiSection() {
 
            {/* Floating element 1 */}
           <GlassCard 
-            className="absolute top-[30%] right-2 sm:right-[-5%] flex items-center gap-2 p-2 transition-all duration-500 hover:scale-110 rotate-12 hover:rotate-0 z-20"
+            className="absolute top-[30%] right-2 sm:right-[-5%] flex items-center gap-2 p-2 transition-all duration-500 hover:scale-110 hover:rotate-0 z-20"
+            style={{ transform: 'rotateY(20deg) rotateX(15deg) rotateZ(12deg)' }}
             >
             <Avatar>
                 <AvatarImage src="https://placehold.co/100x100" data-ai-hint="man portrait" />
@@ -77,7 +80,8 @@ export function AiSection() {
           
           {/* Floating element 2 */}
           <GlassCard 
-            className="absolute top-[65%] left-[-5%] p-2 transition-all duration-500 hover:scale-110 -rotate-12 hover:rotate-0 z-20"
+            className="absolute top-[65%] left-[-5%] p-2 transition-all duration-500 hover:scale-110 hover:rotate-0 z-20"
+            style={{ transform: 'rotateY(-15deg) rotateX(-10deg) rotateZ(-12deg)' }}
             >
             <Heart className="h-8 w-8 text-red-500 fill-red-500" />
           </GlassCard>
