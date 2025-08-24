@@ -72,11 +72,12 @@ export function SocialSection() {
           style={{
             transform: isHovering
               ? `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`
-              : 'rotateX(0deg) rotateY(0deg)',
+              : 'none',
             transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out',
           }}
           className={cn(
-            "glassmorphism rounded-2xl p-4 shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.4)]"
+            "glassmorphism rounded-2xl p-4 shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.4)]",
+            !isHovering && 'animate-idle-perspective'
           )}
         >
             <Script src="https://elfsightcdn.com/platform.js" strategy="lazyOnload" />

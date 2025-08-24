@@ -93,11 +93,16 @@ export default {
           'from': { transform: 'translateX(0)' },
           'to': { transform: 'translateX(-50%)' },
         },
+        'idle-perspective': {
+          '0%, 100%': { transform: 'rotateX(2deg) rotateY(-2deg)' },
+          '50%': { transform: 'rotateX(-2deg) rotateY(2deg)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'marquee': 'marquee 40s linear infinite',
+        'idle-perspective': 'idle-perspective 15s ease-in-out infinite',
       },
     },
   },
