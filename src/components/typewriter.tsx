@@ -4,42 +4,25 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 export function Typewriter({ text, className }: { text: string; className?: string }) {
-  const [displayedText, setDisplayedText] = useState('');
   const [glowingIndex, setGlowingIndex] = useState(-1);
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  // Effect to check for mobile on client-side
+  // Effect to set client-side flag and check for mobile
   useEffect(() => {
+    setIsClient(true);
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Effect for the typing animation
-  useEffect(() => {
-    setDisplayedText(''); // Reset on text change
-    if (text) {
-      let i = 0;
-      const typingInterval = setInterval(() => {
-        if (i < text.length) {
-          setDisplayedText((prev) => prev + text.charAt(i));
-          i++;
-        } else {
-          clearInterval(typingInterval);
-        }
-      }, 25);
-      return () => clearInterval(typingInterval);
-    }
-  }, [text]);
-
   const words = text.split(' ');
 
-  // Effect for the random glow on mobile, runs only when typing is complete
+  // Effect for the random glow on mobile
   useEffect(() => {
-    if (isMobile && displayedText.length === text.length) {
+    if (isClient && isMobile) {
       const glowInterval = setInterval(() => {
-        // Set to a new random index, ensuring it's different from the previous one if possible
         setGlowingIndex(prevIndex => {
             let nextIndex;
             do {
@@ -50,12 +33,18 @@ export function Typewriter({ text, className }: { text: string; className?: stri
       }, 1500); // Change glowing word every 1.5 seconds
 
       return () => clearInterval(glowInterval);
+    } else {
+        // Reset glow index if not mobile
+        setGlowingIndex(-1);
     }
-  }, [isMobile, displayedText, text, words.length]);
+  }, [isClient, isMobile, words.length]);
 
 
-  const displayedWords = displayedText.split(' ');
-
+  if (!isClient) {
+    // Render nothing or a placeholder on the server to avoid hydration mismatch
+    return <p className={cn(className, "h-[10em] md:h-auto")}>{text} <span className="blinking-cursor">|</span></p>;
+  }
+  
   return (
     <p className={cn(className)}>
       {words.map((word, index) => (
@@ -64,14 +53,12 @@ export function Typewriter({ text, className }: { text: string; className?: stri
           className={cn({
             'word-glow': !isMobile,
             'word-glow-mobile': isMobile && index === glowingIndex,
-            // Hide words that haven't been "typed" yet
-            'opacity-0': index >= displayedWords.length
           })}
         >
           {word}{' '}
         </span>
       ))}
-      {displayedText.length === text.length && <span className="blinking-cursor">|</span>}
+      <span className="blinking-cursor">|</span>
     </p>
   );
 }
