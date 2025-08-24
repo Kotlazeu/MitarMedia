@@ -2,7 +2,6 @@
 
 import Script from 'next/script';
 import { cn } from '@/lib/utils';
-import { socialLinks } from '@/lib/data.tsx';
 
 export function SocialSection() {
   return (
