@@ -47,9 +47,9 @@ export function AiSection() {
           </GlassCard>
 
           {/* Card 2: Video frame */}
-          <GlassCard className="absolute bottom-0 right-0 w-[70%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10 p-2">
-            <div className="relative w-full h-[150px] rounded-lg overflow-hidden mb-2">
-              <Image src="https://placehold.co/600x300" data-ai-hint="abstract animation" alt="Video thumbnail" fill className="object-cover" />
+          <GlassCard className="absolute bottom-0 right-0 w-[60%] rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 z-10 p-2">
+            <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
+              <Image src="https://placehold.co/400x400" data-ai-hint="abstract animation" alt="Video thumbnail" fill className="object-cover" />
               <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                 <Play className="h-10 w-10 text-white/80" />
               </div>
