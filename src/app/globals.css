@@ -194,8 +194,8 @@
     white-space: nowrap;
     overflow: hidden;
     animation: 
-      typewriter-anim 4s steps(44) 1s 1 normal both, 
-      blinking-cursor 500ms steps(44) infinite normal;
+      typewriter-anim 4s steps(135) 1s 1 normal both, 
+      blinking-cursor 500ms steps(135) infinite normal;
   }
 }
 
