@@ -45,7 +45,7 @@ export function HeroSection() {
             transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.05)`,
             transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           }}
-          className="group relative w-full max-w-4xl aspect-video rounded-2xl shadow-2xl hover:shadow-primary/30 border-2 border-white/10"
+          className="group relative w-full max-w-4xl aspect-video rounded-2xl shadow-2xl hover:shadow-primary/30 border-2 border-white/10 transition-shadow duration-300"
         >
           <video
             autoPlay
