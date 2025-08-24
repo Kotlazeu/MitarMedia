@@ -188,6 +188,15 @@
       rgba(255, 255, 255, 0.3)
     );
   }
+
+  .typewriter {
+    border-right: 2px solid rgba(255,255,255,.75);
+    white-space: nowrap;
+    overflow: hidden;
+    animation: 
+      typewriter-anim 4s steps(44) 1s 1 normal both, 
+      blinking-cursor 500ms steps(44) infinite normal;
+  }
 }
 
 @keyframes move-gradients {
@@ -215,4 +224,13 @@
     --blue-x: 15%;
     --blue-y: 15%;
   }
+}
+
+@keyframes typewriter-anim {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blinking-cursor {
+  from { border-right-color: rgba(255,255,255,.75); }
+  to { border-right-color: transparent; }
 }

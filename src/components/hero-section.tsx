@@ -64,11 +64,11 @@ export function HeroSection() {
     <section className="min-h-screen w-full flex items-center justify-center text-center text-white py-24">
       <div className="relative z-10 flex flex-col items-center px-4 space-y-12">
         <div className="space-y-4">
-          <h2 className="text-2xl md:text-3xl font-headline tracking-widest text-primary font-bold">VISUAL EDGE</h2>
+          <h2 className="text-2xl md:text-3xl font-headline tracking-widest text-primary font-bold">Mitar Media</h2>
           <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-shadow-lg">
             Crafting Visions, Creating Worlds
           </h1>
-          <p className="font-body max-w-3xl mx-auto text-lg md:text-xl text-foreground/80">
+          <p className="font-mono max-w-3xl mx-auto text-lg md:text-xl text-foreground/80 typewriter">
             We are a full-service media production house specializing in breathtaking visual storytelling that captivates and inspires.
           </p>
         </div>

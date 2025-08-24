@@ -13,6 +13,7 @@ export default {
         body: ['Roboto', 'sans-serif'],
         headline: ['Poppins', 'sans-serif'],
         code: ['monospace'],
+        mono: ['Anonymous Pro', 'monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',
