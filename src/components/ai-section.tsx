@@ -20,8 +20,7 @@ export function AiSection() {
           <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
           </div>
           <h1 className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
-            The Future of Visuals, <br />
-            Generated On Demand
+            Be Diferent
           </h1>
           <div className="text-foreground/70 text-lg h-40">
             <Typewriter text="Our state-of-the-art AI understands your creative briefs, generating stunning visuals, animations, and video content that aligns perfectly with your brand's vision. From concept to final cut, accelerate your production pipeline instantly." />
