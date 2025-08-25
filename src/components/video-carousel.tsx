@@ -124,32 +124,32 @@ export function VideoCarousel() {
         <h2 className="text-3xl font-headline font-bold mb-2">Our Work</h2>
         <p className="text-foreground/70">A selection of our favorite projects.</p>
       </div>
-      <Carousel
-        className="w-full"
-        opts={{
-          loop: true,
-          align: "start",
-        }}
-        plugins={[
-            Autoplay({
-              delay: 5000,
-              stopOnInteraction: true,
-              stopOnMouseEnter: true,
-            }),
-        ]}
-      >
-        <CarouselContent className="-ml-4">
-          {videoData.map((video, index) => (
-            <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <VideoCard video={video} onClick={() => handleVideoClick(video.videoSrc)} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <div className="hidden md:block">
-            <CarouselPrevious />
-            <CarouselNext />
-        </div>
-      </Carousel>
+      <div className="relative w-full px-4 md:px-12">
+        <Carousel
+          className="w-full"
+          opts={{
+            loop: true,
+            align: "start",
+          }}
+          plugins={[
+              Autoplay({
+                delay: 5000,
+                stopOnInteraction: true,
+                stopOnMouseEnter: true,
+              }),
+          ]}
+        >
+          <CarouselContent className="-ml-4">
+            {videoData.map((video, index) => (
+              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                <VideoCard video={video} onClick={() => handleVideoClick(video.videoSrc)} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:flex" />
+          <CarouselNext className="hidden md:flex"/>
+        </Carousel>
+      </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="glassmorphism p-0 border-0 max-w-4xl w-full">
