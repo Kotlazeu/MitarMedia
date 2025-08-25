@@ -141,13 +141,13 @@ export function VideoCarousel() {
         >
           <CarouselContent className="-ml-4">
             {videoData.map((video, index) => (
-              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="pl-4 sm:basis-1/2 md:basis-1/2 lg:basis-1/3">
                 <VideoCard video={video} onClick={() => handleVideoClick(video.videoSrc)} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2 h-20 w-20 rounded-full [&>svg]:h-12 [&>svg]:w-12" />
-          <CarouselNext className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2 h-20 w-20 rounded-full [&>svg]:h-12 [&>svg]:w-12"/>
+          <CarouselPrevious className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20 rounded-full [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12" />
+          <CarouselNext className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20 rounded-full [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12"/>
         </Carousel>
       </div>
 
