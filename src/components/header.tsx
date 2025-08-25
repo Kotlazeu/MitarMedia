@@ -21,6 +21,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPulsing, setIsPulsing] = useState(false);
   const { translations } = useLanguage();
 
   useEffect(() => {
@@ -32,9 +33,14 @@ export function Header() {
 
     window.addEventListener('scroll', handleScroll);
     
+    const pulseInterval = setInterval(() => {
+      setIsPulsing(prev => !prev);
+    }, 3000);
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
+      clearInterval(pulseInterval);
     };
   }, []);
 
@@ -84,7 +90,8 @@ export function Header() {
 
               <div className="md:hidden flex items-center gap-2">
                  <Button asChild size="icon" className={cn(
-                   "animate-pulse-slow transition-all duration-300",
+                   "transition-all duration-[1500ms] ease-in-out",
+                   isPulsing ? 'scale-105 opacity-80' : 'scale-100 opacity-100',
                    isScrolled ? 'hidden' : 'flex'
                    )}>
                     <a href="tel:+40123456789" aria-label="Call us">
