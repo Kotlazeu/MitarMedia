@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
 export function Typewriter({ 
@@ -14,10 +14,22 @@ export function Typewriter({
 }) {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
+  const [glowingWordIndex, setGlowingWordIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setDisplayedText(''); // Reset on text change
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
+  useEffect(() => {
+    setDisplayedText('');
     setIsTyping(true);
+    setGlowingWordIndex(null);
     
     if (text) {
       let typingInterval: NodeJS.Timeout;
@@ -33,14 +45,33 @@ export function Typewriter({
         });
       };
       
-      typingInterval = setInterval(startTyping, 20); // Adjust typing speed here (in ms)
+      typingInterval = setInterval(startTyping, 20);
 
       return () => clearInterval(typingInterval);
     }
   }, [text]);
 
+  const words = useMemo(() => text.split(' '), [text]);
+
+  useEffect(() => {
+    if (!isTyping && enableGlowOnFinish && isMobile) {
+      const glowInterval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * words.length);
+        setGlowingWordIndex(randomIndex);
+        
+        setTimeout(() => {
+            setGlowingWordIndex(null);
+        }, 1500); // Glow duration
+
+      }, 3000); // Interval between glows
+
+      return () => clearInterval(glowInterval);
+    }
+  }, [isTyping, enableGlowOnFinish, isMobile, words.length]);
+
+
   return (
-    <p className={cn(className, 'text-foreground/70')}>
+    <p className={cn(className)}>
       {isTyping ? (
         <>
           {displayedText}
@@ -48,9 +79,16 @@ export function Typewriter({
         </>
       ) : (
         enableGlowOnFinish ? (
-          text.split(' ').map((word, i) => (
+          words.map((word, i) => (
             <span key={i}>
-              <span className="word-base word-glow">{word}</span>
+              <span className={cn(
+                "word-base",
+                isMobile ? 
+                  (i === glowingWordIndex && 'word-glow-mobile') :
+                  'word-glow'
+              )}>
+                {word}
+              </span>
               {' '}
             </span>
           ))
