@@ -231,6 +231,21 @@
     animation: move-text-gradient 10s linear infinite alternate;
   }
 
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+  }
+
+  .embla-fade .embla__slide {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .embla-fade .embla__slide.is-selected {
+    opacity: 1;
+  }
+
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
