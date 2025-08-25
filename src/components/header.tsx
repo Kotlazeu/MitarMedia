@@ -20,31 +20,51 @@ import { useLanguage } from '@/context/language-context';
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { translations } = useLanguage();
 
   useEffect(() => {
-    // Trigger the animation shortly after the component mounts
     const timer = setTimeout(() => setIsMounted(true), 100); 
-    return () => clearTimeout(timer);
+    
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
     <header className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
-      isMounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      "fixed top-0 z-50 transition-all duration-500 ease-out",
+      isMounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0',
+      isScrolled ? 'left-4 right-auto' : 'left-0 right-0'
     )}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <PerspectiveWrapper>
-          <div className="mt-4 rounded-2xl border border-white/10 p-2.5 shadow-2xl glassmorphism">
+          <div className={cn(
+            "mt-4 rounded-2xl border border-white/10 p-2.5 shadow-2xl glassmorphism transition-all duration-300",
+            isScrolled ? 'w-auto' : 'w-full'
+            )}>
             <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2">
                 <div className="bg-primary p-2 rounded-lg">
                   <Film className="h-6 w-6 text-primary-foreground" />
                 </div>
-                <span className="text-xl font-bold font-headline">Mitar Media</span>
+                <span className={cn(
+                  "text-xl font-bold font-headline transition-all duration-300",
+                  isScrolled ? 'hidden md:inline' : ''
+                  )}>Mitar Media</span>
               </Link>
 
-              <nav className="hidden md:flex items-center gap-4">
+              <nav className={cn(
+                "hidden md:flex items-center gap-4 transition-all duration-300",
+                isScrolled ? 'opacity-0 hidden' : 'opacity-100'
+                )}>
                 <LanguageToggle />
                 <div className="h-6 w-px bg-white/20"></div>
                 {socialLinks.map((link) => (
@@ -63,7 +83,10 @@ export function Header() {
               </nav>
 
               <div className="md:hidden flex items-center gap-2">
-                 <Button asChild size="icon" className="animate-pulse-slow">
+                 <Button asChild size="icon" className={cn(
+                   "animate-pulse-slow transition-all duration-300",
+                   isScrolled ? 'hidden' : 'flex'
+                   )}>
                     <a href="tel:+40123456789" aria-label="Call us">
                       <Phone className="h-5 w-5" />
                     </a>
