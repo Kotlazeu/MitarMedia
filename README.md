@@ -168,7 +168,12 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
     sudo ln -s /etc/nginx/sites-available/domeniul-tau.ro /etc/nginx/sites-enabled/
     ```
 
-5.  **Verificați sintaxa Nginx și reporniți serviciul:**
+5.  **Ștergeți configurația Nginx implicită:**
+    ```bash
+    sudo rm /etc/nginx/sites-enabled/default
+    ```
+
+6.  **Verificați sintaxa Nginx și reporniți serviciul:**
     ```bash
     sudo nginx -t
     sudo systemctl restart nginx
