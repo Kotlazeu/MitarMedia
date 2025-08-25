@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Typewriter } from './typewriter';
 import React, { useState, useRef } from 'react';
 import { MagnifyingGlass } from './magnifying-glass';
+import { useLanguage } from '@/context/language-context';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -16,6 +17,7 @@ const GlassCard = ({ children, className, style }: { children: React.ReactNode, 
 );
 
 export function AiSection() {
+  const { translations } = useLanguage();
   return (
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center container">
@@ -25,11 +27,11 @@ export function AiSection() {
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
               <div className="text-4xl md:text-5xl font-custom font-bold leading-tight text-center lg:text-left">
-                <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground" />
+                <Typewriter text={translations.beDifferent} className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground" />
               </div>
                <MagnifyingGlass>
                 <Typewriter 
-                  text="Soluții complete de producție video, de la concept la produsul final. Creăm videouri de marketing, social media, prezentări de companie și materiale de training, garantând o calitate excepțională și rezultate care depășesc așteptările."
+                  text={translations.videoProductionSolutions}
                   enableGlowOnFinish={true}
                 />
               </MagnifyingGlass>
@@ -79,7 +81,7 @@ export function AiSection() {
             </Avatar>
             <div>
                 <p className="text-xs font-bold">Client X</p>
-                <p className="text-xs text-foreground/60">That was super fast!</p>
+                <p className="text-xs text-foreground/60">{translations.clientFastResponse}</p>
             </div>
           </GlassCard>
           

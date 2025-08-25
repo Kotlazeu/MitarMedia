@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/context/language-context';
 
 const AnimatedCounter = ({
   end,
@@ -65,12 +66,13 @@ export function MetricsSection() {
   const [isHovering, setIsHovering] = useState(false);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   const [isIntersecting, setIsIntersecting] = useState(false);
+  const { translations } = useLanguage();
 
   const metrics = [
-    { value: 150, unit: 'M+', label: 'Views Generated' },
-    { value: 5, unit: 'M+', label: 'Followers Engaged' },
-    { value: 200, unit: '+', label: 'Satisfied Clients' },
-    { value: 25, unit: 'M+', label: 'In Revenue' },
+    { value: 150, unit: 'M+', label: translations.metrics.views },
+    { value: 5, unit: 'M+', label: translations.metrics.followers },
+    { value: 200, unit: '+', label: translations.metrics.clients },
+    { value: 25, unit: 'M+', label: translations.metrics.revenue },
   ];
 
   const [activeCounters, setActiveCounters] = useState<boolean[]>(new Array(metrics.length).fill(false));
@@ -100,6 +102,13 @@ export function MetricsSection() {
       }
     };
   }, []);
+  
+  // Effect to update metrics when language changes
+  useEffect(() => {
+    // This effect doesn't need to do anything with activeCounters,
+    // but it ensures the component re-renders with new labels from `translations`.
+  }, [translations]);
+
 
   const handleProgress = useCallback((index: number) => (progress: number) => {
     if (progress >= 0.8 && index < metrics.length - 1) {

@@ -2,15 +2,17 @@
 
 import Script from 'next/script';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/context/language-context';
 
 export function SocialSection() {
+  const { translations } = useLanguage();
   return (
     <section 
       className="w-full"
     >
       <div className="text-center">
-        <h2 className="text-3xl font-headline font-bold mb-2">Latest from Instagram</h2>
-        <p className="text-foreground/70 mb-10">Follow us <a href="#" className="text-primary underline hover:text-primary/80">@visualedge</a></p>
+        <h2 className="text-3xl font-headline font-bold mb-2">{translations.latestFromInstagram}</h2>
+        <p className="text-foreground/70 mb-10">{translations.followUsOn} <a href="#" className="text-primary underline hover:text-primary/80">@visualedge</a></p>
         
         <div style={{ perspective: '2750px' }}>
           <div 

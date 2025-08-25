@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import Autoplay from "embla-carousel-autoplay";
 import { PerspectiveWrapper } from "./perspective-wrapper";
+import { useLanguage } from "@/context/language-context";
 
 const videoData = [
   {
@@ -82,6 +83,7 @@ const VideoCard = ({ video, onClick }: { video: typeof videoData[0], onClick: ()
 export function VideoCarousel() {
   const [open, setOpen] = React.useState(false);
   const [selectedVideo, setSelectedVideo] = React.useState("");
+  const { translations } = useLanguage();
 
   const handleVideoClick = (videoSrc: string) => {
     setSelectedVideo(videoSrc);
@@ -91,8 +93,8 @@ export function VideoCarousel() {
   return (
     <>
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-headline font-bold mb-2">Munca Noastră</h2>
-        <p className="text-foreground/70">Câteva fragmente din munca noastră</p>
+        <h2 className="text-3xl font-headline font-bold mb-2">{translations.ourWork}</h2>
+        <p className="text-foreground/70">{translations.ourWorkSubtitle}</p>
       </div>
       <div className="relative w-full px-16">
         <Carousel

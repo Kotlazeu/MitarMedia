@@ -11,13 +11,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { socialLinks } from '@/lib/data.tsx';
+import { socialLinks } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { PerspectiveWrapper } from './perspective-wrapper';
+import { LanguageToggle } from './language-toggle';
+import { useLanguage } from '@/context/language-context';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { translations } = useLanguage();
 
   useEffect(() => {
     // Trigger the animation shortly after the component mounts
@@ -41,7 +44,9 @@ export function Header() {
                 <span className="text-xl font-bold font-headline">Mitar Media</span>
               </Link>
 
-              <nav className="hidden md:flex items-center gap-2">
+              <nav className="hidden md:flex items-center gap-4">
+                <LanguageToggle />
+                <div className="h-6 w-px bg-white/20"></div>
                 {socialLinks.map((link) => (
                   <Button key={link.name} variant="ghost" size="icon" asChild className="[&_svg]:size-6">
                     <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
@@ -52,7 +57,7 @@ export function Header() {
                 <Button asChild>
                   <a href="tel:+40123456789">
                     <Phone className="mr-2 h-4 w-4" />
-                    Contact
+                    {translations.contact}
                   </a>
                 </Button>
               </nav>
@@ -84,11 +89,12 @@ export function Header() {
                         </Button>
                       ))}
                     </nav>
-                    <div className="mt-auto">
+                    <div className="mt-auto space-y-4">
+                       <LanguageToggle />
                        <Button asChild className="w-full">
                           <a href="tel:+40123456789">
                           <Phone className="mr-2 h-4 w-4" />
-                          Contactează-ne
+                          {translations.contactUs}
                           </a>
                       </Button>
                     </div>

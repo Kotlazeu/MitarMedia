@@ -2,8 +2,10 @@
 
 import { Aperture, Briefcase, Cloud, Code, Database, Globe, Layers, Server } from 'lucide-react';
 import React from 'react';
+import { useLanguage } from '@/context/language-context';
 
 export function ClientMarquee() {
+  const { translations } = useLanguage();
   const logos = [
     { name: 'Quantum', icon: <Aperture /> },
     { name: 'Apex', icon: <Briefcase /> },
@@ -19,7 +21,7 @@ export function ClientMarquee() {
 
   return (
     <section className="w-full py-12 group">
-      <h2 className="text-3xl font-headline font-bold text-center mb-10">Partenerii noștri</h2>
+      <h2 className="text-3xl font-headline font-bold text-center mb-10">{translations.ourPartners}</h2>
       <div
         className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
       >
