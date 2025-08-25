@@ -69,12 +69,9 @@ Aplicația Next.js rulează pe Node.js. Vom folosi `nvm` (Node Version Manager) 
 
 ### **Pasul 3: Transferul Fișierelor Proiectului pe VPS**
 
-1.  **Pe calculatorul LOCAL**, navigați în directorul proiectului și creați o versiune de producție a aplicației:
-    ```bash
-    npm run build
-    ```
+1.  **Pe calculatorul LOCAL**, navigați în directorul proiectului.
 
-2.  **Transferați fișierele pe server:** Vom folosi `rsync` pentru un transfer eficient. Asigurați-vă că rulați comanda din afara directorului proiectului.
+2.  **Transferați fișierele pe server:** Vom folosi `rsync` pentru un transfer eficient. Asigurați-vă că excludeți `node_modules` și `.next`.
 
     ```bash
     # Înlocuiți 'cale/catre/proiect' și 'numele-proiectului'
@@ -84,7 +81,9 @@ Aplicația Next.js rulează pe Node.js. Vom folosi `nvm` (Node Version Manager) 
 
 ---
 
-### **Pasul 4: Configurarea Proiectului pe Server**
+### **Pasul 4: Configurarea și Construirea Proiectului pe Server**
+
+Acum vom instala dependențele și vom crea build-ul de producție direct pe server.
 
 1.  **Pe VPS**, navigați în directorul nou creat:
     ```bash
@@ -92,10 +91,16 @@ Aplicația Next.js rulează pe Node.js. Vom folosi `nvm` (Node Version Manager) 
     cd ~/numele-proiectului
     ```
 
-2.  **Instalați dependințele de producție:**
+2.  **Instalați TOATE dependințele (inclusiv cele de dev, necesare pentru build):**
     ```bash
-    npm install --production
+    npm install
     ```
+
+3.  **Creați build-ul de producție (Pas Crucial!):**
+    ```bash
+    npm run build
+    ```
+    Acest pas creează directorul `.next`, care conține versiunea optimizată a site-ului.
 
 ---
 
@@ -108,19 +113,25 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
     npm install pm2 -g
     ```
 
-2.  **Porniți aplicația folosind PM2:** Aplicația Next.js rulează implicit pe portul 3000.
+2.  **Porniți aplicația folosind PM2:** Vom porni aplicația Next.js, care rulează implicit pe portul 3000.
     ```bash
     # Înlocuiți "numele-proiectului" cu un nume ușor de recunoscut
     pm2 start npm --name "numele-proiectului" -- start
     ```
-    *   `--name`: Dă un nume procesului.
-    *   `-- start`: Îi spune lui PM2 să ruleze comanda `npm run start`.
+    *   `--name`: Dă un nume procesului în PM2.
+    *   `-- start`: Îi spune lui PM2 să ruleze comanda `npm run start` (definită în `package.json`).
 
-3.  **Configurați PM2 să pornească automat la reboot:**
+3.  **Verificați starea aplicației (Opțional, dar recomandat):**
+    ```bash
+    pm2 list
+    ```
+    Ar trebui să vedeți procesul cu statusul `online`.
+
+4.  **Configurați PM2 să pornească automat la reboot:**
     ```bash
     pm2 startup
     ```
-    Urmați instrucțiunile afișate de comandă (de obicei, trebuie să rulați o comandă cu `sudo`). Apoi, salvați starea proceselor:
+    Urmați instrucțiunile afișate (de obicei, trebuie să rulați o comandă cu `sudo`). Apoi, salvați starea proceselor:
     ```bash
     pm2 save
     ```
@@ -147,9 +158,9 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
     ```
 
 4.  **Înlocuiți blocul `server` implicit:**
-    Localizați blocul `http { ... }`. În interiorul acestuia, ar trebui să vedeți o linie `include /etc/nginx/sites-enabled/*;` și posibil alte directive. Este posibil ca blocul `server` implicit să nu fie direct în acest fișier, ci în `sites-enabled/default`. Vom șterge acea includere și vom pune configurația noastră direct aici.
+    Localizați blocul `http { ... }`. În interiorul acestuia, ar trebui să vedeți o linie `include /etc/nginx/sites-enabled/*;` și posibil alte directive. Vom șterge acea includere și vom pune configurația noastră direct aici.
 
-    Modificați blocul `http { ... }` astfel încât să arate ca mai jos. **Ștergeți linia `include /etc/nginx/sites-enabled/*;`** și adăugați blocul `server` de mai jos în interiorul `http { ... }`.
+    Modificați blocul `http { ... }` astfel încât să arate ca mai jos. **Ștergeți sau comentați linia `include /etc/nginx/sites-enabled/*;`** și adăugați blocul `server` de mai jos în interiorul `http { ... }`.
 
     **Asigurați-vă că înlocuiți `domeniul-tau.ro` cu domeniul dumneavoastră real!**
 
@@ -170,7 +181,7 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
             server_name domeniul-tau.ro www.domeniul-tau.ro;
 
             location / {
-                proxy_pass http://127.0.0.1:3000;
+                proxy_pass http://127.0.0.1:3000; # Portul pe care rulează aplicația Next.js
                 proxy_http_version 1.1;
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection 'upgrade';
@@ -216,6 +227,25 @@ Vom folosi Let's Encrypt și Certbot pentru a obține un certificat SSL gratuit.
     sudo certbot --nginx -d domeniul-tau.ro -d www.domeniul-tau.ro
     ```
     Urmați instrucțiunile de pe ecran. Certbot va modifica automat fișierul de configurare Nginx pentru a activa HTTPS și va configura reînnoirea automată a certificatului.
+
+---
+
+### **Pasul 8 (Depanare): Ce fac dacă văd o eroare 502 Bad Gateway?**
+
+Eroarea 502 înseamnă că Nginx nu poate comunica cu aplicația Next.js.
+
+1.  **Verificați starea aplicației în PM2:**
+    ```bash
+    pm2 list
+    ```
+    Asigurați-vă că procesul are statusul `online`. Dacă este `errored` sau `stopped`, ceva este în neregulă cu aplicația.
+
+2.  **Verificați log-urile (jurnalele) aplicației:** Acesta este cel mai important pas de depanare.
+    ```bash
+    # Înlocuiți "numele-proiectului" cu numele pe care l-ați dat în PM2
+    pm2 logs numele-proiectului
+    ```
+    Această comandă vă va arăta în timp real orice eroare pe care o generează aplicația Next.js. Erorile comune includ variabile de mediu lipsă, probleme în cod sau erori de build.
 
 ---
 
