@@ -127,65 +127,77 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
 
 ---
 
-### **Pasul 6: Instalarea și Configurarea Nginx ca Reverse Proxy**
+### **Pasul 6: Instalarea și Configurarea Nginx (Metoda Directă)**
 
-Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa către aplicația Next.js, care rulează local pe portul 3000.
+Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa către aplicația Next.js, care rulează local pe portul 3000. Vom edita direct fișierul principal de configurare pentru a evita erorile comune.
 
 1.  **Instalați Nginx:**
     ```bash
     sudo apt install nginx -y
     ```
 
-2.  **Creați un fișier de configurare pentru site:**
+2.  **Faceți un backup al fișierului de configurare original (recomandat):**
     ```bash
-    # Înlocuiți 'domeniul-tau.ro' cu domeniul real
-    sudo nano /etc/nginx/sites-available/domeniul-tau.ro
+    sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
     ```
 
-3.  **Adăugați următorul conținut în fișier.** Asigurați-vă că înlocuiți `domeniul-tau.ro` peste tot unde apare.
+3.  **Deschideți fișierul principal de configurare pentru a-l edita:**
+    ```bash
+    sudo nano /etc/nginx/nginx.conf
+    ```
+
+4.  **Înlocuiți blocul `server` implicit:**
+    Localizați blocul `http { ... }`. În interiorul acestuia, ar trebui să vedeți o linie `include /etc/nginx/sites-enabled/*;` și posibil alte directive. Este posibil ca blocul `server` implicit să nu fie direct în acest fișier, ci în `sites-enabled/default`. Vom șterge acea includere și vom pune configurația noastră direct aici.
+
+    Modificați blocul `http { ... }` astfel încât să arate ca mai jos. **Ștergeți linia `include /etc/nginx/sites-enabled/*;`** și adăugați blocul `server` de mai jos în interiorul `http { ... }`.
+
+    **Asigurați-vă că înlocuiți `domeniul-tau.ro` cu domeniul dumneavoastră real!**
 
     ```nginx
-    server {
-        listen 80;
-        listen [::]:80;
+    # ... alte setări din nginx.conf ...
 
-        server_name domeniul-tau.ro www.domeniul-tau.ro;
+    http {
+        # ... alte directive http ...
 
-        location / {
-            proxy_pass http://localhost:3000;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection 'upgrade';
-            proxy_set_header Host $host;
-            proxy_cache_bypass $http_upgrade;
+        # Ștergeți sau comentați linia de mai jos dacă există:
+        # include /etc/nginx/sites-enabled/*;
+
+        # Adăugați acest bloc server:
+        server {
+            listen 80;
+            listen [::]:80;
+
+            server_name domeniul-tau.ro www.domeniul-tau.ro;
+
+            location / {
+                proxy_pass http://127.0.0.1:3000;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+            }
         }
+
+        # ... restul directivelor http ...
     }
+
+    # ... restul fișierului nginx.conf ...
     ```
     Salvați și închideți fișierul (Ctrl+X, apoi Y, apoi Enter în `nano`).
 
-4.  **Activați configurația creând un link simbolic:**
-    ```bash
-    sudo ln -s /etc/nginx/sites-available/domeniul-tau.ro /etc/nginx/sites-enabled/
-    ```
-
-5.  **Verificați sintaxa Nginx (Pas Crucial!):** Această comandă va verifica dacă există erori în fișierele de configurare.
+5.  **Verificați sintaxa Nginx (Pas Crucial!):**
     ```bash
     sudo nginx -t
     ```
-    *   Dacă rezultatul este `syntax is ok` și `test is successful`, puteți continua.
-    *   Dacă afișează o eroare, citiți cu atenție mesajul. Acesta vă va indica exact fișierul și linia unde se află greșeala (de obicei o acoladă lipsă `{` sau un punct și virgulă `;` uitat). Corectați eroarea și rulați din nou `sudo nginx -t`.
+    Dacă primiți `syntax is ok` și `test is successful`, puteți continua. Dacă nu, mesajul de eroare vă va indica exact linia cu problema.
 
-6.  **Ștergeți configurația Nginx implicită:** Acum că avem o configurație validă pentru site-ul nostru, o putem șterge pe cea implicită.
-    ```bash
-    sudo rm /etc/nginx/sites-enabled/default
-    ```
-
-7.  **Reîncărcați Nginx pentru a aplica modificările:**
+6.  **Reîncărcați Nginx pentru a aplica modificările:**
     ```bash
     sudo systemctl reload nginx
     ```
 
-În acest moment, ar trebui să puteți accesa site-ul la adresa `http://domeniul-tau.ro` și să vedeți aplicația Next.js, nu pagina implicită Nginx.
+Acum, site-ul ar trebui să fie accesibil la adresa `http://domeniul-tau.ro` și să afișeze aplicația Next.js.
 
 ---
 
