@@ -91,8 +91,8 @@ export function VideoCarousel() {
   return (
     <>
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-headline font-bold mb-2">Our Work</h2>
-        <p className="text-foreground/70">A selection of our favorite projects.</p>
+        <h2 className="text-3xl font-headline font-bold mb-2">Munca Noastră</h2>
+        <p className="text-foreground/70">Câteva fragmente din munca noastră</p>
       </div>
       <div className="relative w-full px-16">
         <Carousel
