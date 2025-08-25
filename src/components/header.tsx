@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Film, Menu, Phone } from 'lucide-react';
+import { Menu, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { PerspectiveWrapper } from './perspective-wrapper';
 import { LanguageToggle } from './language-toggle';
 import { useLanguage } from '@/context/language-context';
+import Image from 'next/image';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +47,7 @@ export function Header() {
 
   return (
     <header className={cn(
-      "fixed top-0 z-50 transition-all duration-500 ease-out",
+      "fixed top-0 z-50 transition-all duration-500 ease-out w-full",
       isMounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0',
       isScrolled ? 'md:left-0 md:right-0 left-4 right-auto' : 'left-0 right-0'
     )}>
@@ -58,13 +59,12 @@ export function Header() {
             )}>
             <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center">
-                <div className="bg-primary p-2 rounded-lg">
-                  <Film className="h-6 w-6 text-primary-foreground" />
-                </div>
+                <Image src="/logo.svg" alt="Mitar Media Logo" width={32} height={32} className="h-8 w-8" />
               </Link>
 
               <nav className={cn(
-                "hidden md:flex items-center gap-4 transition-all duration-300"
+                "hidden md:flex items-center gap-4 transition-all duration-300",
+                 isScrolled ? 'opacity-0' : 'opacity-100'
                 )}>
                 <LanguageToggle />
                 <div className="h-6 w-px bg-white/20"></div>
@@ -76,7 +76,7 @@ export function Header() {
                   </Button>
                 ))}
                 <Button asChild>
-                  <a href="tel:+40123456789">
+                  <a href="tel:+40769833101">
                     <Phone className="mr-2 h-4 w-4" />
                     {translations.contact}
                   </a>
@@ -89,7 +89,7 @@ export function Header() {
                    isPulsing ? 'scale-105 opacity-80' : 'scale-100 opacity-100',
                    isScrolled ? 'hidden' : 'flex'
                    )}>
-                    <a href="tel:+40123456789" aria-label="Call us">
+                    <a href="tel:+40769833101" aria-label="Call us">
                       <Phone className="h-5 w-5" />
                     </a>
                   </Button>
@@ -104,9 +104,7 @@ export function Header() {
                       <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
                     <Link href="/" className="flex items-center mb-8" onClick={() => setIsOpen(false)}>
-                      <div className="bg-primary p-2 rounded-lg">
-                        <Film className="h-6 w-6 text-primary-foreground" />
-                      </div>
+                      <Image src="/logo.svg" alt="Mitar Media Logo" width={32} height={32} className="h-8 w-8" />
                     </Link>
                     <nav className="flex flex-col gap-4">
                        {socialLinks.map((link) => (
@@ -121,7 +119,7 @@ export function Header() {
                     <div className="mt-auto space-y-4">
                        <LanguageToggle />
                        <Button asChild className="w-full">
-                          <a href="tel:+40123456789">
+                          <a href="tel:+40769833101">
                           <Phone className="mr-2 h-4 w-4" />
                           {translations.contactUs}
                           </a>
