@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Typewriter } from './typewriter';
 import React, { useState, useRef } from 'react';
+import { MagnifyingGlass } from './magnifying-glass';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -26,12 +27,12 @@ export function AiSection() {
               <div className="text-4xl md:text-5xl font-custom font-bold leading-tight text-center lg:text-left">
                 <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground" />
               </div>
-              <div className="text-foreground/70 text-lg h-40 text-center lg:text-left">
+               <MagnifyingGlass>
                 <Typewriter 
                   text="Soluții complete de producție video, de la concept la produsul final. Creăm videouri de marketing, social media, prezentări de companie și materiale de training, garantând o calitate excepțională și rezultate care depășesc așteptările."
                   enableGlowOnFinish={true}
                 />
-              </div>
+              </MagnifyingGlass>
             </div>
         </div>
 

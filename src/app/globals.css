@@ -253,6 +253,38 @@
     opacity: 1;
   }
 
+  .magnify-container {
+    position: relative;
+    cursor: none;
+  }
+
+  .magnify-glass {
+    position: absolute;
+    top: var(--mouse-y);
+    left: var(--mouse-x);
+    width: var(--glass-size);
+    height: var(--glass-size);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.5), 0 0 20px 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.2s ease-in-out;
+    background: hsl(var(--background) / 0.5);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  
+  .magnify-glass-content {
+    transform-origin: top left;
+    @apply scale-150;
+  }
+  
+  .magnify-glass-content > p {
+    color: hsl(var(--foreground));
+  }
+
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
