@@ -5,6 +5,7 @@ import { SocialSection } from '@/components/social-section';
 import { BackToTopButton } from '@/components/back-to-top-button';
 import { ScrollAnimationWrapper } from '@/components/scroll-animation-wrapper';
 import { AiSection } from '@/components/ai-section';
+import { VideoCarousel } from '@/components/video-carousel';
 
 export default function Home() {
   return (
@@ -25,6 +26,11 @@ export default function Home() {
           <div id="social">
             <SocialSection />
           </div>
+        </ScrollAnimationWrapper>
+      </div>
+      <div id="work" className="w-full mb-24 sm:mb-32">
+        <ScrollAnimationWrapper>
+          <VideoCarousel />
         </ScrollAnimationWrapper>
       </div>
       <BackToTopButton />
