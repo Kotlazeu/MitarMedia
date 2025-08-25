@@ -23,11 +23,14 @@ export function AiSection() {
             <div className="flex flex-col gap-6 animate-idle-perspective">
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
-              <div className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center">
+              <div className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center lg:text-left">
                 <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-headline font-bold leading-tight text-foreground" />
               </div>
               <div className="text-foreground/70 text-lg h-40 text-center lg:text-left">
-                <Typewriter text="Soluții complete de producție video, de la concept la produsul final. Creăm videouri de marketing, social media, prezentări de companie și materiale de training, garantând o calitate excepțională și rezultate care depășesc așteptările." />
+                <Typewriter 
+                  text="Soluții complete de producție video, de la concept la produsul final. Creăm videouri de marketing, social media, prezentări de companie și materiale de training, garantând o calitate excepțională și rezultate care depășesc așteptările."
+                  enableGlowOnFinish={true}
+                />
               </div>
             </div>
         </div>

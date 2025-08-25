@@ -3,7 +3,15 @@
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
-export function Typewriter({ text, className }: { text: string; className?: string }) {
+export function Typewriter({ 
+  text, 
+  className,
+  enableGlowOnFinish = false
+}: { 
+  text: string; 
+  className?: string;
+  enableGlowOnFinish?: boolean;
+}) {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
 
@@ -12,7 +20,8 @@ export function Typewriter({ text, className }: { text: string; className?: stri
     setIsTyping(true);
     
     if (text) {
-      const typingInterval = setInterval(() => {
+      let typingInterval: NodeJS.Timeout;
+      const startTyping = () => {
         setDisplayedText((prev) => {
           if (prev.length < text.length) {
             return text.slice(0, prev.length + 1);
@@ -22,7 +31,9 @@ export function Typewriter({ text, className }: { text: string; className?: stri
             return text;
           }
         });
-      }, 20); // Adjust typing speed here (in ms)
+      };
+      
+      typingInterval = setInterval(startTyping, 20); // Adjust typing speed here (in ms)
 
       return () => clearInterval(typingInterval);
     }
@@ -30,8 +41,23 @@ export function Typewriter({ text, className }: { text: string; className?: stri
 
   return (
     <p className={cn(className, 'text-foreground/70')}>
-      {displayedText}
-      {isTyping && <span className="blinking-cursor">|</span>}
+      {isTyping ? (
+        <>
+          {displayedText}
+          <span className="blinking-cursor">|</span>
+        </>
+      ) : (
+        enableGlowOnFinish ? (
+          text.split(' ').map((word, i) => (
+            <span key={i}>
+              <span className="word-base word-glow">{word}</span>
+              {' '}
+            </span>
+          ))
+        ) : (
+          text
+        )
+      )}
     </p>
   );
 }
