@@ -23,8 +23,8 @@ export function AiSection() {
             <div className="flex flex-col gap-6 animate-idle-perspective">
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
-              <div className="text-4xl md:text-5xl font-headline font-bold leading-tight text-center lg:text-left">
-                <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-headline font-bold leading-tight text-foreground" />
+              <div className="text-4xl md:text-5xl font-custom font-bold leading-tight text-center lg:text-left">
+                <Typewriter text="Be Diferent" className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground" />
               </div>
               <div className="text-foreground/70 text-lg h-40 text-center lg:text-left">
                 <Typewriter 
