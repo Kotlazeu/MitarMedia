@@ -57,14 +57,10 @@ export function Header() {
             isScrolled ? 'md:w-full w-auto' : 'w-full'
             )}>
             <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2">
+              <Link href="/" className="flex items-center">
                 <div className="bg-primary p-2 rounded-lg">
                   <Film className="h-6 w-6 text-primary-foreground" />
                 </div>
-                <span className={cn(
-                  "text-xl font-bold font-headline transition-all duration-300",
-                  isScrolled ? 'hidden md:inline' : 'inline'
-                  )}>Mitar Media</span>
               </Link>
 
               <nav className={cn(
@@ -107,11 +103,10 @@ export function Header() {
                     <SheetHeader>
                       <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
-                    <Link href="/" className="flex items-center gap-2 mb-8" onClick={() => setIsOpen(false)}>
+                    <Link href="/" className="flex items-center mb-8" onClick={() => setIsOpen(false)}>
                       <div className="bg-primary p-2 rounded-lg">
                         <Film className="h-6 w-6 text-primary-foreground" />
                       </div>
-                      <span className="text-xl font-bold font-headline">Mitar Media</span>
                     </Link>
                     <nav className="flex flex-col gap-4">
                        {socialLinks.map((link) => (
