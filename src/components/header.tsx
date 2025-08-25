@@ -85,7 +85,7 @@ export function Header() {
 
               <div className="md:hidden flex items-center gap-2">
                  <Button asChild size="icon" className={cn(
-                   "transition-all duration-[1500ms] ease-in-out",
+                   "transition-all duration-1000 ease-in-out",
                    isPulsing ? 'scale-105 opacity-80' : 'scale-100 opacity-100',
                    isScrolled ? 'hidden' : 'flex'
                    )}>
