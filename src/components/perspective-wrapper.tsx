@@ -21,8 +21,8 @@ export const PerspectiveWrapper = ({ children, className }: PerspectiveWrapperPr
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const x = (mouseY / height - 0.5) * -15; // Intensity
-    const y = (mouseX / width - 0.5) * 15;  // Intensity
+    const x = (mouseY / height - 0.5) * -8; // Intensity
+    const y = (mouseX / width - 0.5) * 8;  // Intensity
     setRotate({ x, y });
   };
 
