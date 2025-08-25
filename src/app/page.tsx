@@ -22,11 +22,13 @@ export default function Home() {
             <ClientMarquee />
           </div>
         </ScrollAnimationWrapper>
+        {/*
         <ScrollAnimationWrapper>
           <div id="social">
             <SocialSection />
           </div>
         </ScrollAnimationWrapper>
+        */}
       </div>
       <div id="work" className="w-full mb-24 sm:mb-32">
         <ScrollAnimationWrapper>
