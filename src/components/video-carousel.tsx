@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -75,7 +74,7 @@ export function VideoCarousel() {
           {videoData.map((video, index) => (
             <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
               <div
-                className="group relative aspect-video w-full h-full overflow-hidden rounded-lg cursor-pointer"
+                className="group relative aspect-[3/4] w-full h-full overflow-hidden rounded-lg cursor-pointer"
                 onClick={() => handleVideoClick(video.videoSrc)}
               >
                 <video
