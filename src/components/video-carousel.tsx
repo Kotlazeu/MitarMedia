@@ -94,7 +94,7 @@ export function VideoCarousel() {
         <h2 className="text-3xl font-headline font-bold mb-2">Our Work</h2>
         <p className="text-foreground/70">A selection of our favorite projects.</p>
       </div>
-      <div className="relative w-full px-4 md:px-16">
+      <div className="relative w-full px-16">
         <Carousel
           className="w-full"
           opts={{
@@ -116,16 +116,12 @@ export function VideoCarousel() {
               </CarouselItem>
             ))}
           </CarouselContent>
-           <div className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20">
-            <PerspectiveWrapper>
-                <CarouselPrevious className="w-full h-full rounded-full glassmorphism [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12" />
-            </PerspectiveWrapper>
-           </div>
-           <div className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20">
-             <PerspectiveWrapper>
-                <CarouselNext className="w-full h-full rounded-full glassmorphism [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12"/>
-             </PerspectiveWrapper>
-           </div>
+           <PerspectiveWrapper className="absolute -left-4 md:-left-8 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20">
+              <CarouselPrevious className="w-full h-full rounded-full glassmorphism [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12" />
+           </PerspectiveWrapper>
+           <PerspectiveWrapper className="absolute -right-4 md:-right-8 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20">
+              <CarouselNext className="w-full h-full rounded-full glassmorphism [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12"/>
+           </PerspectiveWrapper>
         </Carousel>
       </div>
 
