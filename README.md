@@ -108,7 +108,7 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
     npm install pm2 -g
     ```
 
-2.  **Porniți aplicația folosind PM2:**
+2.  **Porniți aplicația folosind PM2:** Aplicația Next.js rulează implicit pe portul 3000.
     ```bash
     # Înlocuiți "numele-proiectului" cu un nume ușor de recunoscut
     pm2 start npm --name "numele-proiectului" -- start
@@ -129,7 +129,7 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
 
 ### **Pasul 6: Instalarea și Configurarea Nginx ca Reverse Proxy**
 
-Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa către aplicația Next.js, care rulează pe portul 3000.
+Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa către aplicația Next.js, care rulează local pe portul 3000.
 
 1.  **Instalați Nginx:**
     ```bash
@@ -142,7 +142,7 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
     sudo nano /etc/nginx/sites-available/domeniul-tau.ro
     ```
 
-3.  **Adăugați următorul conținut în fișier.** Asigurați-vă că înlocuiți `domeniul-tau.ro` cu domeniul dumneavoastră.
+3.  **Adăugați următorul conținut în fișier.** Asigurați-vă că înlocuiți `domeniul-tau.ro` peste tot unde apare.
 
     ```nginx
     server {
@@ -168,18 +168,24 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
     sudo ln -s /etc/nginx/sites-available/domeniul-tau.ro /etc/nginx/sites-enabled/
     ```
 
-5.  **Ștergeți configurația Nginx implicită:**
+5.  **Verificați sintaxa Nginx (Pas Crucial!):** Această comandă va verifica dacă există erori în fișierele de configurare.
+    ```bash
+    sudo nginx -t
+    ```
+    *   Dacă rezultatul este `syntax is ok` și `test is successful`, puteți continua.
+    *   Dacă afișează o eroare, citiți cu atenție mesajul. Acesta vă va indica exact fișierul și linia unde se află greșeala (de obicei o acoladă lipsă `{` sau un punct și virgulă `;` uitat). Corectați eroarea și rulați din nou `sudo nginx -t`.
+
+6.  **Ștergeți configurația Nginx implicită:** Acum că avem o configurație validă pentru site-ul nostru, o putem șterge pe cea implicită.
     ```bash
     sudo rm /etc/nginx/sites-enabled/default
     ```
 
-6.  **Verificați sintaxa Nginx și reporniți serviciul:**
+7.  **Reîncărcați Nginx pentru a aplica modificările:**
     ```bash
-    sudo nginx -t
-    sudo systemctl restart nginx
+    sudo systemctl reload nginx
     ```
 
-În acest moment, ar trebui să puteți accesa site-ul la adresa `http://domeniul-tau.ro`.
+În acest moment, ar trebui să puteți accesa site-ul la adresa `http://domeniul-tau.ro` și să vedeți aplicația Next.js, nu pagina implicită Nginx.
 
 ---
 
