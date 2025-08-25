@@ -48,13 +48,13 @@ export function Header() {
     <header className={cn(
       "fixed top-0 z-50 transition-all duration-500 ease-out",
       isMounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0',
-      isScrolled ? 'left-4 right-auto' : 'left-0 right-0'
+      isScrolled ? 'md:left-0 md:right-0 left-4 right-auto' : 'left-0 right-0'
     )}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <PerspectiveWrapper>
           <div className={cn(
             "mt-4 rounded-2xl border border-white/10 p-2.5 shadow-2xl glassmorphism transition-all duration-300",
-            isScrolled ? 'w-auto' : 'w-full'
+            isScrolled ? 'md:w-full w-auto' : 'w-full'
             )}>
             <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2">
@@ -63,13 +63,12 @@ export function Header() {
                 </div>
                 <span className={cn(
                   "text-xl font-bold font-headline transition-all duration-300",
-                  isScrolled ? 'hidden md:inline' : ''
+                  isScrolled ? 'hidden md:inline' : 'inline'
                   )}>Mitar Media</span>
               </Link>
 
               <nav className={cn(
-                "hidden md:flex items-center gap-4 transition-all duration-300",
-                isScrolled ? 'opacity-0 hidden' : 'opacity-100'
+                "hidden md:flex items-center gap-4 transition-all duration-300"
                 )}>
                 <LanguageToggle />
                 <div className="h-6 w-px bg-white/20"></div>
