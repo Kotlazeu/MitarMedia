@@ -9,7 +9,6 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/components/ui/carousel";
 import {
   Dialog,
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import Autoplay from "embla-carousel-autoplay";
+import { PerspectiveWrapper } from "./perspective-wrapper";
 
 const videoData = [
   {
@@ -47,39 +47,9 @@ const videoData = [
 
 
 const VideoCard = ({ video, onClick }: { video: typeof videoData[0], onClick: () => void }) => {
-    const cardRef = React.useRef<HTMLDivElement>(null);
-    const [rotate, setRotate] = React.useState({ x: 0, y: 0 });
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-
-        const x = (mouseY / height - 0.5) * -15; // Increased intensity
-        const y = (mouseX / width - 0.5) * 15;  // Increased intensity
-        setRotate({ x, y });
-    };
-
-    const handleMouseLeave = () => {
-        setRotate({ x: 0, y: 0 });
-    };
-
     return (
-        <div 
-            className="w-full h-full" 
-            style={{ perspective: '1000px' }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-        >
+        <PerspectiveWrapper>
             <div
-                ref={cardRef}
-                style={{
-                    transform: `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
-                    transition: 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                }}
                 className="relative aspect-[3/4] w-full h-full rounded-2xl overflow-hidden glassmorphism group cursor-pointer"
                 onClick={onClick}
             >
@@ -104,7 +74,7 @@ const VideoCard = ({ video, onClick }: { video: typeof videoData[0], onClick: ()
                     </div>
                 </div>
             </div>
-        </div>
+        </PerspectiveWrapper>
     );
 };
 
@@ -146,8 +116,16 @@ export function VideoCarousel() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20 rounded-full [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12" />
-          <CarouselNext className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20 rounded-full [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12"/>
+           <div className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20">
+            <PerspectiveWrapper>
+                <CarouselPrevious className="w-full h-full rounded-full glassmorphism [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12" />
+            </PerspectiveWrapper>
+           </div>
+           <div className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 h-12 w-12 md:h-20 md:w-20">
+             <PerspectiveWrapper>
+                <CarouselNext className="w-full h-full rounded-full glassmorphism [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-12 md:[&>svg]:w-12"/>
+             </PerspectiveWrapper>
+           </div>
         </Carousel>
       </div>
 
