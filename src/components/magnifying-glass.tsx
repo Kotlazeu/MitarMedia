@@ -5,13 +5,13 @@ import { cn } from '@/lib/utils';
 
 export function MagnifyingGlass({ children }: { children: React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: -9999, y: -9999 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 768);
+      setIsDesktop(window.innerWidth >= 1024);
     };
     checkIsDesktop();
     window.addEventListener('resize', checkIsDesktop);
@@ -19,60 +19,57 @@ export function MagnifyingGlass({ children }: { children: React.ReactNode }) {
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current || !isDesktop) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setMousePosition({ 
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    if (containerRef.current && isDesktop) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      setPosition({ x, y });
+    }
   };
 
   const handleMouseEnter = () => {
-    if (!isDesktop) return;
-    setIsHovering(true);
+    if (isDesktop) setIsHovering(true);
   };
 
   const handleMouseLeave = () => {
-    if (!isDesktop) return;
-    setIsHovering(false);
-    setMousePosition({ x: -9999, y: -9999 });
+    if (isDesktop) setIsHovering(false);
   };
-  
-  const glassSize = 150;
+
+  const magnifierSize = 150;
+  const zoomFactor = 1.5;
 
   return (
     <div
       ref={containerRef}
-      className="magnify-container text-foreground/70 text-lg h-40 text-center lg:text-left"
+      className="magnify-container relative text-foreground/70 text-lg text-center lg:text-left"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Original Content */}
-      <div className="pointer-events-none">
-        {children}
-      </div>
-
-      {/* Magnifying Glass Effect */}
+      {/* Original, non-interactive content */}
+      {children}
+      
+      {/* Magnifier visual effect */}
       {isDesktop && (
         <div
-          className="magnify-glass"
+          className="magnifier"
           style={{
-            '--mouse-x': `${mousePosition.x}px`,
-            '--mouse-y': `${mousePosition.y}px`,
-            '--glass-size': `${glassSize}px`,
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+            width: `${magnifierSize}px`,
+            height: `${magnifierSize}px`,
             opacity: isHovering ? 1 : 0,
-          } as React.CSSProperties}
+          }}
         >
-          <div
-            className="magnify-glass-content"
+          <span
+            className="magnifier-content"
             style={{
-              transform: `translate(calc(${glassSize / 2}px - ${mousePosition.x}px), calc(${glassSize / 2}px - ${mousePosition.y}px))`,
+                left: `${-position.x * zoomFactor + magnifierSize / 2}px`,
+                top: `${-position.y * zoomFactor + magnifierSize / 2}px`,
             }}
           >
-            {/* Cloned, Scaled-up Content */}
             {children}
-          </div>
+          </span>
         </div>
       )}
     </div>

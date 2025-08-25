@@ -254,35 +254,26 @@
   }
 
   .magnify-container {
-    position: relative;
-    cursor: none;
+    user-select: none;
   }
 
-  .magnify-glass {
+  .magnifier {
     position: absolute;
-    top: var(--mouse-y);
-    left: var(--mouse-x);
-    width: var(--glass-size);
-    height: var(--glass-size);
-    transform: translate(-50%, -50%);
     border-radius: 50%;
-    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.5), 0 0 20px 5px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     overflow: hidden;
     pointer-events: none;
-    z-index: 10;
-    transition: opacity 0.2s ease-in-out;
-    background: hsl(var(--background) / 0.5);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease-out;
+    background-color: hsl(var(--background));
   }
-  
-  .magnify-glass-content {
-    transform-origin: top left;
-    @apply scale-150;
-  }
-  
-  .magnify-glass-content > p {
+
+  .magnifier-content {
+    position: absolute;
     color: hsl(var(--foreground));
+    transform-origin: top left;
+    transform: scale(1.5); /* This is the zoom level */
   }
 
   @keyframes blink {
