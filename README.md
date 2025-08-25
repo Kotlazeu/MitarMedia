@@ -114,13 +114,13 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
     npm install pm2 -g
     ```
 
-2.  **Porniți aplicația folosind PM2:** Vom porni aplicația Next.js, care rulează implicit pe portul 3000.
+2.  **Porniți aplicația folosind PM2:** Vom porni aplicația Next.js, care rulează implicit pe portul 3000. Folosim o sintaxă explicită pentru a ne asigura că PM2 execută corect scriptul.
     ```bash
     # Înlocuiți "numele-proiectului" cu un nume ușor de recunoscut
-    pm2 start npm --name "numele-proiectului" -- start
+    pm2 start "npm run start" --name "numele-proiectului"
     ```
     *   `--name`: Dă un nume procesului în PM2.
-    *   `-- start`: Îi spune lui PM2 să ruleze comanda `npm run start` (definită în `package.json`).
+    *   `"npm run start"`: Îi spune lui PM2 să ruleze exact comanda `npm run start` (definită în `package.json`).
 
 3.  **Verificați starea aplicației (Opțional, dar recomandat):**
     ```bash
@@ -150,58 +150,36 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
 
 2.  **Faceți un backup al fișierului de configurare original (recomandat):**
     ```bash
-    sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
+    sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
     ```
 
-3.  **Deschideți fișierul principal de configurare pentru a-l edita:**
+3.  **Deschideți fișierul de configurare pentru a-l edita:**
     ```bash
-    sudo nano /etc/nginx/nginx.conf
+    sudo nano /etc/nginx/sites-available/default
     ```
 
 4.  **Înlocuiți întregul conținut al fișierului:**
-    Ștergeți tot conținutul existent în fișierul deschis și înlocuiți-l cu configurația de mai jos. Această configurație este minimă și conține doar strictul necesar pentru a funcționa.
+    Ștergeți tot conținutul existent și înlocuiți-l cu configurația de mai jos.
 
     **Asigurați-vă că înlocuiți `domeniul-tau.ro` cu domeniul dumneavoastră real!**
 
     ```nginx
-    user www-data;
-    worker_processes auto;
-    pid /run/nginx.pid;
-    include /etc/nginx/modules-enabled/*.conf;
+    server {
+        listen 80;
+        listen [::]:80;
 
-    events {
-        worker_connections 768;
-    }
+        server_name domeniul-tau.ro www.domeniul-tau.ro;
 
-    http {
-        sendfile on;
-        tcp_nopush on;
-        types_hash_max_size 2048;
-        include /etc/nginx/mime.types;
-        default_type application/octet-stream;
-        ssl_protocols TLSv1.2 TLSv1.3;
-        ssl_prefer_server_ciphers on;
-        access_log /var/log/nginx/access.log;
-        error_log /var/log/nginx/error.log;
-        gzip on;
-
-        server {
-            listen 80;
-            listen [::]:80;
-
-            server_name domeniul-tau.ro www.domeniul-tau.ro;
-
-            location / {
-                proxy_pass http://127.0.0.1:3000; # Portul pe care rulează aplicația Next.js
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection 'upgrade';
-                proxy_set_header Host $host;
-                proxy_cache_bypass $http_upgrade;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-            }
+        location / {
+            proxy_pass http://127.0.0.1:3000; # Portul pe care rulează aplicația Next.js
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
         }
     }
     ```
@@ -255,7 +233,7 @@ Eroarea 502 înseamnă că Nginx nu poate comunica cu aplicația Next.js.
     # Înlocuiți "numele-proiectului" cu numele pe care l-ați dat în PM2
     pm2 logs numele-proiectului
     ```
-    Această comandă vă va arăta în timp real orice eroare pe care o generează aplicația Next.js. Erorile comune includ variabile de mediu lipsă, probleme în cod sau erori de build.
+    Această comandă vă va arăta în timp real orice eroare pe care o generează aplicația Next.js. Erorile comune includ variabile de mediu lipsă, probleme în cod sau erori de build. Dacă vedeți o eroare aici, ea vă va oferi indiciul necesar pentru a rezolva problema.
 
 ---
 
