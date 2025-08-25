@@ -14,6 +14,7 @@ export default {
         headline: ['"DM Serif Text"', 'serif'],
         code: ['monospace'],
         mono: ['Anonymous Pro', 'monospace'],
+        custom: ['CustomFont', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
