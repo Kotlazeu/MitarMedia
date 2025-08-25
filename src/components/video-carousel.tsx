@@ -124,7 +124,7 @@ export function VideoCarousel() {
         <h2 className="text-3xl font-headline font-bold mb-2">Our Work</h2>
         <p className="text-foreground/70">A selection of our favorite projects.</p>
       </div>
-      <div className="relative w-full px-4 md:px-12">
+      <div className="relative w-full px-4 md:px-16">
         <Carousel
           className="w-full"
           opts={{
@@ -146,8 +146,8 @@ export function VideoCarousel() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex"/>
+          <CarouselPrevious className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2 h-20 w-20 rounded-full [&>svg]:h-12 [&>svg]:w-12" />
+          <CarouselNext className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2 h-20 w-20 rounded-full [&>svg]:h-12 [&>svg]:w-12"/>
         </Carousel>
       </div>
 
