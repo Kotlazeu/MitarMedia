@@ -85,11 +85,12 @@ Aplicația Next.js rulează pe Node.js. Vom folosi `nvm` (Node Version Manager) 
 
 Acum vom instala dependențele și vom crea build-ul de producție direct pe server.
 
-1.  **Pe VPS**, navigați în directorul nou creat:
+1.  **Pe VPS, navigați în directorul nou creat.** Acesta este un pas **CRUCIAL**. Toate comenzile următoare trebuie rulate din interiorul directorului proiectului.
     ```bash
     # Înlocuiți 'numele-proiectului' cu numele real
     cd ~/numele-proiectului
     ```
+    *Notă: Dacă nu sunteți sigur, rulați comanda `ls` pentru a vedea directoarele disponibile și a vă asigura că sunteți în locul corect.*
 
 2.  **Instalați TOATE dependințele (inclusiv cele de dev, necesare pentru build):**
     ```bash
