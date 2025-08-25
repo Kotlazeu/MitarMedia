@@ -62,7 +62,12 @@ export function Header() {
                 </Button>
               </nav>
 
-              <div className="md:hidden">
+              <div className="md:hidden flex items-center gap-2">
+                 <Button asChild size="icon" className="animate-pulse-slow">
+                    <a href="tel:+40123456789" aria-label="Call us">
+                      <Phone className="h-5 w-5" />
+                    </a>
+                  </Button>
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                   <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
