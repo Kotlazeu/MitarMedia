@@ -116,7 +116,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'marquee': 'marquee 40s linear infinite',
         'idle-perspective': 'idle-perspective 15s ease-in-out infinite',
-        'pulse-slow': 'pulse-slow 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1)',
+        'pulse-slow': 'pulse-slow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },
