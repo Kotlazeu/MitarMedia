@@ -139,9 +139,9 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
 
 ---
 
-### **Pasul 6: Instalarea și Configurarea Nginx (Metoda Directă)**
+### **Pasul 6: Instalarea și Configurarea Nginx (Metoda Directă și Simplificată)**
 
-Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa către aplicația Next.js, care rulează local pe portul 3000. Vom edita direct fișierul principal de configurare pentru a evita erorile comune.
+Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa către aplicația Next.js, care rulează local pe portul 3000. Vom edita direct fișierul principal de configurare pentru a elimina posibilele erori.
 
 1.  **Instalați Nginx:**
     ```bash
@@ -158,23 +158,33 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
     sudo nano /etc/nginx/nginx.conf
     ```
 
-4.  **Înlocuiți blocul `server` implicit:**
-    Localizați blocul `http { ... }`. În interiorul acestuia, ar trebui să vedeți o linie `include /etc/nginx/sites-enabled/*;` și posibil alte directive. Vom șterge acea includere și vom pune configurația noastră direct aici.
-
-    Modificați blocul `http { ... }` astfel încât să arate ca mai jos. **Ștergeți sau comentați linia `include /etc/nginx/sites-enabled/*;`** și adăugați blocul `server` de mai jos în interiorul `http { ... }`.
+4.  **Înlocuiți întregul conținut al fișierului:**
+    Ștergeți tot conținutul existent în fișierul deschis și înlocuiți-l cu configurația de mai jos. Această configurație este minimă și conține doar strictul necesar pentru a funcționa.
 
     **Asigurați-vă că înlocuiți `domeniul-tau.ro` cu domeniul dumneavoastră real!**
 
     ```nginx
-    # ... alte setări din nginx.conf ...
+    user www-data;
+    worker_processes auto;
+    pid /run/nginx.pid;
+    include /etc/nginx/modules-enabled/*.conf;
+
+    events {
+        worker_connections 768;
+    }
 
     http {
-        # ... alte directive http ...
+        sendfile on;
+        tcp_nopush on;
+        types_hash_max_size 2048;
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_prefer_server_ciphers on;
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+        gzip on;
 
-        # Ștergeți sau comentați linia de mai jos dacă există:
-        # include /etc/nginx/sites-enabled/*;
-
-        # Adăugați acest bloc server:
         server {
             listen 80;
             listen [::]:80;
@@ -188,13 +198,12 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
                 proxy_set_header Connection 'upgrade';
                 proxy_set_header Host $host;
                 proxy_cache_bypass $http_upgrade;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
             }
         }
-
-        # ... restul directivelor http ...
     }
-
-    # ... restul fișierului nginx.conf ...
     ```
     Salvați și închideți fișierul (Ctrl+X, apoi Y, apoi Enter în `nano`).
 
@@ -209,7 +218,7 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
     sudo systemctl reload nginx
     ```
 
-Acum, site-ul ar trebui să fie accesibil la adresa `http://domeniul-tau.ro` și să afișeze aplicația Next.js.
+Acum, site-ul ar trebui să fie accesibil la adresa `http://domeniul-tau.ro` și să afișeze aplicația Next.js. Pagina implicită Nginx nu ar trebui să mai apară.
 
 ---
 
