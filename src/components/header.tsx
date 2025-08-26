@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -22,11 +23,10 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isPulsing, setIsPulsing] = useState(false);
   const { translations } = useLanguage();
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsMounted(true), 100); 
+    setIsMounted(true); 
     
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -34,21 +34,16 @@ export function Header() {
 
     window.addEventListener('scroll', handleScroll);
     
-    const pulseInterval = setInterval(() => {
-      setIsPulsing(prev => !prev);
-    }, 3000);
-
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
-      clearInterval(pulseInterval);
     };
   }, []);
 
   return (
     <header className={cn(
-      "fixed top-0 z-50 transition-all duration-500 ease-out w-full",
-      isMounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      "fixed top-0 z-50 w-full transition-opacity duration-500 ease-out",
+      isScrolled ? 'opacity-0' : 'opacity-100',
+      isMounted ? 'translate-y-0' : '-translate-y-full opacity-0'
     )}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <PerspectiveWrapper>
@@ -81,11 +76,7 @@ export function Header() {
               </nav>
 
               <div className="md:hidden flex items-center gap-2">
-                 <Button asChild size="icon" className={cn(
-                   "transition-all duration-1000 ease-in-out",
-                   isPulsing ? 'scale-105 opacity-80' : 'scale-100 opacity-100',
-                   isScrolled ? 'hidden' : 'flex'
-                   )}>
+                 <Button asChild size="icon">
                     <a href="tel:+40769833101" aria-label="Call us">
                       <Phone className="h-5 w-5" />
                     </a>
