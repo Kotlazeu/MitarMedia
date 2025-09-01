@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import Autoplay from "embla-carousel-autoplay";
 import { PerspectiveWrapper } from "./perspective-wrapper";
 import { useLanguage } from "@/context/language-context";
+import ScrollFloat from "./scroll-float";
 
 const videoData = [
   {
@@ -93,8 +94,12 @@ export function VideoCarousel() {
   return (
     <>
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-headline font-bold mb-2">{translations.ourWork}</h2>
-        <p className="text-foreground/70">{translations.ourWorkSubtitle}</p>
+        <ScrollFloat containerClassName="mb-2" textClassName="text-3xl font-headline font-bold">
+          {translations.ourWork}
+        </ScrollFloat>
+        <ScrollFloat textClassName="text-foreground/70" ease="power2.inOut" stagger={0.01} animationDuration={0.5}>
+          {translations.ourWorkSubtitle}
+        </ScrollFloat>
       </div>
       <div className="relative w-full px-16">
         <Carousel
