@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 // import { Typewriter } from './typewriter';
 import { FadeInWords } from './fade-in-words';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
 import RotatingText from './rotating-text';
@@ -26,9 +26,6 @@ export function AiSection() {
   const { translations } = useLanguage();
   const [content, setContent] = useState<any>({ rotatingTexts: [], staticText: '', description: '' });
   const [isBlurAnimationComplete, setIsBlurAnimationComplete] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -42,29 +39,10 @@ export function AiSection() {
     setIsBlurAnimationComplete(true);
   };
 
-  useEffect(() => {
-    if (!titleRef.current) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      setIsAnimating(true);
-      if (animationTimeoutRef.current) {
-        clearTimeout(animationTimeoutRef.current);
-      }
-      animationTimeoutRef.current = setTimeout(() => {
-        setIsAnimating(false);
-      }, 150); 
-    });
-
-    resizeObserver.observe(titleRef.current);
-
-    return () => {
-      resizeObserver.disconnect();
-      if (animationTimeoutRef.current) {
-        clearTimeout(animationTimeoutRef.current);
-      }
-    };
-  }, [isBlurAnimationComplete]);
-
+  const longestText = useMemo(() => {
+    return content.rotatingTexts.reduce((a: string, b: string) => a.length > b.length ? a : b, '');
+  }, [content.rotatingTexts]);
+  
   const fullInitialText = `${content.rotatingTexts[0] || ''} ${content.staticText || ''}`;
 
   return (
@@ -75,10 +53,8 @@ export function AiSection() {
             <div className="flex flex-col gap-6 animate-idle-perspective">
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
-              <div ref={titleRef} className={cn(
-                  "flex justify-center lg:justify-start items-baseline text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground",
-                  "transition-all duration-150",
-                  isAnimating ? "blur-sm" : "blur-none"
+              <div className={cn(
+                  "flex justify-center lg:justify-start items-baseline text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
                 )}>
                 {!isBlurAnimationComplete ? (
                    <BlurText
@@ -88,18 +64,23 @@ export function AiSection() {
                     />
                 ) : (
                   <>
-                    <RotatingText
-                      texts={content.rotatingTexts}
-                      staggerFrom={"first"}
-                      splitBy="characters"
-                      mainClassName="inline-flex whitespace-nowrap"
-                      splitLevelClassName=""
-                      elementLevelClassName="inline-block"
-                      initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-                      animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                      exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
-                      transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                    />
+                    <div className="relative">
+                       <span className="invisible whitespace-nowrap">{longestText}</span>
+                        <div className="absolute top-0 left-0">
+                            <RotatingText
+                                texts={content.rotatingTexts}
+                                staggerFrom={"first"}
+                                splitBy="characters"
+                                mainClassName="inline-flex whitespace-nowrap"
+                                splitLevelClassName=""
+                                elementLevelClassName="inline-block"
+                                initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
+                                animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+                                exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+                                transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                            />
+                        </div>
+                    </div>
                     <span className="ml-4 whitespace-nowrap">
                       {content.staticText}
                     </span>
