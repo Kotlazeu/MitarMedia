@@ -28,13 +28,15 @@ export function AiSection() {
             <div className="flex flex-col gap-6 animate-idle-perspective">
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
-              <BlurText
-                text={translations.beDifferent}
-                delay={150}
-                animateBy="words"
-                direction="top"
-                className="text-4xl md:text-5xl font-custom font-bold leading-tight text-center lg:text-left text-foreground"
-              />
+              <div className="flex justify-center lg:justify-start">
+                <BlurText
+                  text={translations.beDifferent}
+                  delay={150}
+                  animateBy="words"
+                  direction="top"
+                  className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+                />
+              </div>
                <MagnifyingGlass>
                 <FadeInWords 
                   text={translations.videoProductionSolutions}
