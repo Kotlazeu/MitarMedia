@@ -49,78 +49,6 @@ export function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <PerspectiveWrapper>
           <div className="mt-4">
-             {/* <div className={cn(
-              "rounded-2xl border border-white/10 p-2.5 shadow-2xl glassmorphism transition-all duration-300 w-full"
-              )}>
-              <div className="flex items-center justify-between">
-                <Link href="/" className="flex items-center">
-                  <Image src="/logo.svg" alt="Mitar Media Logo" width={32} height={32} className="h-8 w-8" />
-                </Link>
-
-                <nav className={cn(
-                  "hidden md:flex items-center gap-4 transition-all duration-300"
-                  )}>
-                  <LanguageToggle />
-                  <div className="h-6 w-px bg-white/20"></div>
-                  {socialLinks.map((link) => (
-                    <Button key={link.name} variant="ghost" size="icon" asChild className="[&_svg]:size-6">
-                      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
-                        {link.icon}
-                      </a>
-                    </Button>
-                  ))}
-                  <Button asChild>
-                    <a href="tel:+40769833101">
-                      <Phone className="mr-2 h-4 w-4" />
-                      {translations.contact}
-                    </a>
-                  </Button>
-                </nav>
-
-                <div className="md:hidden flex items-center gap-2">
-                  <Button asChild size="icon">
-                      <a href="tel:+40769833101" aria-label="Call us">
-                        <Phone className="h-5 w-5" />
-                      </a>
-                    </Button>
-                  <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                    <SheetTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Menu className="h-6 w-6" />
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className="w-[280px] p-6 flex flex-col">
-                      <SheetHeader>
-                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-                      </SheetHeader>
-                      <Link href="/" className="flex items-center mb-8" onClick={() => setIsOpen(false)}>
-                        <Image src="/logo.svg" alt="Mitar Media Logo" width={32} height={32} className="h-8 w-8" />
-                      </Link>
-                      <nav className="flex flex-col gap-4">
-                        {socialLinks.map((link) => (
-                          <Button key={link.name} variant="ghost" className="justify-start text-lg [&_svg]:size-6" asChild>
-                            <a href={link.href} onClick={() => setIsOpen(false)} target="_blank" rel="noopener noreferrer">
-                              {link.icon}
-                              <span className="ml-4">{link.name}</span>
-                            </a>
-                          </Button>
-                        ))}
-                      </nav>
-                      <div className="mt-auto space-y-4">
-                        <LanguageToggle />
-                        <Button asChild className="w-full">
-                            <a href="tel:+40769833101">
-                            <Phone className="mr-2 h-4 w-4" />
-                            {translations.contactUs}
-                            </a>
-                        </Button>
-                      </div>
-                    </SheetContent>
-                  </Sheet>
-                </div>
-              </div>
-            </div> */}
-
             <GlassSurface
               width="100%"
               height="auto"
@@ -144,7 +72,7 @@ export function Header() {
                       </a>
                     </Button>
                   ))}
-                  <Button asChild>
+                  <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
                     <a href="tel:+40769833101">
                       <Phone className="mr-2 h-4 w-4" />
                       {translations.contact}
@@ -153,7 +81,7 @@ export function Header() {
                 </nav>
 
                 <div className="md:hidden flex items-center gap-2">
-                  <Button asChild size="icon">
+                  <Button asChild size="icon" className="bg-primary text-primary-foreground hover:bg-primary/90">
                       <a href="tel:+40769833101" aria-label="Call us">
                         <Phone className="h-5 w-5" />
                       </a>
@@ -183,7 +111,7 @@ export function Header() {
                       </nav>
                       <div className="mt-auto space-y-4">
                         <LanguageToggle />
-                        <Button asChild className="w-full">
+                        <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                             <a href="tel:+40769833101">
                             <Phone className="mr-2 h-4 w-4" />
                             {translations.contactUs}
