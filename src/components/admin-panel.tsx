@@ -28,14 +28,21 @@ export function AdminPanel() {
         loadContent();
     }, []);
 
-    const handleInputChange = (section: string, key: string, value: any) => {
-        setContent((prevContent: any) => ({
-            ...prevContent,
-            [section]: {
-                ...prevContent[section],
-                [key]: value
+    const handleInputChange = (section: string, key: string, value: any, index?: number) => {
+        setContent((prevContent: any) => {
+            const newSection = { ...prevContent[section] };
+            if (key === 'rotatingTexts' && index !== undefined) {
+                const newRotatingTexts = [...(newSection.rotatingTexts || [])];
+                newRotatingTexts[index] = value;
+                newSection.rotatingTexts = newRotatingTexts;
+            } else {
+                newSection[key] = value;
             }
-        }));
+            return {
+                ...prevContent,
+                [section]: newSection
+            };
+        });
     };
 
     const handleMetricChange = (index: number, value: string) => {
@@ -86,7 +93,7 @@ export function AdminPanel() {
                             <Input 
                                 id="rotating-text-1" 
                                 value={content.aiSection?.rotatingTexts?.[0] || ''}
-                                onChange={(e) => handleInputChange('aiSection', 'rotatingTexts', JSON.stringify([e.target.value, content.aiSection?.rotatingTexts?.[1] || '']))}
+                                onChange={(e) => handleInputChange('aiSection', 'rotatingTexts', e.target.value, 0)}
                             />
                         </div>
                         <div className="space-y-2">
@@ -94,7 +101,7 @@ export function AdminPanel() {
                             <Input 
                                 id="rotating-text-2" 
                                 value={content.aiSection?.rotatingTexts?.[1] || ''}
-                                 onChange={(e) => handleInputChange('aiSection', 'rotatingTexts', JSON.stringify([content.aiSection?.rotatingTexts?.[0] || '', e.target.value]))}
+                                 onChange={(e) => handleInputChange('aiSection', 'rotatingTexts', e.target.value, 1)}
 
                             />
                         </div>
@@ -177,10 +184,4 @@ export function AdminPanel() {
                         <CardTitle>Social Section</CardTitle>
                         <CardDescription>
                            This section is not yet editable.
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-            </TabsContent>
-        </Tabs>
-    );
-}
+                        </d
