@@ -11,24 +11,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getContent, saveContent } from '@/lib/content-store';
 import { translations } from '@/lib/translations';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Aperture, Briefcase, Cloud, Code, Database, Globe, GripVertical, Layers, LucideProps, Plus, Server, Trash2 } from 'lucide-react';
+import { GripVertical, Plus, Trash2 } from 'lucide-react';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableItem } from './sortable-item';
 import { AddClientDialog } from './add-client-dialog';
+import Image from 'next/image';
 
 const metricLabels = translations['ro'].metrics;
-
-export const iconComponents: { [key: string]: React.FC<LucideProps> } = {
-  Aperture,
-  Briefcase,
-  Cloud,
-  Code,
-  Database,
-  Globe,
-  Layers,
-  Server,
-};
 
 export function AdminPanel() {
     const [content, setContent] = useState<any>({});
@@ -95,7 +85,7 @@ export function AdminPanel() {
         }));
     };
     
-    const handleAddClient = (newClient: { name: string; icon: string; }) => {
+    const handleAddClient = (newClient: { name: string; logo: string; }) => {
         setContent((prevContent:any) => ({
             ...prevContent,
             clients: [
@@ -248,7 +238,6 @@ export function AdminPanel() {
                                 <SortableContext items={content.clients?.map((c: any) => c.id) || []} strategy={verticalListSortingStrategy}>
                                     <div className="space-y-2">
                                         {content.clients?.map((client: any) => {
-                                            const IconComponent = iconComponents[client.icon];
                                             return (
                                                 <SortableItem key={client.id} id={client.id}>
                                                     <div className="flex items-center space-x-2 p-2 border rounded-md bg-background hover:bg-accent/50">
@@ -258,8 +247,8 @@ export function AdminPanel() {
                                                             checked={client.enabled}
                                                             onCheckedChange={(checked) => handleClientEnabledChange(client.id, !!checked)}
                                                         />
-                                                        <Label htmlFor={`client-enabled-${client.id}`} className="flex-grow flex items-center gap-2 cursor-pointer">
-                                                            {IconComponent && <IconComponent className="h-5 w-5 text-foreground/80" />}
+                                                        <Label htmlFor={`client-enabled-${client.id}`} className="flex-grow flex items-center gap-4 cursor-pointer">
+                                                            <Image src={client.logo} alt={client.name} width={24} height={24} className="h-6 w-6 object-contain" />
                                                             <span>{client.name}</span>
                                                         </Label>
                                                         <Button variant="ghost" size="icon" onClick={() => handleRemoveClient(client.id)}>
@@ -300,10 +289,7 @@ export function AdminPanel() {
                 isOpen={isAddClientOpen}
                 onClose={() => setIsAddClientOpen(false)}
                 onAddClient={handleAddClient}
-                icons={iconComponents}
             />
         </>
     );
 }
-
-    

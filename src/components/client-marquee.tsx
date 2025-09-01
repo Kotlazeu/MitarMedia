@@ -1,23 +1,10 @@
 
 "use client";
 
-import { Aperture, Briefcase, Cloud, Code, Database, Globe, Layers, Server, LucideProps } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/language-context';
 import { getContent } from '@/lib/content-store';
-
-// Map icon names to actual components
-const iconComponents: { [key: string]: React.FC<LucideProps> } = {
-  Aperture,
-  Briefcase,
-  Cloud,
-  Code,
-  Database,
-  Globe,
-  Layers,
-  Server,
-};
-
+import Image from 'next/image';
 
 export function ClientMarquee() {
   const { translations } = useLanguage();
@@ -46,12 +33,13 @@ export function ClientMarquee() {
       >
         <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
           {duplicatedLogos.map((client, index) => {
-            const IconComponent = iconComponents[client.icon];
-            if (!IconComponent) return null;
+            if (!client.logo) return null;
 
             return (
                 <div key={index} className="flex items-center justify-center mx-8 w-40 text-foreground/60">
-                    <div className="w-12 h-12 mr-4"><IconComponent className="w-full h-full" /></div>
+                    <div className="relative w-12 h-12 mr-4">
+                        <Image src={client.logo} alt={`${client.name} logo`} fill style={{ objectFit: 'contain' }}/>
+                    </div>
                     <span className="text-2xl font-headline font-semibold">{client.name}</span>
                 </div>
             )

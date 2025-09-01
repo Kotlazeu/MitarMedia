@@ -14,38 +14,39 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { LucideProps } from 'lucide-react';
+import Image from 'next/image';
 
 interface AddClientDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddClient: (newClient: { name: string; icon: string }) => void;
-  icons: { [key: string]: React.FC<LucideProps> };
+  onAddClient: (newClient: { name: string; logo: string }) => void;
 }
 
-export function AddClientDialog({ isOpen, onClose, onAddClient, icons }: AddClientDialogProps) {
+export function AddClientDialog({ isOpen, onClose, onAddClient }: AddClientDialogProps) {
   const [name, setName] = useState('');
-  const [icon, setIcon] = useState('');
+  const [logo, setLogo] = useState<string | null>(null);
 
-  const handleSubmit = () => {
-    if (name && icon) {
-      onAddClient({ name, icon });
-      onClose();
-      setName('');
-      setIcon('');
-    } else {
-      alert('Please fill out all fields.');
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogo(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
-
-  const iconEntries = Object.entries(icons);
+  
+  const handleSubmit = () => {
+    if (name && logo) {
+      onAddClient({ name, logo });
+      onClose();
+      setName('');
+      setLogo(null);
+    } else {
+      alert('Please fill out all fields and upload a logo.');
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -69,25 +70,25 @@ export function AddClientDialog({ isOpen, onClose, onAddClient, icons }: AddClie
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="icon" className="text-right">
-              Icon
+            <Label htmlFor="logo" className="text-right">
+              Logo
             </Label>
-            <Select onValueChange={setIcon} value={icon}>
-                <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Select an icon" />
-                </SelectTrigger>
-                <SelectContent>
-                    {iconEntries.map(([iconName, IconComponent]) => (
-                        <SelectItem key={iconName} value={iconName}>
-                            <div className="flex items-center gap-2">
-                                <IconComponent className="h-5 w-5" />
-                                <span>{iconName}</span>
-                            </div>
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
+            <Input
+              id="logo"
+              type="file"
+              onChange={handleFileChange}
+              className="col-span-3"
+              accept="image/svg+xml, image/png, image/jpeg"
+            />
           </div>
+          {logo && (
+            <div className="grid grid-cols-4 items-center gap-4">
+                <div className="col-start-2 col-span-3">
+                    <p className="text-sm text-muted-foreground mb-2">Logo Preview:</p>
+                    <Image src={logo} alt="Logo preview" width={100} height={100} className="rounded-md border p-2" />
+                </div>
+            </div>
+          )}
         </div>
         <DialogFooter>
             <DialogClose asChild>
@@ -101,5 +102,3 @@ export function AddClientDialog({ isOpen, onClose, onAddClient, icons }: AddClie
     </Dialog>
   );
 }
-
-    
