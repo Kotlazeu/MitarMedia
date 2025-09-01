@@ -13,6 +13,7 @@ import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
 import RotatingText from './rotating-text';
 import BlurText from './blur-text';
+import { motion } from 'framer-motion';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -45,17 +46,15 @@ export function AiSection() {
                     />
                 ) : (
                   <>
-                    <div className="w-48 text-right">
-                        <RotatingText
-                        texts={['Be', 'We are']}
-                        staggerFrom={"first"}
-                        splitBy="characters"
-                        mainClassName="overflow-hidden inline-flex"
-                        splitLevelClassName="overflow-hidden"
-                        elementLevelClassName="inline-block"
-                        />
-                    </div>
-                    <span className="ml-4">Different</span>
+                    <RotatingText
+                      texts={['Be', 'We are']}
+                      staggerFrom={"first"}
+                      splitBy="characters"
+                      mainClassName="overflow-hidden inline-flex justify-end"
+                      splitLevelClassName="overflow-hidden"
+                      elementLevelClassName="inline-block"
+                    />
+                    <motion.span layout="position" className="ml-4">Different</motion.span>
                   </>
                 )}
               </div>
