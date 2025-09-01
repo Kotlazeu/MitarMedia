@@ -12,6 +12,7 @@ import React, { useState, useRef } from 'react';
 import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
 import RotatingText from './rotating-text';
+import BlurText from './blur-text';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -21,6 +22,12 @@ const GlassCard = ({ children, className, style }: { children: React.ReactNode, 
 
 export function AiSection() {
   const { translations } = useLanguage();
+  const [isBlurAnimationComplete, setIsBlurAnimationComplete] = useState(false);
+
+  const handleAnimationComplete = () => {
+    setIsBlurAnimationComplete(true);
+  };
+
   return (
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center container">
@@ -30,15 +37,25 @@ export function AiSection() {
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
               <div className="flex justify-center lg:justify-start items-center text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground">
-                <RotatingText
-                  texts={['Be', 'We are']}
-                  staggerFrom={"first"}
-                  splitBy="characters"
-                  mainClassName="overflow-hidden"
-                  splitLevelClassName="overflow-hidden"
-                  elementLevelClassName="inline-block"
-                />
-                <span className="ml-4">Different</span>
+                {!isBlurAnimationComplete ? (
+                   <BlurText
+                      text="Be Different"
+                      className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+                      onAnimationComplete={handleAnimationComplete}
+                    />
+                ) : (
+                  <>
+                    <RotatingText
+                      texts={['Be', 'We are']}
+                      staggerFrom={"first"}
+                      splitBy="characters"
+                      mainClassName="overflow-hidden"
+                      splitLevelClassName="overflow-hidden"
+                      elementLevelClassName="inline-block"
+                    />
+                    <span className="ml-4">Different</span>
+                  </>
+                )}
               </div>
                <MagnifyingGlass>
                 <FadeInWords 
