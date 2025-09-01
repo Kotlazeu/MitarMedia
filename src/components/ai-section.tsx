@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ArrowRight, Bot, BarChart2, Heart, Play, Volume2, Maximize, Film } from 'lucide-react';
@@ -10,7 +11,7 @@ import { FadeInWords } from './fade-in-words';
 import React, { useState, useRef } from 'react';
 import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
-import BlurText from './blur-text';
+import RotatingText from './rotating-text';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -28,14 +29,16 @@ export function AiSection() {
             <div className="flex flex-col gap-6 animate-idle-perspective">
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
-              <div className="flex justify-center lg:justify-start">
-                <BlurText
-                  text={translations.beDifferent}
-                  delay={150}
-                  animateBy="words"
-                  direction="top"
-                  className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+              <div className="flex justify-center lg:justify-start items-center text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground">
+                <RotatingText
+                  texts={['Be', 'We are']}
+                  staggerFrom={"first"}
+                  splitBy="characters"
+                  mainClassName="overflow-hidden"
+                  splitLevelClassName="overflow-hidden"
+                  elementLevelClassName="inline-block"
                 />
+                <span className="ml-4">Different</span>
               </div>
                <MagnifyingGlass>
                 <FadeInWords 
