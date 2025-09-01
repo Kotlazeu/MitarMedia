@@ -38,11 +38,6 @@ export function AiSection() {
   const handleAnimationComplete = () => {
     setIsBlurAnimationComplete(true);
   };
-
-  const longestText = useMemo(() => {
-    if (!content.rotatingTexts || content.rotatingTexts.length === 0) return '';
-    return content.rotatingTexts.reduce((a: string, b: string) => a.length > b.length ? a : b, '');
-  }, [content.rotatingTexts]);
   
   const fullInitialText = `${content.rotatingTexts?.[0] || ''} ${content.staticText || ''}`;
 
@@ -55,7 +50,7 @@ export function AiSection() {
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
               <div className={cn(
-                  "flex justify-center lg:justify-start items-baseline text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+                  "flex items-baseline text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
                 )}>
                 {!isBlurAnimationComplete ? (
                    <BlurText
@@ -65,22 +60,19 @@ export function AiSection() {
                     />
                 ) : (
                   <>
-                    <div className="relative">
-                       <span className="invisible whitespace-nowrap">{longestText}</span>
-                        <div className="absolute top-0 left-0 w-full h-full">
-                            <RotatingText
-                                texts={content.rotatingTexts}
-                                staggerFrom={"first"}
-                                splitBy="words"
-                                mainClassName="inline-flex whitespace-nowrap"
-                                splitLevelClassName=""
-                                elementLevelClassName="inline-block"
-                                initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-                                animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                                exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
-                                transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                            />
-                        </div>
+                    <div className="w-40 text-right">
+                      <RotatingText
+                          texts={content.rotatingTexts}
+                          staggerFrom={"first"}
+                          splitBy="words"
+                          mainClassName="inline-flex"
+                          splitLevelClassName=""
+                          elementLevelClassName="inline-block"
+                          initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
+                          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+                          exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+                          transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                      />
                     </div>
                     <span className="ml-4 whitespace-nowrap">
                       {content.staticText}

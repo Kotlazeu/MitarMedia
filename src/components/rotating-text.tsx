@@ -123,7 +123,7 @@ const RotatingText = forwardRef((props: any, ref) => {
       <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
         <motion.span
           key={currentTextIndex}
-          className={cn(splitBy === 'lines' ? 'flex flex-col w-full' : 'flex flex-wrap')}
+          className={cn(splitBy === 'lines' ? 'flex flex-col w-full' : 'flex')}
           layout
           aria-hidden="true"
         >
