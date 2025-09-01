@@ -17,6 +17,7 @@ import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-ki
 import { SortableItem } from './sortable-item';
 import { AddClientDialog } from './add-client-dialog';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 const metricLabels = translations['ro'].metrics;
 
@@ -24,6 +25,7 @@ export function AdminPanel() {
     const [content, setContent] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
     const [isAddClientOpen, setIsAddClientOpen] = useState(false);
+    const { toast } = useToast();
 
     const sensors = useSensors(
         useSensor(PointerSensor)
@@ -40,7 +42,7 @@ export function AdminPanel() {
 
     const handleInputChange = (section: string, key: string, value: any, index?: number) => {
         setContent((prevContent: any) => {
-            const newSectionData = { ...prevContent[section] };
+            const newSectionData = { ...(prevContent[section] || {}) };
             if (key === 'rotatingTexts' && typeof index === 'number') {
                 const newRotatingTexts = [...(newSectionData.rotatingTexts || [])];
                 newRotatingTexts[index] = value;
@@ -90,7 +92,7 @@ export function AdminPanel() {
             ...prevContent,
             clients: [
                 ...prevContent.clients,
-                { ...newClient, id: `client-${Date.now()}`, enabled: true }
+                { ...newClient, id: `client-${Math.random().toString(36).substr(2, 9)}`, enabled: true }
             ]
         }));
     };
@@ -112,10 +114,17 @@ export function AdminPanel() {
     const handleSave = async () => {
         try {
             await saveContent(content);
-            alert('Content saved successfully!');
+            toast({
+                title: "Success",
+                description: "Content saved successfully!",
+            });
         } catch (error) {
             console.error("Failed to save content", error);
-            alert('Failed to save content.');
+             toast({
+                title: "Error",
+                description: "Failed to save content.",
+                variant: "destructive",
+            });
         }
     };
 
@@ -293,3 +302,5 @@ export function AdminPanel() {
         </>
     );
 }
+
+    

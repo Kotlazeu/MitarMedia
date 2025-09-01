@@ -19,6 +19,17 @@ export function ClientMarquee() {
     loadClients();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const content = await getContent();
+      const enabledClients = content.clients?.filter((c: any) => c.enabled) || [];
+      setClients(enabledClients);
+    }, 5000); // Refresh every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   if (clients.length === 0) {
       return null;
   }
@@ -36,7 +47,7 @@ export function ClientMarquee() {
             if (!client.logo) return null;
 
             return (
-                <div key={index} className="flex items-center justify-center mx-8 w-40 text-foreground/60">
+                <div key={`${client.id}-${index}`} className="flex items-center justify-center mx-8 w-40 text-foreground/60">
                     <div className="relative w-12 h-12 mr-4">
                         <Image src={client.logo} alt={`${client.name} logo`} fill style={{ objectFit: 'contain' }}/>
                     </div>
@@ -49,3 +60,5 @@ export function ClientMarquee() {
     </section>
   );
 }
+
+    

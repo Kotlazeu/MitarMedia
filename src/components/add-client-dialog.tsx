@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 interface AddClientDialogProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ interface AddClientDialogProps {
 export function AddClientDialog({ isOpen, onClose, onAddClient }: AddClientDialogProps) {
   const [name, setName] = useState('');
   const [logo, setLogo] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -44,7 +46,11 @@ export function AddClientDialog({ isOpen, onClose, onAddClient }: AddClientDialo
       setName('');
       setLogo(null);
     } else {
-      alert('Please fill out all fields and upload a logo.');
+      toast({
+        title: "Missing Information",
+        description: "Please fill out all fields and upload a logo.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -102,3 +108,5 @@ export function AddClientDialog({ isOpen, onClose, onAddClient }: AddClientDialo
     </Dialog>
   );
 }
+
+    
