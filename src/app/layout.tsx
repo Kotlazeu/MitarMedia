@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   title: 'Mitar Media',
   description: 'Crafting Visions, Creating Worlds. A modern media production company.',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/logo.svg',
   }
 };
 
