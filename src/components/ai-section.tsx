@@ -81,8 +81,8 @@ export function AiSection() {
                       texts={['Be', 'We are']}
                       staggerFrom={"first"}
                       splitBy="characters"
-                      mainClassName="overflow-hidden inline-flex justify-end"
-                      splitLevelClassName="overflow-hidden"
+                      mainClassName="inline-flex justify-end"
+                      splitLevelClassName=""
                       elementLevelClassName="inline-block"
                       initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
                       animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
