@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Typewriter } from './typewriter';
+// import { Typewriter } from './typewriter';
+import { FadeInWords } from './fade-in-words';
 import React, { useState, useRef } from 'react';
 import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
@@ -27,12 +28,12 @@ export function AiSection() {
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
               <div className="text-4xl md:text-5xl font-custom font-bold leading-tight text-center lg:text-left">
-                <Typewriter text={translations.beDifferent} className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground" />
+                <FadeInWords text={translations.beDifferent} className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground" />
               </div>
                <MagnifyingGlass>
-                <Typewriter 
+                <FadeInWords 
                   text={translations.videoProductionSolutions}
-                  enableGlowOnFinish={true}
+                  glowOnHover={true}
                 />
               </MagnifyingGlass>
             </div>

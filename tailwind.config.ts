@@ -98,12 +98,23 @@ export default {
           '0%, 100%': { transform: 'rotateX(5deg) rotateY(-5deg)' },
           '50%': { transform: 'rotateX(-5deg) rotateY(5deg)' },
         },
+        'fade-in-up': {
+            '0%': {
+                opacity: '0',
+                transform: 'translateY(10px)'
+            },
+            '100%': {
+                opacity: '1',
+                transform: 'translateY(0)'
+            },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'marquee': 'marquee 40s linear infinite',
         'idle-perspective': 'idle-perspective 15s ease-in-out infinite',
+        'fade-in-up': 'fade-in-up 0.5s ease-out',
       },
     },
   },
