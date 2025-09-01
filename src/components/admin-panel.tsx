@@ -177,14 +177,6 @@ export function AdminPanel() {
                                     onChange={(e) => handleInputChange('aiSection', 'staticText', e.target.value)}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="description">Description</Label>
-                                <Textarea
-                                    id="description"
-                                    value={content.aiSection?.description || ''}
-                                    onChange={(e) => handleInputChange('aiSection', 'description', e.target.value)}
-                                />
-                            </div>
                             <Button onClick={handleSave}>Save AI Section</Button>
                         </CardContent>
                     </Card>

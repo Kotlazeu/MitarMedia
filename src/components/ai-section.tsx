@@ -24,13 +24,13 @@ const GlassCard = ({ children, className, style }: { children: React.ReactNode, 
 
 export function AiSection() {
   const { translations } = useLanguage();
-  const [content, setContent] = useState<any>({ rotatingTexts: [], staticText: '', description: '' });
+  const [content, setContent] = useState<any>({ rotatingTexts: [], staticText: '' });
   const [isBlurAnimationComplete, setIsBlurAnimationComplete] = useState(false);
 
   useEffect(() => {
     const loadContent = async () => {
         const data = await getContent();
-        setContent(data.aiSection || { rotatingTexts: [], staticText: '', description: '' });
+        setContent(data.aiSection || { rotatingTexts: [], staticText: '' });
     };
     loadContent();
   }, []);
@@ -82,7 +82,7 @@ export function AiSection() {
               </div>
                <MagnifyingGlass>
                 <FadeInWords 
-                  text={content.description || translations.videoProductionSolutions}
+                  text={translations.videoProductionSolutions}
                   glowOnHover={true}
                 />
               </MagnifyingGlass>

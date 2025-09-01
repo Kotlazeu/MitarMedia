@@ -10,8 +10,7 @@ const contentFilePath = path.join(process.cwd(), 'src/lib/content.json');
 const defaultContent = {
   "aiSection": {
     "rotatingTexts": ["Be", "We are"],
-    "staticText": "Different",
-    "description": "Complete video production solutions, from concept to final product. We create marketing videos, social media content, company presentations, and training materials, guaranteeing exceptional quality and results that exceed expectations."
+    "staticText": "Different"
   },
   "metrics": [
     { "value": 150, "unit": "M+", "labelKey": "views" },
