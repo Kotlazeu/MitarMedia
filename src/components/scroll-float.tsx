@@ -14,7 +14,7 @@ const ScrollFloat = ({
   textClassName = '',
   animationDuration = 1,
   ease = 'back.inOut(2)',
-  scrollStart = 'top bottom-=10%',
+  scrollStart = 'top bottom',
   scrollEnd = 'bottom bottom-=40%',
   stagger = 0.03
 } : {
