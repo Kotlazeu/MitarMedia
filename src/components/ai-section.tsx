@@ -88,18 +88,20 @@ export function AiSection() {
                     />
                 ) : (
                   <>
-                    <RotatingText
-                      texts={content.rotatingTexts}
-                      staggerFrom={"first"}
-                      splitBy="characters"
-                      mainClassName="inline-flex justify-end"
-                      splitLevelClassName=""
-                      elementLevelClassName="inline-block"
-                      initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-                      animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                      exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
-                      transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                    />
+                    <div className="w-28 flex justify-end items-center">
+                        <RotatingText
+                        texts={content.rotatingTexts}
+                        staggerFrom={"first"}
+                        splitBy="characters"
+                        mainClassName="inline-flex"
+                        splitLevelClassName=""
+                        elementLevelClassName="inline-block"
+                        initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
+                        animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+                        exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+                        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                        />
+                    </div>
                     <span
                       className="ml-4"
                     >
@@ -175,3 +177,5 @@ export function AiSection() {
     </section>
   );
 }
+
+    
