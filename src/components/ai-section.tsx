@@ -100,13 +100,11 @@ export function AiSection() {
                       exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
                       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                     />
-                    <motion.span
-                      layout="position"
+                    <span
                       className="ml-4"
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     >
                       {content.staticText}
-                    </motion.span>
+                    </span>
                   </>
                 )}
               </div>
