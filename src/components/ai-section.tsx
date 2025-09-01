@@ -76,7 +76,7 @@ export function AiSection() {
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
               <div ref={titleRef} className={cn(
-                  "flex justify-center lg:justify-start items-center text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground",
+                  "flex justify-center lg:justify-start items-baseline text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground",
                   "transition-all duration-150",
                   isAnimating ? "blur-sm" : "blur-none"
                 )}>
@@ -88,23 +88,19 @@ export function AiSection() {
                     />
                 ) : (
                   <>
-                    <div className="w-28 flex justify-end items-center">
-                        <RotatingText
-                        texts={content.rotatingTexts}
-                        staggerFrom={"first"}
-                        splitBy="characters"
-                        mainClassName="inline-flex"
-                        splitLevelClassName=""
-                        elementLevelClassName="inline-block"
-                        initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-                        animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                        exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
-                        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                        />
-                    </div>
-                    <span
-                      className="ml-4"
-                    >
+                    <RotatingText
+                      texts={content.rotatingTexts}
+                      staggerFrom={"first"}
+                      splitBy="characters"
+                      mainClassName="inline-flex whitespace-nowrap"
+                      splitLevelClassName=""
+                      elementLevelClassName="inline-block"
+                      initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
+                      animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+                      exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+                      transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                    />
+                    <span className="ml-4 whitespace-nowrap">
                       {content.staticText}
                     </span>
                   </>
@@ -177,5 +173,3 @@ export function AiSection() {
     </section>
   );
 }
-
-    
