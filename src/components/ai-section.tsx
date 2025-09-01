@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 // import { Typewriter } from './typewriter';
 import { FadeInWords } from './fade-in-words';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
 import RotatingText from './rotating-text';
@@ -24,10 +24,37 @@ const GlassCard = ({ children, className, style }: { children: React.ReactNode, 
 export function AiSection() {
   const { translations } = useLanguage();
   const [isBlurAnimationComplete, setIsBlurAnimationComplete] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleAnimationComplete = () => {
     setIsBlurAnimationComplete(true);
   };
+
+  useEffect(() => {
+    if (!titleRef.current) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      setIsAnimating(true);
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+      animationTimeoutRef.current = setTimeout(() => {
+        setIsAnimating(false);
+      }, 150); 
+    });
+
+    resizeObserver.observe(titleRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, [isBlurAnimationComplete]);
+
 
   return (
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
@@ -37,7 +64,11 @@ export function AiSection() {
             <div className="flex flex-col gap-6 animate-idle-perspective">
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
-              <div className="flex justify-center lg:justify-start items-center text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground">
+              <div ref={titleRef} className={cn(
+                  "flex justify-center lg:justify-start items-center text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground",
+                  "transition-all duration-150",
+                  isAnimating ? "blur-sm" : "blur-none"
+                )}>
                 {!isBlurAnimationComplete ? (
                    <BlurText
                       text="Be Different"
@@ -54,8 +85,8 @@ export function AiSection() {
                       splitLevelClassName="overflow-hidden"
                       elementLevelClassName="inline-block"
                     />
-                    <motion.span 
-                      layout="position" 
+                    <motion.span
+                      layout="position"
                       className="ml-4"
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     >
