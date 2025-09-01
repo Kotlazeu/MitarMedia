@@ -54,7 +54,13 @@ export function AiSection() {
                       splitLevelClassName="overflow-hidden"
                       elementLevelClassName="inline-block"
                     />
-                    <motion.span layout="position" className="ml-4">Different</motion.span>
+                    <motion.span 
+                      layout="position" 
+                      className="ml-4"
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      Different
+                    </motion.span>
                   </>
                 )}
               </div>
