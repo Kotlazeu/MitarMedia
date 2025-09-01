@@ -67,7 +67,7 @@ export function AiSection() {
                           splitBy="words"
                           mainClassName="inline-flex"
                           splitLevelClassName=""
-                          elementLevelClassName="inline-block"
+                          elementLevelClassName="inline-block text-primary"
                           initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
                           animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
                           exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
