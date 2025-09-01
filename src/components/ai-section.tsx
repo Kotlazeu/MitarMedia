@@ -10,6 +10,7 @@ import { FadeInWords } from './fade-in-words';
 import React, { useState, useRef } from 'react';
 import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
+import BlurText from './blur-text';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -27,9 +28,13 @@ export function AiSection() {
             <div className="flex flex-col gap-6 animate-idle-perspective">
               <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
               </div>
-              <div className="text-4xl md:text-5xl font-custom font-bold leading-tight text-center lg:text-left">
-                <FadeInWords text={translations.beDifferent} className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground" />
-              </div>
+              <BlurText
+                text={translations.beDifferent}
+                delay={150}
+                animateBy="words"
+                direction="top"
+                className="text-4xl md:text-5xl font-custom font-bold leading-tight text-center lg:text-left text-foreground"
+              />
                <MagnifyingGlass>
                 <FadeInWords 
                   text={translations.videoProductionSolutions}
