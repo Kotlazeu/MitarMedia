@@ -71,7 +71,7 @@ export function AiSection() {
                             <RotatingText
                                 texts={content.rotatingTexts}
                                 staggerFrom={"first"}
-                                splitBy="characters"
+                                splitBy="words"
                                 mainClassName="inline-flex whitespace-nowrap"
                                 splitLevelClassName=""
                                 elementLevelClassName="inline-block"
