@@ -32,44 +32,54 @@
   ],
   "clients": [
     {
+      "id": "client-1",
       "name": "Quantum",
       "icon": "Aperture",
       "enabled": true
     },
     {
+      "id": "client-2",
       "name": "Apex",
       "icon": "Briefcase",
       "enabled": true
     },
     {
+      "id": "client-3",
       "name": "Nebula",
       "icon": "Cloud",
       "enabled": true
     },
     {
+      "id": "client-4",
       "name": "Syntax",
       "icon": "Code",
       "enabled": true
     },
     {
+      "id": "client-5",
       "name": "Nexus",
       "icon": "Database",
       "enabled": true
     },
     {
+      "id": "client-6",
       "name": "Horizon",
       "icon": "Globe",
       "enabled": true
     },
     {
+      "id": "client-7",
       "name": "Strata",
       "icon": "Layers",
       "enabled": true
     },
     {
+      "id": "client-8",
       "name": "Vertex",
       "icon": "Server",
       "enabled": true
     }
   ]
 }
+
+    
