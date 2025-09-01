@@ -184,4 +184,10 @@ export function AdminPanel() {
                         <CardTitle>Social Section</CardTitle>
                         <CardDescription>
                            This section is not yet editable.
-                        </d
+                        </CardDescription>
+                    </CardHeader>
+                </Card>
+            </TabsContent>
+        </Tabs>
+    );
+}
