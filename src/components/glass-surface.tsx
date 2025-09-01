@@ -5,8 +5,10 @@ import { useEffect, useRef, useState, useId } from 'react';
 
 const useDarkMode = () => {
   const [isDark, setIsDark] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     if (typeof window === 'undefined') return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -17,7 +19,7 @@ const useDarkMode = () => {
     return () => mediaQuery.removeEventListener('change', handler);
   }, []);
 
-  return isDark;
+  return { isDark, isMounted };
 };
 
 const GlassSurface = ({
@@ -75,7 +77,7 @@ const GlassSurface = ({
   const blueChannelRef = useRef<SVGFEDisplacementMapElement>(null);
   const gaussianBlurRef = useRef<SVGFEGaussianBlurElement>(null);
 
-  const isDarkMode = useDarkMode();
+  const { isDark, isMounted } = useDarkMode();
 
   const generateDisplacementMap = () => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -196,6 +198,14 @@ const GlassSurface = ({
       '--glass-saturation': saturation
     } as React.CSSProperties;
 
+    if (!isMounted) {
+      return {
+          ...baseStyles,
+          background: 'rgba(0,0,0,0.1)', // Fallback while not mounted
+          backdropFilter: 'blur(10px)'
+      };
+    }
+
     const svgSupported = supportsSVGFilters();
     const backdropFilterSupported = supportsBackdropFilter();
 
@@ -272,7 +282,7 @@ const GlassSurface = ({
   const glassSurfaceClasses =
     'relative flex items-center justify-center overflow-hidden transition-opacity duration-[260ms] ease-out';
 
-  const focusVisibleClasses = isDarkMode
+  const focusVisibleClasses = isDark
     ? 'focus-visible:outline-2 focus-visible:outline-[#0A84FF] focus-visible:outline-offset-2'
     : 'focus-visible:outline-2 focus-visible:outline-[#007AFF] focus-visible:outline-offset-2';
 
@@ -344,3 +354,5 @@ const GlassSurface = ({
 };
 
 export default GlassSurface;
+
+    
