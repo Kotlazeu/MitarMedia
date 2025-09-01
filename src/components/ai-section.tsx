@@ -45,14 +45,16 @@ export function AiSection() {
                     />
                 ) : (
                   <>
-                    <RotatingText
-                      texts={['Be', 'We are']}
-                      staggerFrom={"first"}
-                      splitBy="characters"
-                      mainClassName="overflow-hidden"
-                      splitLevelClassName="overflow-hidden"
-                      elementLevelClassName="inline-block"
-                    />
+                    <div className="w-48 text-right">
+                        <RotatingText
+                        texts={['Be', 'We are']}
+                        staggerFrom={"first"}
+                        splitBy="characters"
+                        mainClassName="overflow-hidden inline-flex"
+                        splitLevelClassName="overflow-hidden"
+                        elementLevelClassName="inline-block"
+                        />
+                    </div>
                     <span className="ml-4">Different</span>
                   </>
                 )}

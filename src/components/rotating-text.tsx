@@ -140,7 +140,7 @@ const RotatingText = forwardRef((props: any, ref) => {
 
   return (
     <motion.span
-      className={cn('flex flex-wrap whitespace-pre-wrap relative', mainClassName)}
+      className={cn('flex flex-wrap whitespace-pre-wrap relative justify-end', mainClassName)}
       {...rest}
       layout
       transition={transition}
