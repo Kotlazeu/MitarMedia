@@ -28,7 +28,6 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <LanguageProvider>
-          <Header />
           {children}
           <Toaster />
         </LanguageProvider>
