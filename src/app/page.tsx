@@ -16,6 +16,11 @@ export default function Home() {
           <MetricsSection />
         </ScrollAnimationWrapper>
       </div>
+      <div id="work" className="w-full mb-24 sm:mb-32">
+        <ScrollAnimationWrapper>
+          <VideoCarousel />
+        </ScrollAnimationWrapper>
+      </div>
       <div className="container px-4 sm:px-6 lg:px-8 space-y-24 sm:space-y-32 md:space-y-40 mb-24 sm:mb-32">
         <ScrollAnimationWrapper>
           <div id="clients">
@@ -29,11 +34,6 @@ export default function Home() {
           </div>
         </ScrollAnimationWrapper>
         */}
-      </div>
-      <div id="work" className="w-full mb-24 sm:mb-32">
-        <ScrollAnimationWrapper>
-          <VideoCarousel />
-        </ScrollAnimationWrapper>
       </div>
       <BackToTopButton />
     </main>
