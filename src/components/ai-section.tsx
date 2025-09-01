@@ -40,10 +40,11 @@ export function AiSection() {
   };
 
   const longestText = useMemo(() => {
+    if (!content.rotatingTexts || content.rotatingTexts.length === 0) return '';
     return content.rotatingTexts.reduce((a: string, b: string) => a.length > b.length ? a : b, '');
   }, [content.rotatingTexts]);
   
-  const fullInitialText = `${content.rotatingTexts[0] || ''} ${content.staticText || ''}`;
+  const fullInitialText = `${content.rotatingTexts?.[0] || ''} ${content.staticText || ''}`;
 
   return (
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
@@ -66,7 +67,7 @@ export function AiSection() {
                   <>
                     <div className="relative">
                        <span className="invisible whitespace-nowrap">{longestText}</span>
-                        <div className="absolute top-0 left-0">
+                        <div className="absolute top-0 left-0 w-full h-full">
                             <RotatingText
                                 texts={content.rotatingTexts}
                                 staggerFrom={"first"}
