@@ -84,6 +84,10 @@ export function AiSection() {
                       mainClassName="overflow-hidden inline-flex justify-end"
                       splitLevelClassName="overflow-hidden"
                       elementLevelClassName="inline-block"
+                      initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
+                      animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+                      exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     />
                     <motion.span
                       layout="position"
