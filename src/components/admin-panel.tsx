@@ -10,9 +10,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getContent, saveContent } from '@/lib/content-store';
 import { translations } from '@/lib/translations';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Aperture, Briefcase, Cloud, Code, Database, Globe, Layers, LucideProps, Server } from 'lucide-react';
 
 // A simple map to get the translated label
 const metricLabels = translations['ro'].metrics;
+
+const iconComponents: { [key: string]: React.FC<LucideProps> } = {
+  Aperture,
+  Briefcase,
+  Cloud,
+  Code,
+  Database,
+  Globe,
+  Layers,
+  Server,
+};
 
 
 export function AdminPanel() {
@@ -53,6 +66,17 @@ export function AdminPanel() {
             ...prevContent,
             metrics: newMetrics,
         }));
+    };
+    
+    const handleClientEnabledChange = (index: number, enabled: boolean) => {
+        setContent((prevContent: any) => {
+            const newClients = [...prevContent.clients];
+            newClients[index] = { ...newClients[index], enabled };
+            return {
+                ...prevContent,
+                clients: newClients,
+            };
+        });
     };
     
     const handleSave = async () => {
@@ -168,13 +192,34 @@ export function AdminPanel() {
             </TabsContent>
 
             <TabsContent value="clients">
-                 <Card>
+                <Card>
                     <CardHeader>
                         <CardTitle>Clients Section</CardTitle>
                         <CardDescription>
-                           This section is not yet editable. Functionality to manage client logos is coming soon.
+                           Select which client logos to display on the homepage.
                         </CardDescription>
                     </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            {content.clients?.map((client: any, index: number) => {
+                                const IconComponent = iconComponents[client.icon];
+                                return (
+                                    <div key={index} className="flex items-center space-x-2 p-2 border rounded-md">
+                                        <Checkbox
+                                            id={`client-enabled-${index}`}
+                                            checked={client.enabled}
+                                            onCheckedChange={(checked) => handleClientEnabledChange(index, !!checked)}
+                                        />
+                                        <Label htmlFor={`client-enabled-${index}`} className="flex items-center gap-2 cursor-pointer">
+                                            {IconComponent && <IconComponent className="h-5 w-5 text-foreground/80" />}
+                                            <span>{client.name}</span>
+                                        </Label>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <Button onClick={handleSave}>Save Clients</Button>
+                    </CardContent>
                 </Card>
             </TabsContent>
             
