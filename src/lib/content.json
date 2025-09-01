@@ -1,3 +1,4 @@
+
 {
   "aiSection": {
     "rotatingTexts": [
@@ -9,22 +10,22 @@
   },
   "metrics": [
     {
-      "value": 150,
+      "value": 999,
       "unit": "M+",
       "labelKey": "views"
     },
     {
-      "value": 5,
+      "value": 9,
       "unit": "M+",
       "labelKey": "followers"
     },
     {
-      "value": 200,
+      "value": 999,
       "unit": "+",
       "labelKey": "clients"
     },
     {
-      "value": 25,
+      "value": 99,
       "unit": "M+",
       "labelKey": "revenue"
     }
@@ -33,54 +34,54 @@
     {
       "id": "client-1",
       "name": "Quantum",
-      "icon": "Aperture",
+      "logo": "",
       "enabled": true
     },
     {
       "id": "client-2",
       "name": "Apex",
-      "icon": "Briefcase",
+      "logo": "",
       "enabled": true
     },
     {
       "id": "client-3",
       "name": "Nebula",
-      "icon": "Cloud",
+      "logo": "",
       "enabled": true
     },
     {
       "id": "client-4",
       "name": "Syntax",
-      "icon": "Code",
+      "logo": "",
       "enabled": true
     },
     {
       "id": "client-5",
       "name": "Nexus",
-      "icon": "Database",
+      "logo": "",
       "enabled": true
     },
     {
       "id": "client-6",
       "name": "Horizon",
-      "icon": "Globe",
+      "logo": "",
       "enabled": true
     },
     {
       "id": "client-7",
       "name": "Strata",
-      "icon": "Layers",
+      "logo": "",
       "enabled": true
     },
     {
       "id": "client-8",
       "name": "Vertex",
-      "icon": "Server",
+      "logo": "",
       "enabled": true
     },
     {
       "name": "Mitar Media",
-      "logo": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NTMuMyA5MTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojZmFjMjEyO308L3N0eWxlPjwvZGVmcz48cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iMTI2LjgzIDY4MS40OCAwIDY4MS40OCAwIDc2LjQ0IDUyNC45OSA1MTIuMDMgNTI0Ljk5IDY4MS40OCAxMzMuMDcgMzU3LjY1IDEzMy4wNyA2ODEuNDggMTI2LjgzIDY4MS40OCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMSIgcG9pbnRzPSI5NTMuMyA2ODEuNDggOTUzLjMgNzYuNDQgNjMyLjA2IDMyMS43OCAzMTAuODMgODEuNjQgMzEwLjgzIDIzNC40NiA2MzIuMDYgNDc5LjMgODMwLjYyIDMzNS44MiA4MzAuNjIgNjgxLjQ4IDk1My4zIDY4MS40OCIvPjwvc3ZnPg==",
+      "logo": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NTMuMyA5MTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojZmFjMjEyO308L3N0eWxlPjwvZGVmcz48cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iMTI2LjgzIDY4MS40OCAwIDY4MS40OCAwIDc2LjQ0IDUyNC45OSA1MTIuMDMgNTI0Ljk5IDY4MS40OCAxMzMuMDcgMzU3LjY1IDEzMy4wNyA2ODEuNDggMTI2LjgzIDY4MS40OCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMSIgcG9pbnRzPSI5NTMuMyA2ODEuNDggOTUzLjMgNzYuNDQgNjMyLjA2IDMyMS43OCAzMTAuODMgODEuNjQgMzEwLjgzIDIzNC40NiA2MzIuMDYgNDc5LjMgODMwLjYyIDMzNS44MiA4MzAuNjIgNjgxLjQ4IDk1M0uMyA2ODEuNDgiLz48L3N2Zz4=",
       "id": "client-sm92pows7",
       "enabled": true
     }

@@ -14,6 +14,7 @@ import { useLanguage } from '@/context/language-context';
 import RotatingText from './rotating-text';
 import BlurText from './blur-text';
 import { motion } from 'framer-motion';
+import { getContent } from '@/lib/content-store';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -23,10 +24,19 @@ const GlassCard = ({ children, className, style }: { children: React.ReactNode, 
 
 export function AiSection() {
   const { translations } = useLanguage();
+  const [content, setContent] = useState<any>({ rotatingTexts: [], staticText: '', description: '' });
   const [isBlurAnimationComplete, setIsBlurAnimationComplete] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const titleRef = useRef<HTMLDivElement>(null);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const loadContent = async () => {
+        const data = await getContent();
+        setContent(data.aiSection || { rotatingTexts: [], staticText: '', description: '' });
+    };
+    loadContent();
+  }, []);
 
   const handleAnimationComplete = () => {
     setIsBlurAnimationComplete(true);
@@ -55,6 +65,7 @@ export function AiSection() {
     };
   }, [isBlurAnimationComplete]);
 
+  const fullInitialText = `${content.rotatingTexts[0] || ''} ${content.staticText || ''}`;
 
   return (
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
@@ -71,14 +82,14 @@ export function AiSection() {
                 )}>
                 {!isBlurAnimationComplete ? (
                    <BlurText
-                      text="Be Different"
+                      text={fullInitialText}
                       className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
                       onAnimationComplete={handleAnimationComplete}
                     />
                 ) : (
                   <>
                     <RotatingText
-                      texts={['Be', 'We are']}
+                      texts={content.rotatingTexts}
                       staggerFrom={"first"}
                       splitBy="characters"
                       mainClassName="inline-flex justify-end"
@@ -94,14 +105,14 @@ export function AiSection() {
                       className="ml-4"
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     >
-                      Different
+                      {content.staticText}
                     </motion.span>
                   </>
                 )}
               </div>
                <MagnifyingGlass>
                 <FadeInWords 
-                  text={translations.videoProductionSolutions}
+                  text={content.description || translations.videoProductionSolutions}
                   glowOnHover={true}
                 />
               </MagnifyingGlass>
