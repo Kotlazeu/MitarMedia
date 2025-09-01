@@ -87,7 +87,7 @@ export function AiSection() {
                       initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
                       animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
                       exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                     />
                     <motion.span
                       layout="position"
