@@ -257,7 +257,7 @@ export function AdminPanel() {
                                                             onCheckedChange={(checked) => handleClientEnabledChange(client.id, !!checked)}
                                                         />
                                                         <Label htmlFor={`client-enabled-${client.id}`} className="flex-grow flex items-center gap-4 cursor-pointer">
-                                                            <Image src={client.logo} alt={client.name} width={24} height={24} className="h-6 w-6 object-contain" />
+                                                            {client.logo && <Image src={client.logo} alt={client.name} width={24} height={24} className="h-6 w-6 object-contain" />}
                                                             <span>{client.name}</span>
                                                         </Label>
                                                         <Button variant="ghost" size="icon" onClick={() => handleRemoveClient(client.id)}>
