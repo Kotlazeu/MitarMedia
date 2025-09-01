@@ -1,8 +1,10 @@
+
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/context/language-context';
+import { getContent } from '@/lib/content-store';
 
 const AnimatedCounter = ({
   end,
@@ -68,16 +70,25 @@ export function MetricsSection() {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const { translations } = useLanguage();
 
-  const metrics = [
-    { value: 150, unit: 'M+', label: translations.metrics.views },
-    { value: 5, unit: 'M+', label: translations.metrics.followers },
-    { value: 200, unit: '+', label: translations.metrics.clients },
-    { value: 25, unit: 'M+', label: translations.metrics.revenue },
-  ];
+  const [metrics, setMetrics] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loadMetrics = async () => {
+        const content = await getContent();
+        setMetrics(content.metrics || []);
+    };
+    loadMetrics();
+  }, []);
 
   const [activeCounters, setActiveCounters] = useState<boolean[]>(new Array(metrics.length).fill(false));
 
   useEffect(() => {
+    setActiveCounters(new Array(metrics.length).fill(false));
+  }, [metrics]);
+
+
+  useEffect(() => {
+    if (metrics.length === 0) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -101,19 +112,16 @@ export function MetricsSection() {
         observer.unobserve(currentRef);
       }
     };
-  }, []);
+  }, [metrics.length]);
   
-  // Effect to update metrics when language changes
   useEffect(() => {
-    // This effect doesn't need to do anything with activeCounters,
-    // but it ensures the component re-renders with new labels from `translations`.
   }, [translations]);
 
 
   const handleProgress = useCallback((index: number) => (progress: number) => {
     if (progress >= 0.8 && index < metrics.length - 1) {
       setActiveCounters(prev => {
-        if (prev[index + 1]) return prev; // Do nothing if already active
+        if (prev[index + 1]) return prev; 
         const newActive = [...prev];
         newActive[index + 1] = true;
         return newActive;
@@ -144,6 +152,10 @@ export function MetricsSection() {
     setRotate({ x: 0, y: 0 });
   };
   
+  if (metrics.length === 0) {
+      return null; // or a loading skeleton
+  }
+
   return (
     <section 
       ref={sectionRef} 
@@ -175,7 +187,9 @@ export function MetricsSection() {
               />
               {metric.unit}
             </h3>
-            <p className="text-sm md:text-base text-foreground/70 mt-2 font-body">{metric.label}</p>
+            <p className="text-sm md:text-base text-foreground/70 mt-2 font-body">
+                {translations.metrics[metric.labelKey as keyof typeof translations.metrics]}
+            </p>
           </div>
         ))}
       </div>

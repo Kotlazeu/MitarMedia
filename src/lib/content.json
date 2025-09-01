@@ -1,0 +1,75 @@
+
+{
+  "aiSection": {
+    "rotatingTexts": [
+      "Be",
+      "We are"
+    ],
+    "staticText": "Different",
+    "description": "Complete video production solutions, from concept to final product. We create marketing videos, social media content, company presentations, and training materials, guaranteeing exceptional quality and results that exceed expectations."
+  },
+  "metrics": [
+    {
+      "value": 150,
+      "unit": "M+",
+      "labelKey": "views"
+    },
+    {
+      "value": 5,
+      "unit": "M+",
+      "labelKey": "followers"
+    },
+    {
+      "value": 200,
+      "unit": "+",
+      "labelKey": "clients"
+    },
+    {
+      "value": 25,
+      "unit": "M+",
+      "labelKey": "revenue"
+    }
+  ],
+  "clients": [
+    {
+      "name": "Quantum",
+      "icon": "Aperture",
+      "enabled": true
+    },
+    {
+      "name": "Apex",
+      "icon": "Briefcase",
+      "enabled": true
+    },
+    {
+      "name": "Nebula",
+      "icon": "Cloud",
+      "enabled": true
+    },
+    {
+      "name": "Syntax",
+      "icon": "Code",
+      "enabled": true
+    },
+    {
+      "name": "Nexus",
+      "icon": "Database",
+      "enabled": true
+    },
+    {
+      "name": "Horizon",
+      "icon": "Globe",
+      "enabled": true
+    },
+    {
+      "name": "Strata",
+      "icon": "Layers",
+      "enabled": true
+    },
+    {
+      "name": "Vertex",
+      "icon": "Server",
+      "enabled": true
+    }
+  ]
+}

@@ -9,6 +9,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getContent, saveContent } from '@/lib/content-store';
+import { translations } from '@/lib/translations';
+
+// A simple map to get the translated label
+const metricLabels = translations['ro'].metrics;
+
 
 export function AdminPanel() {
     const [content, setContent] = useState<any>({});
@@ -23,13 +28,23 @@ export function AdminPanel() {
         loadContent();
     }, []);
 
-    const handleInputChange = (section: string, key: string, value: string) => {
+    const handleInputChange = (section: string, key: string, value: any) => {
         setContent((prevContent: any) => ({
             ...prevContent,
             [section]: {
                 ...prevContent[section],
                 [key]: value
             }
+        }));
+    };
+
+    const handleMetricChange = (index: number, value: string) => {
+        const newMetrics = [...content.metrics];
+        // Ensure we're updating the value as a number
+        newMetrics[index] = { ...newMetrics[index], value: parseInt(value, 10) || 0 };
+        setContent((prevContent: any) => ({
+            ...prevContent,
+            metrics: newMetrics,
         }));
     };
     
@@ -99,7 +114,7 @@ export function AdminPanel() {
                                 onChange={(e) => handleInputChange('aiSection', 'description', e.target.value)}
                             />
                         </div>
-                        <Button onClick={handleSave}>Save Changes</Button>
+                        <Button onClick={handleSave}>Save AI Section</Button>
                     </CardContent>
                 </Card>
             </TabsContent>
@@ -109,13 +124,63 @@ export function AdminPanel() {
                     <CardHeader>
                         <CardTitle>Metrics Section</CardTitle>
                         <CardDescription>
-                            This section is not yet editable.
+                           Edit the numerical values for the metrics displayed on the homepage.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {content.metrics?.map((metric: any, index: number) => (
+                                <div key={index} className="space-y-2">
+                                    <Label htmlFor={`metric-value-${index}`}>
+                                        {metricLabels[metric.labelKey as keyof typeof metricLabels]} ({metric.unit})
+                                    </Label>
+                                    <Input
+                                        id={`metric-value-${index}`}
+                                        type="number"
+                                        value={metric.value || ''}
+                                        onChange={(e) => handleMetricChange(index, e.target.value)}
+                                        placeholder="Enter value"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <Button onClick={handleSave}>Save Metrics</Button>
+                    </CardContent>
+                </Card>
+            </TabsContent>
+            
+            <TabsContent value="work">
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Work Section</CardTitle>
+                        <CardDescription>
+                            This section is not yet editable. Functionality to manage videos is coming soon.
+                        </CardDescription>
+                    </CardHeader>
+                </Card>
+            </TabsContent>
+
+            <TabsContent value="clients">
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Clients Section</CardTitle>
+                        <CardDescription>
+                           This section is not yet editable. Functionality to manage client logos is coming soon.
                         </CardDescription>
                     </CardHeader>
                 </Card>
             </TabsContent>
             
-            {/* Add other TabsContent sections here */}
+            <TabsContent value="social">
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Social Section</CardTitle>
+                        <CardDescription>
+                           This section is not yet editable.
+                        </CardDescription>
+                    </CardHeader>
+                </Card>
+            </TabsContent>
         </Tabs>
     );
 }
