@@ -1,3 +1,4 @@
+
 # Ghid Complet: Publicarea Aplicației Next.js pe un VPS cu Ubuntu
 
 Acest ghid vă va purta prin toți pașii necesari pentru a publica (a face "deploy") aplicația dumneavoastră Next.js pe un server privat virtual (VPS) care rulează Ubuntu. Vom folosi Nginx ca reverse proxy și PM2 pentru a menține aplicația activă.
@@ -129,9 +130,9 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
 
 2.  **Faceți PM2 accesibil global (Pas Important!):** Rulați această comandă pentru a crea un link simbolic, astfel încât sistemul să găsească `pm2` indiferent de calea `nvm`.
     ```bash
-    sudo ln -s "$(which pm2)" /usr/local/bin/pm2
+    sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/pm2" /usr/local/bin/pm2
     ```
-    *Notă de depanare: Dacă întâmpinați eroarea `pm2: command not found`, acest pas o va rezolva. Se întâmplă deoarece, deși `pm2` este instalat, directorul său nu este în `PATH`-ul sistemului.*
+    *Notă de depanare: Dacă întâmpinați eroarea `pm2: command not found` sau `ln: failed to create symbolic link`, această comandă ar trebui să o rezolve. Ea construiește calea absolută către executabilul `pm2` și o leagă de un director standard din `PATH`-ul sistemului.*
 
 3.  **Porniți aplicația folosind PM2:** Vom porni aplicația Next.js, care rulează implicit pe portul 3000. Folosim o sintaxă explicită pentru a ne asigura că PM2 execută corect scriptul.
     ```bash
