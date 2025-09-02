@@ -69,15 +69,28 @@ Aplicația Next.js rulează pe Node.js. Vom folosi `nvm` (Node Version Manager) 
 
 ### **Pasul 3: Transferul Fișierelor Proiectului pe VPS**
 
-1.  **Pe calculatorul LOCAL**, navigați în directorul proiectului.
+Această secțiune este necesară doar pentru prima instalare. Pentru actualizări, vom folosi `git`.
 
-2.  **Transferați fișierele pe server:** Vom folosi `rsync` pentru un transfer eficient. Asigurați-vă că excludeți `node_modules` și `.next`.
-
+1.  **Configurați Git pe server (dacă nu ați făcut-o deja):**
     ```bash
-    # Înlocuiți 'cale/catre/proiect' și 'numele-proiectului'
-    rsync -av --exclude 'node_modules' --exclude '.next' cale/catre/proiect/numele-proiectului/ utilizator@adresa_ip_vps:~/
+    # Instalați git
+    sudo apt install git -y
+    
+    # Configurați-vă numele și email-ul
+    git config --global user.name "Numele Tau"
+    git config --global user.email "email@tau.com"
     ```
-    Această comandă copiază directorul proiectului în directorul "home" (`~/`) de pe VPS.
+
+2.  **Clonați proiectul de pe GitHub:**
+    Înlocuiți `URL_PROIECT_GITHUB` cu URL-ul real al repository-ului dumneavoastră.
+    ```bash
+    # Navigați în directorul 'home'
+    cd ~
+    
+    # Clonați proiectul
+    git clone URL_PROIECT_GITHUB numele-proiectului
+    ```
+    Exemplu: `git clone https://github.com/nume-utilizator/proiectul-meu.git numele-proiectului`
 
 ---
 
@@ -234,6 +247,28 @@ Eroarea 502 înseamnă că Nginx nu poate comunica cu aplicația Next.js.
     pm2 logs numele-proiectului
     ```
     Această comandă vă va arăta în timp real orice eroare pe care o generează aplicația Next.js. Erorile comune includ variabile de mediu lipsă, probleme în cod sau erori de build. Dacă vedeți o eroare aici, ea vă va oferi indiciul necesar pentru a rezolva problema.
+
+---
+
+### **Pasul 9: Automatizarea Actualizărilor cu un Script de Deploy**
+
+Pentru a simplifica procesul de actualizare a site-ului după ce faceți modificări și le încărcați pe GitHub, puteți folosi scriptul `deploy.sh` inclus în proiect.
+
+1.  **Faceți scriptul executabil (doar o singură dată):**
+    Navigați în directorul proiectului și rulați comanda:
+    ```bash
+    chmod +x deploy.sh
+    ```
+
+2.  **Editați scriptul (dacă este necesar):**
+    Scriptul este pre-configurat pentru o structură standard. Deschideți-l cu `nano deploy.sh` dacă numele proiectului sau numele procesului PM2 este diferit.
+
+3.  **Rulați scriptul de deploy:**
+    De fiecare dată când doriți să actualizați site-ul cu cele mai recente modificări de pe GitHub, navigați în directorul proiectului și rulați o singură comandă:
+    ```bash
+    ./deploy.sh
+    ```
+    Scriptul se va ocupa de tot: va crea un backup, va descărca modificările, va instala pachetele necesare, va construi proiectul și va reîncărca aplicația în PM2 fără downtime.
 
 ---
 
