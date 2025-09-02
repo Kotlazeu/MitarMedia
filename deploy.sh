@@ -24,10 +24,12 @@ eval mkdir -p $BACKUP_DIR
 # Creare backup
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 BACKUP_FILENAME="backup-$TIMESTAMP.tar.gz"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILENAME"
 echo "-> Creare backup: $BACKUP_FILENAME..."
 # Arhivăm tot, cu excepția `node_modules`
-tar --exclude='node_modules' -czf "$BACKUP_DIR/$BACKUP_FILENAME" .
-echo "-> Backup creat cu succes în $BACKUP_DIR/$BACKUP_FILENAME"
+# Folosim eval pentru a expanda calea de backup
+eval tar --exclude='node_modules' -czf "$BACKUP_PATH" .
+echo "-> Backup creat cu succes în $BACKUP_PATH"
 
 # Descărcare ultimele modificări din branch-ul principal (main)
 echo "-> Descărcare modificări de pe GitHub (git pull)..."
