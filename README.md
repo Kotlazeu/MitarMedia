@@ -127,7 +127,13 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
     npm install pm2 -g
     ```
 
-2.  **Porniți aplicația folosind PM2:** Vom porni aplicația Next.js, care rulează implicit pe portul 3000. Folosim o sintaxă explicită pentru a ne asigura că PM2 execută corect scriptul.
+2.  **Faceți PM2 accesibil global (Pas Important!):** Rulați această comandă pentru a crea un link simbolic, astfel încât sistemul să găsească `pm2` indiferent de calea `nvm`.
+    ```bash
+    sudo ln -s "$(which pm2)" /usr/local/bin/pm2
+    ```
+    *Notă de depanare: Dacă întâmpinați eroarea `pm2: command not found`, acest pas o va rezolva. Se întâmplă deoarece, deși `pm2` este instalat, directorul său nu este în `PATH`-ul sistemului.*
+
+3.  **Porniți aplicația folosind PM2:** Vom porni aplicația Next.js, care rulează implicit pe portul 3000. Folosim o sintaxă explicită pentru a ne asigura că PM2 execută corect scriptul.
     ```bash
     # Înlocuiți "numele-proiectului" cu un nume ușor de recunoscut
     pm2 start "npm run start" --name "numele-proiectului"
@@ -135,13 +141,13 @@ PM2 este un manager de procese care va menține aplicația rulând 24/7.
     *   `--name`: Dă un nume procesului în PM2.
     *   `"npm run start"`: Îi spune lui PM2 să ruleze exact comanda `npm run start` (definită în `package.json`).
 
-3.  **Verificați starea aplicației (Opțional, dar recomandat):**
+4.  **Verificați starea aplicației (Opțional, dar recomandat):**
     ```bash
     pm2 list
     ```
     Ar trebui să vedeți procesul cu statusul `online`.
 
-4.  **Configurați PM2 să pornească automat la reboot:**
+5.  **Configurați PM2 să pornească automat la reboot:**
     ```bash
     pm2 startup
     ```
