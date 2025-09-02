@@ -68,9 +68,9 @@ Aplicația Next.js rulează pe Node.js. Vom folosi `nvm` (Node Version Manager) 
 
 ---
 
-### **Pasul 3: Transferul Fișierelor Proiectului pe VPS**
+### **Pasul 3: Transferul Fișierelor Proiectului pe VPS (Doar la Prima Configurare)**
 
-Această secțiune este necesară doar pentru prima instalare. Pentru actualizări, vom folosi `git`.
+Această secțiune este necesară doar pentru prima instalare. Pentru actualizări viitoare, vom folosi scriptul de deploy.
 
 1.  **Configurați Git pe server (dacă nu ați făcut-o deja):**
     ```bash
@@ -84,6 +84,9 @@ Această secțiune este necesară doar pentru prima instalare. Pentru actualiză
 
 2.  **Clonați proiectul de pe GitHub:**
     Înlocuiți `URL_PROIECT_GITHUB` cu URL-ul real al repository-ului dumneavoastră.
+    
+    **(Atenție: Această comandă `git clone` se rulează o singură dată! Dacă directorul există deja, săriți peste acest pas și navigați direct în el cu `cd numele-proiectului`.)**
+
     ```bash
     # Navigați în directorul 'home'
     cd ~
@@ -259,7 +262,7 @@ Eroarea 502 înseamnă că Nginx nu poate comunica cu aplicația Next.js.
 
 ### **Pasul 9: Automatizarea Actualizărilor cu un Script de Deploy**
 
-Pentru a simplifica procesul de actualizare a site-ului după ce faceți modificări și le încărcați pe GitHub, puteți folosi scriptul `deploy.sh` inclus în proiect.
+Pentru a simplifica procesul de actualizare a site-ului după ce faceți modificări și le încărcați pe GitHub, puteți folosi scriptul `deploy.sh`. Aceasta este metoda recomandată pentru **toate actualizările viitoare**.
 
 1.  **Faceți scriptul executabil (doar o singură dată):**
     Navigați în directorul proiectului și rulați comanda:
