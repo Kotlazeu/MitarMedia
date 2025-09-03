@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import QRCodeStyling, { type Options as QRCodeStylingOptions, type FileExtension } from 'qr-code-styling';
+import type { Options as QRCodeStylingOptions, FileExtension, QRCodeStyling } from 'qr-code-styling';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,86 +10,71 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Download } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from './ui/checkbox';
-
-const qrOptions: QRCodeStylingOptions = {
-    width: 300,
-    height: 300,
-    type: 'svg',
-    image: '/logo.svg',
-    dotsOptions: {
-        color: '#000000',
-        type: 'square'
-    },
-    backgroundOptions: {
-        color: '#ffffff',
-    },
-    imageOptions: {
-        crossOrigin: 'anonymous',
-        margin: 5,
-        imageSize: 0.3
-    },
-    cornersSquareOptions: {
-        type: 'square'
-    },
-    cornersDotOptions: {
-        type: 'square'
-    }
-};
 
 export function QrGeneratorPanel() {
     const [url, setUrl] = useState('https://mitarmedia.ro');
-    const [options, setOptions] = useState<QRCodeStylingOptions>(qrOptions);
-    const [fileExt, setFileExt] = useState<FileExtension>('png');
-
-    const [gradientType, setGradientType] = useState('linear');
+    const [size, setSize] = useState(300);
+    const [bgColor, setBgColor] = useState('#ffffff');
+    const [dotsType, setDotsType] = useState<'square' | 'dots' | 'rounded' | 'extra-rounded' | 'classy' | 'classy-rounded'>('square');
+    const [cornerDotType, setCornerDotType] = useState<'square' | 'dot'>('square');
+    const [cornerSquareType, setCornerSquareType] = useState<'square' | 'dot' | 'extra-rounded'>('square');
+    const [gradientType, setGradientType] = useState<'linear' | 'radial'>('linear');
     const [gradientColor1, setGradientColor1] = useState('#000000');
     const [gradientColor2, setGradientColor2] = useState('#000000');
-    const [gradientRotation, setGradientRotation] = useState('0');
+    const [fileExt, setFileExt] = useState<FileExtension>('png');
 
     const ref = useRef<HTMLDivElement>(null);
-    const qrCode = useRef<QRCodeStyling>();
+    const qrCodeInstance = useRef<QRCodeStyling>();
 
     useEffect(() => {
-        if (!qrCode.current) {
-            qrCode.current = new QRCodeStyling(options);
+        const createOrUpdateQRCode = async () => {
             if (ref.current) {
-                qrCode.current.append(ref.current);
-            }
-        } else {
-            qrCode.current.update(options);
-        }
-    }, [options]);
+                const QRCodeStyling = (await import('qr-code-styling')).default;
 
-    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value);
-    const handleSizeChange = (value: number[]) => setOptions(prev => ({ ...prev, width: value[0], height: value[0] }));
+                const options: QRCodeStylingOptions = {
+                    width: size,
+                    height: size,
+                    type: 'svg',
+                    data: url,
+                    image: '/logo.svg',
+                    dotsOptions: {
+                        type: dotsType,
+                        gradient: {
+                            type: gradientType,
+                            colorStops: [{ offset: 0, color: gradientColor1 }, { offset: 1, color: gradientColor2 }]
+                        }
+                    },
+                    backgroundOptions: {
+                        color: bgColor,
+                    },
+                    imageOptions: {
+                        crossOrigin: 'anonymous',
+                        margin: 5,
+                        imageSize: 0.3
+                    },
+                    cornersSquareOptions: {
+                        type: cornerSquareType,
+                    },
+                    cornersDotOptions: {
+                        type: cornerDotType,
+                    }
+                };
 
-    const handleOptionChange = (key: keyof QRCodeStylingOptions, value: any) => {
-        setOptions(prev => ({ ...prev, [key]: { ...prev[key as keyof typeof prev], ...value } }));
-    };
-
-    const handleGradientChange = () => {
-        const gradientOptions = {
-            dotsOptions: {
-                ...options.dotsOptions,
-                gradient: {
-                    type: gradientType as 'linear' | 'radial',
-                    rotation: parseFloat(gradientRotation),
-                    colorStops: [{ offset: 0, color: gradientColor1 }, { offset: 1, color: gradientColor2 }]
+                if (!qrCodeInstance.current) {
+                    qrCodeInstance.current = new QRCodeStyling(options);
+                    ref.current.innerHTML = ''; // Clear previous before appending
+                    qrCodeInstance.current.append(ref.current);
+                } else {
+                    qrCodeInstance.current.update(options);
                 }
             }
         };
-        setOptions(prev => ({ ...prev, ...gradientOptions }));
-    };
-    
-    useEffect(() => {
-        handleGradientChange();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gradientType, gradientColor1, gradientColor2, gradientRotation]);
+        createOrUpdateQRCode();
+    }, [url, size, bgColor, dotsType, cornerDotType, cornerSquareType, gradientType, gradientColor1, gradientColor2]);
 
     const handleDownload = () => {
-        if (qrCode.current) {
-            qrCode.current.download({ name: 'mitarmedia-qr-code', extension: fileExt });
+        if (qrCodeInstance.current) {
+            qrCodeInstance.current.download({ name: 'mitarmedia-qr-code', extension: fileExt });
         }
     };
 
@@ -107,7 +92,7 @@ export function QrGeneratorPanel() {
                     <div className="md:col-span-1 space-y-6">
                         <div className="space-y-2">
                             <Label htmlFor="qr-url">URL</Label>
-                            <Input id="qr-url" value={url} onChange={handleUrlChange} placeholder="https://example.com" />
+                            <Input id="qr-url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://example.com" />
                         </div>
 
                         {/* Colors */}
@@ -115,7 +100,7 @@ export function QrGeneratorPanel() {
                             <Label className="text-base font-semibold">Culori</Label>
                              <div className="space-y-2">
                                 <Label htmlFor="qr-bg-color">Fundal</Label>
-                                <Input id="qr-bg-color" type="color" value={options.backgroundOptions?.color} onChange={(e) => handleOptionChange('backgroundOptions', { color: e.target.value })} className="p-1 h-10"/>
+                                <Input id="qr-bg-color" type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="p-1 h-10"/>
                             </div>
                             <div className="space-y-2">
                                 <Label>Gradient Cod</Label>
@@ -131,7 +116,7 @@ export function QrGeneratorPanel() {
                              <Label className="text-base font-semibold">Forme</Label>
                              <div className="space-y-2">
                                 <Label>Stil Puncte</Label>
-                                <Select onValueChange={(val) => handleOptionChange('dotsOptions', { type: val })} defaultValue={options.dotsOptions?.type}>
+                                <Select onValueChange={(val) => setDotsType(val as any)} defaultValue={dotsType}>
                                     <SelectTrigger><SelectValue/></SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="square">Pătrat</SelectItem>
@@ -145,7 +130,7 @@ export function QrGeneratorPanel() {
                             </div>
                             <div className="space-y-2">
                                 <Label>Stil Colț Interior</Label>
-                                <Select onValueChange={(val) => handleOptionChange('cornersDotOptions', { type: val })} defaultValue={options.cornersDotOptions?.type}>
+                                <Select onValueChange={(val) => setCornerDotType(val as any)} defaultValue={cornerDotType}>
                                      <SelectTrigger><SelectValue/></SelectTrigger>
                                      <SelectContent>
                                         <SelectItem value="square">Pătrat</SelectItem>
@@ -155,7 +140,7 @@ export function QrGeneratorPanel() {
                             </div>
                              <div className="space-y-2">
                                 <Label>Stil Colț Exterior</Label>
-                                <Select onValueChange={(val) => handleOptionChange('cornersSquareOptions', { type: val })} defaultValue={options.cornersSquareOptions?.type}>
+                                <Select onValueChange={(val) => setCornerSquareType(val as any)} defaultValue={cornerSquareType}>
                                     <SelectTrigger><SelectValue/></SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="square">Pătrat</SelectItem>
@@ -167,8 +152,8 @@ export function QrGeneratorPanel() {
                         </div>
 
                         <div className="space-y-3">
-                            <Label htmlFor="qr-size">Dimensiune: {options.width}px</Label>
-                            <Slider id="qr-size" min={100} max={1000} step={10} value={[options.width || 300]} onValueChange={handleSizeChange} />
+                            <Label htmlFor="qr-size">Dimensiune: {size}px</Label>
+                            <Slider id="qr-size" min={100} max={1000} step={10} value={[size]} onValueChange={(v) => setSize(v[0])} />
                         </div>
                         
                         <div className="space-y-2">
@@ -194,8 +179,8 @@ export function QrGeneratorPanel() {
 
                     {/* Preview Column */}
                     <div className="md:col-span-2 flex items-center justify-center bg-muted/30 rounded-lg p-8">
-                        <div ref={ref} className="p-4 bg-white rounded-md shadow-md transition-all" style={{ background: options.backgroundOptions?.color }}>
-                            
+                        <div ref={ref} className="p-4 bg-white rounded-md shadow-md transition-all" style={{ background: bgColor }}>
+                            {/* QR Code will be appended here by the useEffect hook */}
                         </div>
                     </div>
                 </div>
@@ -203,3 +188,5 @@ export function QrGeneratorPanel() {
         </Card>
     );
 }
+
+    
