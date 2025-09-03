@@ -10,9 +10,7 @@ type SocialLinkData = {
 
 export const socialLinksData: SocialLinkData[] = [
   { name: 'Instagram', iconName: 'Instagram', href: 'https://www.instagram.com/georgemitarfilms/' },
-  { name: 'TikTok', iconName: 'TikTok', href: '#' },
-  { name: 'YouTube', iconName: 'YouTube', href: '#' },
-  { name: 'LinkedIn', iconName: 'LinkedIn', href: '#' },
+  { name: 'TikTok', iconName: 'TikTok', href: 'https://www.tiktok.com/@mitarmedia' },
 ];
 
 export const socialIcons: { [key: string]: React.FC<React.SVGProps<SVGSVGElement>> } = {
