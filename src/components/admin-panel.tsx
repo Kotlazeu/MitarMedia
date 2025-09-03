@@ -18,8 +18,42 @@ import { SortableItem } from './sortable-item';
 import { AddClientDialog } from './add-client-dialog';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const metricLabels = translations['ro'].metrics;
+
+const ClientRow = ({ client, onEnabledChange, onRemove }: { client: any, onEnabledChange: (id: string, enabled: boolean) => void, onRemove: (id: string) => void }) => {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: client.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <div ref={setNodeRef} style={style} className="flex items-center space-x-4 p-2 border rounded-md bg-background hover:bg-accent/50">
+            <GripVertical {...attributes} {...listeners} className="h-5 w-5 text-muted-foreground cursor-grab" />
+            <Checkbox
+                id={`client-enabled-${client.id}`}
+                checked={client.enabled}
+                onCheckedChange={(checked) => onEnabledChange(client.id, !!checked)}
+            />
+            {client.logo && <Image src={client.logo} alt={client.name} width={24} height={24} className="h-6 w-6 object-contain" />}
+            <span className="flex-grow">{client.name}</span>
+            <Button variant="ghost" size="icon" onClick={() => onRemove(client.id)}>
+                <Trash2 className="h-4 w-4 text-destructive" />
+            </Button>
+        </div>
+    );
+};
+
 
 export function AdminPanel() {
     const [content, setContent] = useState<any>({});
@@ -28,7 +62,11 @@ export function AdminPanel() {
     const { toast } = useToast();
 
     const sensors = useSensors(
-        useSensor(PointerSensor)
+        useSensor(PointerSensor, {
+            activationConstraint: {
+              distance: 5,
+            },
+        })
     );
 
     useEffect(() => {
@@ -239,21 +277,12 @@ export function AdminPanel() {
                                 <SortableContext items={content.clients?.map((c: any) => c.id) || []} strategy={verticalListSortingStrategy}>
                                     <div className="space-y-2">
                                         {content.clients?.map((client: any) => (
-                                            <SortableItem key={client.id} id={client.id}>
-                                                <div className="flex items-center space-x-4 p-2 border rounded-md bg-background hover:bg-accent/50">
-                                                    <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                                    <Checkbox
-                                                        id={`client-enabled-${client.id}`}
-                                                        checked={client.enabled}
-                                                        onCheckedChange={(checked) => handleClientEnabledChange(client.id, !!checked)}
-                                                    />
-                                                    {client.logo && <Image src={client.logo} alt={client.name} width={24} height={24} className="h-6 w-6 object-contain" />}
-                                                    <span className="flex-grow">{client.name}</span>
-                                                    <Button variant="ghost" size="icon" onClick={() => handleRemoveClient(client.id)}>
-                                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                                    </Button>
-                                                </div>
-                                            </SortableItem>
+                                            <ClientRow 
+                                                key={client.id} 
+                                                client={client}
+                                                onEnabledChange={handleClientEnabledChange}
+                                                onRemove={handleRemoveClient}
+                                            />
                                         ))}
                                     </div>
                                 </SortableContext>
@@ -290,3 +319,5 @@ export function AdminPanel() {
         </>
     );
 }
+
+    
