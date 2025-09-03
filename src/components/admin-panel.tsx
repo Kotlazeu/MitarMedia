@@ -20,7 +20,6 @@ import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { QrGeneratorPanel } from './qr-generator-panel';
 
 const metricLabels = translations['ro'].metrics;
 
@@ -174,13 +173,12 @@ export function AdminPanel() {
     return (
         <>
             <Tabs defaultValue="ai-section" className="w-full">
-                <TabsList className="grid w-full grid-cols-6">
+                <TabsList className="grid w-full grid-cols-5">
                     <TabsTrigger value="ai-section">AI Section</TabsTrigger>
                     <TabsTrigger value="metrics">Metrics</TabsTrigger>
                     <TabsTrigger value="work">Work</TabsTrigger>
                     <TabsTrigger value="clients">Clients</TabsTrigger>
                     <TabsTrigger value="social">Social</TabsTrigger>
-                    <TabsTrigger value="qr">QR Generator</TabsTrigger>
                 </TabsList>
 
                 {/* AI Section Tab */}
@@ -311,11 +309,6 @@ export function AdminPanel() {
                         </CardHeader>
                     </Card>
                 </TabsContent>
-
-                 {/* QR Generator Tab */}
-                <TabsContent value="qr">
-                    <QrGeneratorPanel />
-                </TabsContent>
             </Tabs>
             
             <AddClientDialog
@@ -326,5 +319,3 @@ export function AdminPanel() {
         </>
     );
 }
-
-    
