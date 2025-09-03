@@ -1,11 +1,8 @@
 
-import { AdminPanel } from "@/components/admin-panel";
+import { redirect } from "next/navigation";
 
 export default function AdminPage() {
-    return (
-        <div className="container mx-auto py-10">
-            <h1 className="text-3xl font-bold mb-6">Admin Control Panel</h1>
-            <AdminPanel />
-        </div>
-    );
+    // This page is now just a redirect to the dashboard.
+    // The middleware will protect the /admin route and all its children.
+    redirect('/admin/dashboard');
 }
