@@ -21,6 +21,13 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     setIsMounted(true);
     // You could also load the saved language from localStorage here
   }, []);
+  
+  // Set the lang attribute on the html element only on the client
+  useEffect(() => {
+    if (isMounted) {
+      document.documentElement.lang = language;
+    }
+  }, [language, isMounted]);
 
   const toggleLanguage = () => {
     setLanguage((prevLanguage) => (prevLanguage === 'ro' ? 'en' : 'ro'));
@@ -31,20 +38,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const value = useMemo(() => ({
     language,
     toggleLanguage,
-    translations: currentTranslations,
-  }), [language, toggleLanguage, currentTranslations]);
-
-  // Set the lang attribute on the html element
-  useEffect(() => {
-    if (isMounted) {
-      document.documentElement.lang = language;
-    }
-  }, [language, isMounted]);
-
-  // Prevent hydration mismatch by returning null on the server and initial client render
-  if (!isMounted) {
-    return null;
-  }
+    translations: isMounted ? currentTranslations : translations.ro, // Always serve Romanian on the server
+  }), [language, toggleLanguage, currentTranslations, isMounted]);
 
   return (
     <LanguageContext.Provider value={value}>
