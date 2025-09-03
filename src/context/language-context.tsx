@@ -19,6 +19,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     setIsMounted(true);
+    // You could also load the saved language from localStorage here
   }, []);
 
   const toggleLanguage = () => {
@@ -33,13 +34,16 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     translations: currentTranslations,
   }), [language, toggleLanguage, currentTranslations]);
 
+  // Set the lang attribute on the html element
+  useEffect(() => {
+    if (isMounted) {
+      document.documentElement.lang = language;
+    }
+  }, [language, isMounted]);
+
+  // Prevent hydration mismatch by returning null on the server and initial client render
   if (!isMounted) {
-    // Render with default language on the server and initial client render
-    return (
-        <LanguageContext.Provider value={{ language: 'ro', toggleLanguage: () => {}, translations: translations.ro }}>
-            {children}
-        </LanguageContext.Provider>
-    );
+    return null;
   }
 
   return (
