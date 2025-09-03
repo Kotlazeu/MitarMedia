@@ -7,10 +7,11 @@ import { ScrollAnimationWrapper } from '@/components/scroll-animation-wrapper';
 import { AiSection } from '@/components/ai-section';
 import { VideoCarousel } from '@/components/video-carousel';
 import { Header } from '@/components/header';
+import { LanguageProvider } from '@/context/language-context';
 
 export default function Home() {
   return (
-    <>
+    <LanguageProvider>
       <Header />
       <main className="flex flex-col items-center overflow-x-hidden">
         <AiSection />
@@ -40,6 +41,6 @@ export default function Home() {
         </div>
         <BackToTopButton />
       </main>
-    </>
+    </LanguageProvider>
   );
 }
