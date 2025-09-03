@@ -34,7 +34,10 @@ export function ClientMarquee() {
       return null;
   }
 
-  const duplicatedLogos = [...clients, ...clients];
+  // Duplicate the logos enough times to ensure a smooth marquee effect
+  const desiredCount = Math.max(12, clients.length * 2);
+  const repeatedClients = Array.from({ length: Math.ceil(desiredCount / clients.length) }, () => clients).flat();
+
 
   return (
     <section className="w-full py-12 group">
@@ -43,7 +46,7 @@ export function ClientMarquee() {
         className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
       >
         <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
-          {duplicatedLogos.map((client, index) => {
+          {repeatedClients.map((client, index) => {
             if (!client.logo) return null;
 
             return (
