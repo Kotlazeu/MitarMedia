@@ -1,8 +1,9 @@
 
-import { socialLinks } from '@/lib/data';
+import { socialLinksData, socialIcons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 
 export default function SocialPage() {
   return (
@@ -20,18 +21,21 @@ export default function SocialPage() {
         </header>
 
         <main className="flex flex-col space-y-4">
-          {socialLinks.map((link) => (
-            <Button
-              key={link.name}
-              asChild
-              className="w-full h-14 text-lg glassmorphism transition-transform duration-200 ease-in-out hover:scale-105"
-            >
-              <Link href={link.href} target="_blank" rel="noopener noreferrer">
-                <div className="absolute left-4">{link.icon}</div>
-                <span>{link.name}</span>
-              </Link>
-            </Button>
-          ))}
+          {socialLinksData.map((link) => {
+            const Icon = socialIcons[link.iconName];
+            return (
+              <Button
+                key={link.name}
+                asChild
+                className="w-full h-14 text-lg glassmorphism transition-transform duration-200 ease-in-out hover:scale-105"
+              >
+                <Link href={link.href} target="_blank" rel="noopener noreferrer">
+                  {Icon && <div className="absolute left-4"><Icon className="h-6 w-6" /></div>}
+                  <span>{link.name}</span>
+                </Link>
+              </Button>
+            );
+          })}
         </main>
       </div>
     </div>
