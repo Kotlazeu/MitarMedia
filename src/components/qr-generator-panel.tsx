@@ -31,7 +31,7 @@ export function QrGeneratorPanel() {
     const [dotsType, setDotsType] = useState<'square' | 'dots' | 'rounded' | 'extra-rounded' | 'classy' | 'classy-rounded'>('square');
     const [bgColor, setBgColor] = useState('#ffffff');
     const [gradientType, setGradientType] = useState<'linear' | 'radial'>('linear');
-    const [gradientColor1, setGradientColor1]_useState = useState('#000000');
+    const [gradientColor1, setGradientColor1] = useState('#000000');
     const [gradientColor2, setGradientColor2] = useState('#000000');
     const [cornerDotType, setCornerDotType] = useState<'square' | 'dot'>('square');
     const [cornerSquareType, setCornerSquareType] = useState<'square' | 'dot' | 'extra-rounded'>('square');
@@ -42,13 +42,11 @@ export function QrGeneratorPanel() {
 
 
     useEffect(() => {
-        let data = '';
-        if (qrType === 'link') {
+        let data = url; // Default to URL
+        if (qrType === 'wifi' && ssid) {
+            data = `WIFI:T:${encryption};S:${ssid};P:${password};${hidden ? 'H:true;' : ''};`;
+        } else if (qrType === 'link') {
             data = url;
-        } else {
-            if (ssid) {
-                data = `WIFI:T:${encryption};S:${ssid};P:${password};${hidden ? 'H:true;' : ''};`;
-            }
         }
         setQrData(data);
     }, [qrType, url, ssid, password, encryption, hidden]);
