@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
                 title: 'Success',
                 description: 'Logged in successfully!',
             });
-            router.refresh();
+            router.push('/admin/dashboard');
         } else {
             setError(result.error || 'An unknown error occurred.');
         }
