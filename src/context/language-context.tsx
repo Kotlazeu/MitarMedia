@@ -18,7 +18,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>('ro');
 
   useEffect(() => {
-    // Set lang attribute on client-side for accessibility and SEO hints
+    // This is safe now because the provider is inside <body>
     document.documentElement.lang = language;
   }, [language]);
 
