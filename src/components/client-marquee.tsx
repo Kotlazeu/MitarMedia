@@ -40,12 +40,12 @@ export function ClientMarquee() {
 
 
   return (
-    <section className="w-full py-12 group">
+    <section className="w-full py-12">
       <h2 className="text-3xl font-headline font-bold text-center mb-10">{translations.ourPartners}</h2>
       <div
         className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
       >
-        <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
+        <div className="flex w-max animate-marquee">
           {repeatedClients.map((client, index) => {
             if (!client.logo) return null;
 
