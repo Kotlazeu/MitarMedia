@@ -6,4 +6,6 @@ import { TikTokIcon } from '@/components/icons/tiktok-icon';
 export const socialLinks = [
   { name: 'Instagram', icon: <Instagram />, href: 'https://www.instagram.com/georgemitarfilms/' },
   { name: 'TikTok', icon: <TikTokIcon />, href: '#' },
+  { name: 'YouTube', icon: <Youtube />, href: '#' },
+  { name: 'LinkedIn', icon: <Linkedin />, href: '#' },
 ];
