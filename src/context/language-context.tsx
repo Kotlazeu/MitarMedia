@@ -16,19 +16,11 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>('ro');
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    // You could also load the saved language from localStorage here
-  }, []);
-  
-  // Set the lang attribute on the html element only on the client
-  useEffect(() => {
-    if (isMounted) {
-      document.documentElement.lang = language;
-    }
-  }, [language, isMounted]);
+    // Set lang attribute on client-side for accessibility and SEO hints
+    document.documentElement.lang = language;
+  }, [language]);
 
   const toggleLanguage = () => {
     setLanguage((prevLanguage) => (prevLanguage === 'ro' ? 'en' : 'ro'));
@@ -39,8 +31,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const value = useMemo(() => ({
     language,
     toggleLanguage,
-    translations: isMounted ? currentTranslations : translations.ro, // Always serve Romanian on the server
-  }), [language, toggleLanguage, currentTranslations, isMounted]);
+    translations: currentTranslations,
+  }), [language, toggleLanguage, currentTranslations]);
 
   return (
     <LanguageContext.Provider value={value}>

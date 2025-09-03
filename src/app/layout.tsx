@@ -21,18 +21,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <LanguageProvider>
-      <html className="dark">
-        <head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&family=DM+Serif+Text:wght@400;700&family=Poppins:wght@700&family=Roboto:wght@400&family=Inter:wght@400;800&display=swap" rel="stylesheet" />
-        </head>
-        <body className="font-body antialiased">
+    <html lang="ro" className="dark">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&family=DM+Serif+Text:wght@400;700&family=Poppins:wght@700&family=Roboto:wght@400&family=Inter:wght@400;800&display=swap" rel="stylesheet" />
+      </head>
+      <body className="font-body antialiased">
+        <LanguageProvider>
             {children}
             <Toaster />
-        </body>
-      </html>
-    </LanguageProvider>
+        </LanguageProvider>
+      </body>
+    </html>
   );
 }
