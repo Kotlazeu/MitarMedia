@@ -2,49 +2,50 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import type { Options as QRCodeStylingOptions, FileExtension, QRCodeStyling } from 'qr-code-styling';
+import type { Options as QRCodeStylingOptions, FileExtension } from 'qr-code-styling';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Download } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-export function QrGeneratorPanel() {
-    // Common settings
-    const [size, setSize] = useState(300);
-    const [bgColor, setBgColor] = useState('#ffffff');
-    const [dotsType, setDotsType] = useState<'square' | 'dots' | 'rounded' | 'extra-rounded' | 'classy' | 'classy-rounded'>('square');
-    const [cornerDotType, setCornerDotType] = useState<'square' | 'dot'>('square');
-    const [cornerSquareType, setCornerSquareType] = useState<'square' | 'dot' | 'extra-rounded'>('square');
-    const [gradientType, setGradientType] = useState<'linear' | 'radial'>('linear');
-    const [gradientColor1, setGradientColor1] = useState('#000000');
-    const [gradientColor2, setGradientColor2] = useState('#000000');
-    const [fileExt, setFileExt] = useState<FileExtension>('png');
+// Dynamic import for qr-code-styling
+const QRCodeStyling = typeof window !== 'undefined' ? require('qr-code-styling') : null;
 
-    // Tab-specific state
-    const [qrType, setQrType] = useState('link');
+
+export function QrGeneratorPanel() {
     const [url, setUrl] = useState('https://mitarmedia.ro');
     const [ssid, setSsid] = useState('');
     const [password, setPassword] = useState('');
     const [encryption, setEncryption] = useState('WPA');
     const [hidden, setHidden] = useState(false);
     
+    const [qrType, setQrType] = useState('link');
     const [qrData, setQrData] = useState(url);
 
+    // Styling options
+    const [dotsType, setDotsType] = useState<'square' | 'dots' | 'rounded' | 'extra-rounded' | 'classy' | 'classy-rounded'>('square');
+    const [bgColor, setBgColor] = useState('#ffffff');
+    const [gradientType, setGradientType] = useState<'linear' | 'radial'>('linear');
+    const [gradientColor1, setGradientColor1]_useState = useState('#000000');
+    const [gradientColor2, setGradientColor2] = useState('#000000');
+    const [cornerDotType, setCornerDotType] = useState<'square' | 'dot'>('square');
+    const [cornerSquareType, setCornerSquareType] = useState<'square' | 'dot' | 'extra-rounded'>('square');
+    const [fileExt, setFileExt] = useState<FileExtension>('png');
+
     const ref = useRef<HTMLDivElement>(null);
-    const qrCodeInstance = useRef<QRCodeStyling>();
+    const qrCodeInstance = useRef<any>();
+
 
     useEffect(() => {
         let data = '';
         if (qrType === 'link') {
             data = url;
         } else {
-            // Format: WIFI:T:<encryption>;S:<ssid>;P:<password>;H:<hidden>;;
             if (ssid) {
                 data = `WIFI:T:${encryption};S:${ssid};P:${password};${hidden ? 'H:true;' : ''};`;
             }
@@ -54,52 +55,45 @@ export function QrGeneratorPanel() {
 
 
     useEffect(() => {
-        const createOrUpdateQRCode = async () => {
-            if (ref.current) {
-                const QRCodeStyling = (await import('qr-code-styling')).default;
+      if (!QRCodeStyling || !ref.current || !qrData) return;
+      
+      const options: QRCodeStylingOptions = {
+          width: 300,
+          height: 300,
+          type: 'svg',
+          data: qrData,
+          image: '/logo.svg',
+          dotsOptions: {
+              type: dotsType,
+              gradient: {
+                  type: gradientType,
+                  colorStops: [{ offset: 0, color: gradientColor1 }, { offset: 1, color: gradientColor2 }]
+              }
+          },
+          backgroundOptions: {
+              color: bgColor,
+          },
+          imageOptions: {
+              crossOrigin: 'anonymous',
+              margin: 5,
+              imageSize: 0.4
+          },
+          cornersSquareOptions: {
+              type: cornerSquareType,
+          },
+          cornersDotOptions: {
+              type: cornerDotType,
+          }
+      };
 
-                const options: QRCodeStylingOptions = {
-                    width: size,
-                    height: size,
-                    type: 'svg',
-                    data: qrData,
-                    image: '/logo.svg',
-                    dotsOptions: {
-                        type: dotsType,
-                        gradient: {
-                            type: gradientType,
-                            colorStops: [{ offset: 0, color: gradientColor1 }, { offset: 1, color: gradientColor2 }]
-                        }
-                    },
-                    backgroundOptions: {
-                        color: bgColor,
-                    },
-                    imageOptions: {
-                        crossOrigin: 'anonymous',
-                        margin: 5,
-                        imageSize: 0.4
-                    },
-                    cornersSquareOptions: {
-                        type: cornerSquareType,
-                    },
-                    cornersDotOptions: {
-                        type: cornerDotType,
-                    }
-                };
-
-                if (!qrCodeInstance.current) {
-                    qrCodeInstance.current = new QRCodeStyling(options);
-                    ref.current.innerHTML = ''; // Clear previous before appending
-                    qrCodeInstance.current.append(ref.current);
-                } else {
-                    qrCodeInstance.current.update(options);
-                }
-            }
-        };
-        if(qrData) {
-            createOrUpdateQRCode();
-        }
-    }, [qrData, size, bgColor, dotsType, cornerDotType, cornerSquareType, gradientType, gradientColor1, gradientColor2]);
+      if (!qrCodeInstance.current) {
+          qrCodeInstance.current = new QRCodeStyling(options);
+          ref.current.innerHTML = '';
+          qrCodeInstance.current.append(ref.current);
+      } else {
+          qrCodeInstance.current.update(options);
+      }
+    }, [qrData, bgColor, dotsType, cornerDotType, cornerSquareType, gradientType, gradientColor1, gradientColor2]);
 
     const handleDownload = () => {
         if (qrCodeInstance.current) {
@@ -116,7 +110,7 @@ export function QrGeneratorPanel() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <Tabs defaultValue="link" onValueChange={(value) => setQrType(value)} className="w-full">
+                <Tabs defaultValue="link" onValueChange={setQrType} className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="link">Link</TabsTrigger>
                         <TabsTrigger value="wifi">WiFi</TabsTrigger>
@@ -133,9 +127,7 @@ export function QrGeneratorPanel() {
                              <TabsContent value="wifi" className="space-y-6 m-0">
                                 <div className="space-y-2">
                                     <Label htmlFor="wifi-ssid">Nume Rețea (SSID)</Label>
-                                    <div className="flex items-center space-x-2">
-                                        <Input id="wifi-ssid" value={ssid} onChange={(e) => setSsid(e.target.value)} placeholder="Numele rețelei" className="flex-grow" />
-                                    </div>
+                                    <Input id="wifi-ssid" value={ssid} onChange={(e) => setSsid(e.target.value)} placeholder="Numele rețelei" />
                                 </div>
                                  <div className="space-y-2">
                                     <Label htmlFor="wifi-password">Parolă</Label>
@@ -171,13 +163,13 @@ export function QrGeneratorPanel() {
                                 <Label className="text-base font-semibold">Stil & Culori</Label>
                                 <div className="space-y-2">
                                     <Label htmlFor="qr-bg-color">Fundal</Label>
-                                    <Input id="qr-bg-color" type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="p-1 h-10"/>
+                                    <Input id="qr-bg-color" type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="p-1 h-10 w-full"/>
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Gradient Cod</Label>
                                     <div className="flex items-center gap-2">
-                                        <Input type="color" value={gradientColor1} onChange={(e) => setGradientColor1(e.target.value)} className="p-1 h-10"/>
-                                        <Input type="color" value={gradientColor2} onChange={(e) => setGradientColor2(e.target.value)} className="p-1 h-10"/>
+                                        <Input type="color" value={gradientColor1} onChange={(e) => setGradientColor1(e.target.value)} className="p-1 h-10 w-full"/>
+                                        <Input type="color" value={gradientColor2} onChange={(e) => setGradientColor2(e.target.value)} className="p-1 h-10 w-full"/>
                                     </div>
                                 </div>
                                  <div className="space-y-2">
@@ -217,12 +209,7 @@ export function QrGeneratorPanel() {
                                 </div>
                             </div>
                             
-                            <div className="space-y-3">
-                                <Label htmlFor="qr-size">Dimensiune: {size}px</Label>
-                                <Slider id="qr-size" min={100} max={400} step={10} value={[size]} onValueChange={(v) => setSize(v[0])} />
-                            </div>
-                            
-                            <div className="space-y-2">
+                            <div className="space-y-2 pt-2">
                                 <Label>Format Descărcare</Label>
                                 <Select onValueChange={(val: FileExtension) => setFileExt(val)} defaultValue={fileExt}>
                                     <SelectTrigger>
@@ -255,5 +242,3 @@ export function QrGeneratorPanel() {
         </Card>
     );
 }
-
-    
