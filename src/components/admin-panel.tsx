@@ -238,27 +238,23 @@ export function AdminPanel() {
                             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                                 <SortableContext items={content.clients?.map((c: any) => c.id) || []} strategy={verticalListSortingStrategy}>
                                     <div className="space-y-2">
-                                        {content.clients?.map((client: any) => {
-                                            return (
-                                                <SortableItem key={client.id} id={client.id}>
-                                                    <div className="flex items-center space-x-2 p-2 border rounded-md bg-background hover:bg-accent/50">
-                                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                                        <Checkbox
-                                                            id={`client-enabled-${client.id}`}
-                                                            checked={client.enabled}
-                                                            onCheckedChange={(checked) => handleClientEnabledChange(client.id, !!checked)}
-                                                        />
-                                                        <Label htmlFor={`client-enabled-${client.id}`} className="flex-grow flex items-center gap-4 cursor-pointer">
-                                                            {client.logo && <Image src={client.logo} alt={client.name} width={24} height={24} className="h-6 w-6 object-contain" />}
-                                                            <span>{client.name}</span>
-                                                        </Label>
-                                                        <Button variant="ghost" size="icon" onClick={() => handleRemoveClient(client.id)}>
-                                                            <Trash2 className="h-4 w-4 text-destructive" />
-                                                        </Button>
-                                                    </div>
-                                                </SortableItem>
-                                            );
-                                        })}
+                                        {content.clients?.map((client: any) => (
+                                            <SortableItem key={client.id} id={client.id}>
+                                                <div className="flex items-center space-x-4 p-2 border rounded-md bg-background hover:bg-accent/50">
+                                                    <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                                    <Checkbox
+                                                        id={`client-enabled-${client.id}`}
+                                                        checked={client.enabled}
+                                                        onCheckedChange={(checked) => handleClientEnabledChange(client.id, !!checked)}
+                                                    />
+                                                    {client.logo && <Image src={client.logo} alt={client.name} width={24} height={24} className="h-6 w-6 object-contain" />}
+                                                    <span className="flex-grow">{client.name}</span>
+                                                    <Button variant="ghost" size="icon" onClick={() => handleRemoveClient(client.id)}>
+                                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                                    </Button>
+                                                </div>
+                                            </SortableItem>
+                                        ))}
                                     </div>
                                 </SortableContext>
                             </DndContext>
