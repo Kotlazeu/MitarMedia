@@ -31,6 +31,11 @@ echo "-> Creare backup: $BACKUP_FILENAME..."
 eval tar --exclude='node_modules' -czf "$BACKUP_PATH" .
 echo "-> Backup creat cu succes în $BACKUP_PATH"
 
+# Renunțare la modificările locale pentru a evita conflictele de merge
+echo "-> Resetare modificări locale la starea de pe GitHub (git reset --hard)..."
+git fetch origin
+git reset --hard origin/main # sau 'master' dacă acesta este branch-ul principal
+
 # Descărcare ultimele modificări din branch-ul principal (main)
 echo "-> Descărcare modificări de pe GitHub (git pull)..."
 git pull origin main # sau 'master' dacă acesta este branch-ul principal
