@@ -153,7 +153,7 @@ export function QrGeneratorPanel() {
 
                         <div className="space-y-3">
                             <Label htmlFor="qr-size">Dimensiune: {size}px</Label>
-                            <Slider id="qr-size" min={100} max={1000} step={10} value={[size]} onValueChange={(v) => setSize(v[0])} />
+                            <Slider id="qr-size" min={100} max={400} step={10} value={[size]} onValueChange={(v) => setSize(v[0])} />
                         </div>
                         
                         <div className="space-y-2">
