@@ -1,7 +1,6 @@
 
 import { socialLinksData, socialIcons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Menu, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,7 +12,7 @@ export default function SocialTestPage() {
       <div className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border">
         
         {/* Header */}
-        <header className="relative h-24 p-4 text-white">
+        <header className="relative h-24 p-4">
            <div className="relative flex justify-end items-center">
             <Button variant="ghost" size="icon" className="text-white backdrop-blur-sm bg-white/10 rounded-full">
               <Menu />
@@ -53,11 +52,16 @@ export default function SocialTestPage() {
             </div>
 
             {/* Map Section */}
-            <div className="relative rounded-2xl overflow-hidden mb-6 aspect-video">
-                <Image src="https://picsum.photos/600/400" data-ai-hint="street map" alt="Location Map" fill className="object-cover" />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                     <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 py-2">Vezi Locația</Button>
-                </div>
+            <div className="rounded-2xl overflow-hidden mb-6 aspect-video">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.0001506308622!2d21.245516633957912!3d45.79528108724393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sro!4v1756980823138!5m2!1sen!2sro" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border:0 }} 
+                    allowFullScreen={true} 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
 
             {/* Website Link */}
