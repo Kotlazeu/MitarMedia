@@ -9,7 +9,7 @@ type SocialLinkData = {
 };
 
 export const socialLinksData: SocialLinkData[] = [
-  { name: 'TikTok', iconName: 'TikTok', href: '#' },
+  { name: 'TikTok', iconName: 'TikTok', href: 'https://www.tiktok.com/@mitarmedia' },
   { name: 'Instagram', iconName: 'Instagram', href: 'https://www.instagram.com/georgemitarfilms/' },
   { name: 'Phone', iconName: 'Phone', href: 'tel:+40769833101' },
 ];
@@ -27,5 +27,5 @@ export const socialIcons: { [key: string]: React.FC<any> } = {
 // For use in Header where components are needed directly
 export const socialLinks = [
   { name: 'Instagram', href: 'https://www.instagram.com/georgemitarfilms/', icon: <Instagram /> },
-  { name: 'TikTok', href: '#', icon: <TikTokIcon /> },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@mitarmedia', icon: <TikTokIcon /> },
 ];
