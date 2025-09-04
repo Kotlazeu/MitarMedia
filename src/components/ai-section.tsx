@@ -78,7 +78,7 @@ export function AiSection() {
             <div>
               <FadeInWords 
                 text={translations.videoProductionSolutions}
-                glowOnHover={false}
+                glowOnHover={true}
               />
             </div>
         </div>
