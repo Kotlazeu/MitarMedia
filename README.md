@@ -282,6 +282,175 @@ Pentru a simplifica procesul de actualizare a site-ului după ce faceți modific
 
 ---
 
+### **Pasul 10 (Avansat): Configurarea unui Server de Mail cu Postfix și Dovecot**
+
+Acest ghid vă arată cum să configurați un server de mail complet pe VPS-ul dumneavoastră folosind Postfix (pentru trimitere/primire) și Dovecot (pentru accesul clienților de mail). Vom folosi `mail.mitarmedia.com` ca exemplu.
+
+#### **10.1. Configurare DNS pentru Mail**
+
+Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la serverul dumneavoastră.
+
+1.  **Înregistrare `A` pentru subdomeniu:**
+    *   **Tip:** `A`
+    *   **Gazdă/Nume:** `mail`
+    *   **Valoare:** Adresa IP a VPS-ului (ex: `123.45.67.89`)
+
+2.  **Înregistrare `MX` (Mail Exchange):**
+    *   **Tip:** `MX`
+    *   **Gazdă/Nume:** `@` (reprezintă domeniul principal `mitarmedia.com`)
+    *   **Valoare (Server de mail):** `mail.mitarmedia.com`
+    *   **Prioritate:** `10` (o valoare standard, mai mică înseamnă prioritate mai mare)
+
+3.  **Înregistrare `SPF` (Sender Policy Framework) - Anti-Spam:**
+    *   **Tip:** `TXT`
+    *   **Gazdă/Nume:** `@`
+    *   **Valoare:** `"v=spf1 mx -all"` (Permite doar serverului specificat în MX să trimită mail)
+
+4.  **Înregistrare `DMARC` (Domain-based Message Authentication, Reporting & Conformance):**
+    *   **Tip:** `TXT`
+    *   **Gazdă/Nume:** `_dmarc`
+    *   **Valoare:** `"v=DMARC1; p=none; rua=mailto:admin@mitarmedia.com"` (Mod de raportare; înlocuiți `admin@` cu un email valid)
+
+#### **10.2. Instalarea Postfix și Dovecot**
+
+1.  **Setați hostname-ul serverului:**
+    ```bash
+    sudo hostnamectl set-hostname mail.mitarmedia.com
+    ```
+
+2.  **Instalați pachetele necesare:**
+    ```bash
+    sudo apt update
+    sudo apt install postfix dovecot-imapd dovecot-pop3d -y
+    ```
+
+3.  **Configurarea Postfix:**
+    În timpul instalării, veți vedea o interfață de configurare:
+    *   Alegeți **"Internet Site"**.
+    *   La **"System mail name"**, introduceți domeniul principal: `mitarmedia.com`.
+
+4.  **Editarea fișierului de configurare principal Postfix:**
+    ```bash
+    sudo nano /etc/postfix/main.cf
+    ```
+    Asigurați-vă că aceste linii arată astfel (adăugați sau modificați):
+    ```
+    myhostname = mail.mitarmedia.com
+    mydestination = $myhostname, mitarmedia.com, localhost.com, localhost
+    home_mailbox = Maildir/
+    ```
+    Salvați și închideți fișierul.
+
+5.  **Reporniți Postfix:**
+    ```bash
+    sudo systemctl restart postfix
+    ```
+
+#### **10.3. Configurarea Dovecot**
+
+1.  **Editarea fișierului de configurare pentru mail:**
+    ```bash
+    sudo nano /etc/dovecot/conf.d/10-mail.conf
+    ```
+    Găsiți linia `mail_location` și asigurați-vă că arată astfel (decomentați-o dacă este necesar):
+    ```
+    mail_location = maildir:~/Maildir
+    ```
+
+2.  **Editarea fișierului de autentificare:**
+    ```bash
+    sudo nano /etc/dovecot/conf.d/10-auth.conf
+    ```
+    Decomentați și modificați linia `disable_plaintext_auth`:
+    ```
+    disable_plaintext_auth = yes
+    ```
+
+3.  **Reporniți Dovecot:**
+    ```bash
+    sudo systemctl restart dovecot
+    ```
+
+#### **10.4. Securizarea cu SSL (Let's Encrypt)**
+
+1.  **Instalați Certbot (dacă nu l-ați instalat deja):**
+    ```bash
+    sudo apt install certbot -y
+    ```
+
+2.  **Obțineți certificatul SSL pentru domeniul de mail:**
+    ```bash
+    # Folosim --standalone deoarece nu avem un server web pe acest subdomeniu
+    sudo certbot certonly --standalone -d mail.mitarmedia.com
+    ```
+    Urmați instrucțiunile pentru a obține certificatul.
+
+3.  **Configurați Postfix să folosească certificatul SSL:**
+    ```bash
+    sudo nano /etc/postfix/main.cf
+    ```
+    Adăugați aceste linii la finalul fișierului:
+    ```
+    # TLS parameters
+    smtpd_tls_cert_file=/etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
+    smtpd_tls_key_file=/etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
+    smtpd_use_tls=yes
+    smtpd_tls_auth_only=yes
+    ```
+
+4.  **Configurați Dovecot să folosească certificatul SSL:**
+    ```bash
+    sudo nano /etc/dovecot/conf.d/10-ssl.conf
+    ```
+    Modificați liniile `ssl_cert` și `ssl_key`:
+    ```
+    ssl_cert = </etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
+    ssl_key = </etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
+    ```
+
+5.  **Reporniți serviciile:**
+    ```bash
+    sudo systemctl restart postfix
+    sudo systemctl restart dovecot
+    ```
+
+#### **10.5. Crearea Căsuțelor de Email**
+
+Fiecare căsuță de email este un utilizator de sistem standard.
+
+1.  **Creați un utilizator nou (ex: `contact@mitarmedia.com`):**
+    ```bash
+    # 'contact' este numele utilizatorului
+    sudo adduser contact
+    ```
+    Urmați pașii pentru a seta o parolă și celelalte informații.
+
+2.  **Creați directorul pentru mail-uri:**
+    ```bash
+    mkdir -p /home/contact/Maildir
+    sudo chown -R contact:contact /home/contact/Maildir
+    sudo chmod -R 700 /home/contact/Maildir
+    ```
+
+#### **10.6. Testarea Serverului de Mail**
+
+Puteți folosi un client de mail precum Thunderbird, Outlook sau clientul nativ de pe telefon.
+
+*   **Configurare IMAP (primire):**
+    *   **Server:** `mail.mitarmedia.com`
+    *   **Port:** `993`
+    *   **Securitate:** `SSL/TLS`
+    *   **Utilizator:** `contact` (sau numele utilizatorului creat)
+    *   **Parolă:** Parola setată la crearea utilizatorului
+*   **Configurare SMTP (trimitere):**
+    *   **Server:** `mail.mitarmedia.com`
+    *   **Port:** `587`
+    *   **Securitate:** `STARTTLS`
+    *   **Utilizator:** `contact`
+    *   **Parolă:** Parola setată
+
+---
+
 ### **Gata!**
 
-Felicitări! Ați publicat cu succes aplicația Next.js. Site-ul este acum live, securizat cu HTTPS și rulează constant datorită PM2 și Nginx.
+Felicitări! Ați publicat cu succes aplicația Next.js și ați configurat un server de mail funcțional. Site-ul este acum live, securizat cu HTTPS și rulează constant datorită PM2 și Nginx.
