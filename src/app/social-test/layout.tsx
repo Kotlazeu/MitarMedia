@@ -7,7 +7,7 @@ export default function SocialLayout({
     children: React.ReactNode
 }) {
     return (
-        <main className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <main className="min-h-screen text-foreground flex items-center justify-center">
             {children}
         </main>
     )
