@@ -432,7 +432,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     }
     ```
 
-#### **10.4. Securizarea cu SSL (Let's Encrypt)**
+#### **10.4. Securizarea cu SSL (Let's Encrypt) și Firewall**
 
 1.  **Instalați Certbot (dacă nu l-ați instalat deja):**
     ```bash
@@ -472,9 +472,17 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ssl_key = </etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     ```
 
-5.  **Deschiderea Porturilor în Firewall (Pas Crucial!):**
-    Dacă folosiți `ufw` (firewall-ul implicit din Ubuntu), trebuie să permiteți traficul pentru serviciile de mail.
+5.  **Deschiderea Porturilor în Firewall (Pas CRUCIAL!):**
+    Dacă folosiți `ufw` (firewall-ul implicit din Ubuntu), trebuie să permiteți traficul pentru toate serviciile necesare **înainte** de a activa firewall-ul.
+    
     ```bash
+    # Pas IMPORTANT: Permiteți mai întâi conexiunile SSH pentru a nu vă bloca accesul!
+    sudo ufw allow ssh
+
+    # Permiteți traficul pentru Nginx (HTTP & HTTPS)
+    sudo ufw allow 'Nginx Full'
+
+    # Permiteți traficul pentru serviciile de mail
     sudo ufw allow Postfix
     sudo ufw allow "Postfix SMTPS"
     sudo ufw allow "Postfix Submission"
@@ -482,9 +490,14 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     sudo ufw allow "Dovecot POP3"
     sudo ufw allow "Dovecot Secure IMAP"
     sudo ufw allow "Dovecot Secure POP3"
-    sudo ufw enable # Activați firewall-ul dacă nu este deja activ
-    sudo ufw status # Verificați starea
+    
+    # Activați firewall-ul (rulați doar după ce ați permis SSH)
+    sudo ufw enable 
+    
+    # Verificați starea
+    sudo ufw status 
     ```
+    **Notă de depanare urgentă:** Dacă după rularea `sudo ufw enable` nu vă mai puteți conecta la VPS, înseamnă că nu ați permis conexiunile SSH. Va trebui să folosiți consola web a furnizorului de VPS pentru a rula `sudo ufw allow ssh`.
 
 6.  **Reporniți serviciile:**
     ```bash
