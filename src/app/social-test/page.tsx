@@ -6,7 +6,6 @@ import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import GlassSurface from '@/components/glass-surface';
 
 export default function SocialTestPage() {
   const mapLink = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.0001506308622!2d21.245516633957912!3d45.79528108724393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sro!4v1756980823138!5m2!1sen!2sro";
@@ -68,7 +67,7 @@ export default function SocialTestPage() {
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300 p-4">
                   <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="w-full max-w-[200px]">
-                    <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105 animate-idle-perspective">
+                    <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105">
                       <span className="text-sm font-semibold text-white/90">
                         Fă-ne o vizită
                       </span>
@@ -79,7 +78,7 @@ export default function SocialTestPage() {
 
 
               {/* Website Link */}
-              <Button asChild className="w-full h-14 text-lg text-primary-foreground rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">
+              <Button asChild className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90 rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">
                   <Link href="/">
                       <span>Vizitează site-ul</span>
                       <ArrowRight className="h-5 w-5" />
@@ -92,3 +91,4 @@ export default function SocialTestPage() {
     </div>
   );
 }
+    
