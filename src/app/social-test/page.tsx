@@ -58,7 +58,7 @@ export default function SocialTestPage() {
               </div>
 
               {/* GIF/Map Section */}
-              <div className="group relative rounded-2xl overflow-hidden mb-6 aspect-video animate-idle-perspective">
+              <div className="group relative rounded-2xl overflow-hidden mb-6 aspect-square animate-idle-perspective">
                 <Image 
                   src="/map-animation.gif" 
                   alt="Animated map background"
