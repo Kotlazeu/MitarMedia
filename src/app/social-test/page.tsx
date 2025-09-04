@@ -2,12 +2,11 @@
 
 import { socialLinksData, socialIcons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
-import { Menu, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import GlassSurface from '@/components/glass-surface';
-import { cn } from '@/lib/utils';
 
 export default function SocialTestPage() {
   const mapLink = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.0001506308622!2d21.245516633957912!3d45.79528108724393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sro!4v1756980823138!5m2!1sen!2sro";
@@ -45,11 +44,14 @@ export default function SocialTestPage() {
                   {socialLinksData.map((link) => {
                       const Icon = socialIcons[link.iconName];
                       if (!Icon) return null;
+                      const isTelLink = link.href.startsWith('tel:');
+                      const Component = isTelLink ? 'a' : Link;
+                      
                       return (
                           <Button key={link.name} asChild variant="default" size="icon" className="bg-secondary hover:bg-secondary/80 rounded-full h-12 w-12 transition-transform hover:scale-110">
-                               <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+                               <Component href={link.href} target={!isTelLink ? '_blank' : undefined} rel={!isTelLink ? 'noopener noreferrer' : undefined} aria-label={link.name}>
                                   <Icon className="h-6 w-6 text-secondary-foreground" />
-                              </a>
+                              </Component>
                           </Button>
                       );
                   })}
@@ -66,18 +68,11 @@ export default function SocialTestPage() {
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300 p-4">
                   <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="w-full max-w-[200px]">
-                    <GlassSurface
-                      height={50}
-                      width="100%"
-                      borderRadius={999}
-                      className="transition-all duration-300 group-hover:scale-105"
-                      borderWidth={0.1}
-                      blur={8}
-                    >
+                    <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105">
                       <span className="text-sm font-semibold text-white/90">
                         Fă-ne o vizită
                       </span>
-                    </GlassSurface>
+                    </div>
                   </Link>
                 </div>
               </div>

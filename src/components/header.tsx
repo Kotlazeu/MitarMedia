@@ -17,7 +17,6 @@ import { PerspectiveWrapper } from './perspective-wrapper';
 import { LanguageToggle } from './language-toggle';
 import { useLanguage } from '@/context/language-context';
 import Image from 'next/image';
-import GlassSurface from './glass-surface';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,11 +47,8 @@ export function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <PerspectiveWrapper>
           <div className="mt-4">
-            <GlassSurface
-              width="100%"
-              height="auto"
-              borderRadius={16}
-              className="p-2.5"
+            <div
+              className="p-2.5 rounded-2xl glassmorphism"
             >
                <div className="flex items-center justify-between w-full">
                 <Link href="/" className="flex items-center">
@@ -121,7 +117,7 @@ export function Header() {
                   </Sheet>
                 </div>
               </div>
-            </GlassSurface>
+            </div>
           </div>
         </PerspectiveWrapper>
       </div>
