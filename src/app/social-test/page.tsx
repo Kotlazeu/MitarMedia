@@ -9,15 +9,12 @@ import React from 'react';
 
 export default function SocialTestPage() {
   return (
-    <div className="flex justify-center min-h-screen font-sans w-full p-4">
+    <div className="flex justify-center items-center min-h-screen font-sans w-full p-4">
       <div className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border">
         
-        {/* Header with Gradient */}
-        <header className="relative bg-gradient-to-br from-primary/30 via-primary/10 to-transparent h-40 p-4 text-white">
-          <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('https://picsum.photos/400/200')"}}></div>
-          <div className="absolute inset-0 bg-black/30"></div>
-          <div className="relative flex justify-between items-center">
-            <div />
+        {/* Header */}
+        <header className="relative h-24 p-4 text-white">
+           <div className="relative flex justify-end items-center">
             <Button variant="ghost" size="icon" className="text-white backdrop-blur-sm bg-white/10 rounded-full">
               <Menu />
             </Button>
@@ -27,12 +24,9 @@ export default function SocialTestPage() {
         {/* Content Card */}
         <main className="relative p-6 -mt-20">
             
-            {/* Avatar */}
-            <div className="relative flex justify-center -mt-16 mb-4">
-                <Avatar className="h-28 w-28 border-4 border-background">
-                    <AvatarImage src="/logo.svg" alt="Mitar Media" />
-                    <AvatarFallback>MM</AvatarFallback>
-                </Avatar>
+            {/* Logo */}
+            <div className="relative flex justify-center mb-4">
+                 <Image src="/logo.svg" alt="Mitar Media" width={112} height={112} className="h-28 w-28" />
             </div>
 
             {/* Info Section */}
