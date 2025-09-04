@@ -77,7 +77,7 @@ export function Header() {
                   <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
                     <a href="tel:+40769833101">
                       <Phone className="mr-2 h-4 w-4" />
-                      {translations.contact}
+                      {translations.contactUs}
                     </a>
                   </Button>
                   <LanguageToggle />
