@@ -58,7 +58,7 @@ export default function SocialTestPage() {
               </div>
 
               {/* GIF/Map Section */}
-              <div className="group relative rounded-2xl overflow-hidden mb-6 aspect-square animate-idle-perspective">
+              <div className="group relative rounded-2xl overflow-hidden mb-6 aspect-square">
                 <Image 
                   src="/map-animation.gif" 
                   alt="Animated map background"
@@ -68,7 +68,7 @@ export default function SocialTestPage() {
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300 p-4">
                   <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="w-full max-w-[200px]">
-                    <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105">
+                    <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105 animate-idle-perspective">
                       <span className="text-sm font-semibold text-white/90">
                         Fă-ne o vizită
                       </span>
