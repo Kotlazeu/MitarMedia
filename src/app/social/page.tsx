@@ -1,3 +1,4 @@
+
 "use client";
 
 import { socialLinksData, socialIcons } from '@/lib/data';
@@ -9,17 +10,46 @@ import React from 'react';
 import { MagnifyingGlass } from '@/components/magnifying-glass';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { LanguageToggle } from '@/components/language-toggle';
+import { motion } from 'framer-motion';
 
 
 function SocialPageContent() {
   const { translations } = useLanguage();
   const mapLink = "https://maps.app.goo.gl/d5p4jkWzqeHGqipQ8";
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+      },
+    },
+  };
+
+
   return (
       <div className="relative min-h-screen w-full">
         <div className="flex justify-center items-center min-h-screen font-sans w-full p-4">
           <div style={{ perspective: '1000px' }}>
-            <div className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border animate-idle-perspective">
+             <motion.div 
+                className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border animate-idle-perspective"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+             >
               
               <header className="relative h-20 p-4">
               </header>
@@ -28,20 +58,20 @@ function SocialPageContent() {
               <main className="relative p-6 -mt-20">
                   
                   {/* Logo */}
-                  <div className="relative flex justify-center mb-4">
+                  <motion.div variants={itemVariants} className="relative flex justify-center mb-4">
                       <Image src="/logo.svg" alt="Mitar Media" width={112} height={112} className="h-28 w-28" />
-                  </div>
+                  </motion.div>
 
                   {/* Info Section */}
-                  <div className="text-center">
+                  <motion.div variants={itemVariants} className="text-center">
                       <h1 className="text-3xl font-bold text-foreground">@MitarMedia</h1>
                       <p className="text-muted-foreground mt-2 px-4">
                           {translations.videoProductionSolutions.split('. ')[1]}
                       </p>
-                  </div>
+                  </motion.div>
                   
                   {/* Social Links & Language Toggle */}
-                  <div className="flex justify-center items-center space-x-4 my-6">
+                  <motion.div variants={itemVariants} className="flex justify-center items-center space-x-4 my-6">
                       <LanguageToggle />
                       <div className="border-l h-8 self-center border-border/50"></div>
                       {socialLinksData.map((link) => {
@@ -58,30 +88,34 @@ function SocialPageContent() {
                               </Button>
                           );
                       })}
-                  </div>
+                  </motion.div>
 
                   {/* GIF/Map Section */}
-                  <MagnifyingGlass mapLink={mapLink}>
-                    <Image 
-                      src="/map-animation.gif" 
-                      alt="Animated map background"
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      data-ai-hint="satellite view"
-                    />
-                  </MagnifyingGlass>
+                  <motion.div variants={itemVariants}>
+                    <MagnifyingGlass mapLink={mapLink}>
+                      <Image 
+                        src="/map-animation.gif" 
+                        alt="Animated map background"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        data-ai-hint="satellite view"
+                      />
+                    </MagnifyingGlass>
+                  </motion.div>
 
 
                   {/* Website Link */}
-                  <Button asChild className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90 rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">
-                      <Link href="/">
-                          <span>{translations.contact}</span>
-                          <ArrowRight className="h-5 w-5" />
-                      </Link>
-                  </Button>
+                  <motion.div variants={itemVariants}>
+                    <Button asChild className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90 rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">
+                        <Link href="/">
+                            <span>{translations.contact}</span>
+                            <ArrowRight className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                  </motion.div>
 
               </main>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
