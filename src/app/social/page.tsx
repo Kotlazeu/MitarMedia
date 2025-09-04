@@ -1,4 +1,5 @@
 
+
 import { socialLinksData, socialIcons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -27,6 +28,7 @@ export default function SocialPage() {
           <main className="flex flex-col space-y-4">
             {socialLinksData.map((link) => {
               const Icon = socialIcons[link.iconName];
+              if (!Icon) return null;
               return (
                 <Button
                   key={link.name}
