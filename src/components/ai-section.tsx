@@ -15,6 +15,7 @@ import RotatingText from './rotating-text';
 import BlurText from './blur-text';
 import { motion } from 'framer-motion';
 import { getContent } from '@/lib/content-store';
+import { FluidGlass } from './fluid-glass';
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -77,10 +78,12 @@ export function AiSection() {
                 </>
               )}
             </div>
-            <FadeInWords 
-              text={translations.videoProductionSolutions}
-              glowOnHover={true}
-            />
+            <FluidGlass>
+              <FadeInWords 
+                text={translations.videoProductionSolutions}
+                glowOnHover={false}
+              />
+            </FluidGlass>
         </div>
 
         {/* Visual Composition */}
