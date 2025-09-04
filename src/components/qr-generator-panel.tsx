@@ -12,12 +12,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useLanguage } from '@/context/language-context';
 
 // Dynamic import for qr-code-styling
 const QRCodeStyling = typeof window !== 'undefined' ? require('qr-code-styling') : null;
 
 
 export function QrGeneratorPanel() {
+    const { translations } = useLanguage();
     const [url, setUrl] = useState('https://mitarmedia.ro');
     const [ssid, setSsid] = useState('');
     const [password, setPassword] = useState('');
@@ -102,55 +104,55 @@ export function QrGeneratorPanel() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>QR Code Generator</CardTitle>
+                <CardTitle>{translations.qr.title}</CardTitle>
                 <CardDescription>
-                    Creați și personalizați coduri QR. Selectați tipul și stilizați-l mai jos.
+                    {translations.qr.description}
                 </CardDescription>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="link" onValueChange={setQrType} className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="link">Link</TabsTrigger>
-                        <TabsTrigger value="wifi">WiFi</TabsTrigger>
+                        <TabsTrigger value="link">{translations.qr.linkTab}</TabsTrigger>
+                        <TabsTrigger value="wifi">{translations.qr.wifiTab}</TabsTrigger>
                     </TabsList>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
                         {/* Controls Column */}
                         <div className="md:col-span-1 space-y-6">
                             <TabsContent value="link" className="space-y-6 m-0">
                                 <div className="space-y-2">
-                                    <Label htmlFor="qr-url">URL</Label>
+                                    <Label htmlFor="qr-url">{translations.qr.urlLabel}</Label>
                                     <Input id="qr-url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://example.com" />
                                 </div>
                             </TabsContent>
                              <TabsContent value="wifi" className="space-y-6 m-0">
                                 <div className="space-y-2">
-                                    <Label htmlFor="wifi-ssid">Nume Rețea (SSID)</Label>
-                                    <Input id="wifi-ssid" value={ssid} onChange={(e) => setSsid(e.target.value)} placeholder="Numele rețelei" />
+                                    <Label htmlFor="wifi-ssid">{translations.qr.ssidLabel}</Label>
+                                    <Input id="wifi-ssid" value={ssid} onChange={(e) => setSsid(e.target.value)} placeholder={translations.qr.ssidPlaceholder} />
                                 </div>
                                  <div className="space-y-2">
-                                    <Label htmlFor="wifi-password">Parolă</Label>
+                                    <Label htmlFor="wifi-password">{translations.qr.passwordLabel}</Label>
                                     <Input id="wifi-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <Checkbox id="wifi-hidden" checked={hidden} onCheckedChange={(checked) => setHidden(!!checked)} />
                                     <label htmlFor="wifi-hidden" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                        Rețea ascunsă
+                                        {translations.qr.hiddenLabel}
                                     </label>
                                 </div>
                                 <RadioGroup defaultValue="WPA" onValueChange={setEncryption} value={encryption}>
-                                    <Label>Criptare</Label>
+                                    <Label>{translations.qr.encryptionLabel}</Label>
                                     <div className="flex items-center space-x-4 pt-2">
                                         <div className="flex items-center space-x-2">
                                             <RadioGroupItem value="WPA" id="r-wpa" />
-                                            <Label htmlFor="r-wpa">WPA/WPA2</Label>
+                                            <Label htmlFor="r-wpa">{translations.qr.wpa}</Label>
                                         </div>
                                         <div className="flex items-center space-x-2">
                                             <RadioGroupItem value="WEP" id="r-wep" />
-                                            <Label htmlFor="r-wep">WEP</Label>
+                                            <Label htmlFor="r-wep">{translations.qr.wep}</Label>
                                         </div>
                                         <div className="flex items-center space-x-2">
                                             <RadioGroupItem value="nopass" id="r-none" />
-                                            <Label htmlFor="r-none">None</Label>
+                                            <Label htmlFor="r-none">{translations.qr.none}</Label>
                                         </div>
                                     </div>
                                 </RadioGroup>
@@ -158,60 +160,60 @@ export function QrGeneratorPanel() {
 
                             {/* Common Controls */}
                             <div className="space-y-4 rounded-lg border p-4">
-                                <Label className="text-base font-semibold">Stil & Culori</Label>
+                                <Label className="text-base font-semibold">{translations.qr.styleTitle}</Label>
                                 <div className="space-y-2">
-                                    <Label htmlFor="qr-bg-color">Fundal</Label>
+                                    <Label htmlFor="qr-bg-color">{translations.qr.backgroundLabel}</Label>
                                     <Input id="qr-bg-color" type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="p-1 h-10 w-full"/>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Gradient Cod</Label>
+                                    <Label>{translations.qr.gradientLabel}</Label>
                                     <div className="flex items-center gap-2">
                                         <Input type="color" value={gradientColor1} onChange={(e) => setGradientColor1(e.target.value)} className="p-1 h-10 w-full"/>
                                         <Input type="color" value={gradientColor2} onChange={(e) => setGradientColor2(e.target.value)} className="p-1 h-10 w-full"/>
                                     </div>
                                 </div>
                                  <div className="space-y-2">
-                                    <Label>Stil Puncte</Label>
+                                    <Label>{translations.qr.dotsStyleLabel}</Label>
                                     <Select onValueChange={(val) => setDotsType(val as any)} defaultValue={dotsType}>
                                         <SelectTrigger><SelectValue/></SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="square">Pătrat</SelectItem>
-                                            <SelectItem value="dots">Puncte</SelectItem>
-                                            <SelectItem value="rounded">Rotunjit</SelectItem>
-                                            <SelectItem value="extra-rounded">Extra Rotunjit</SelectItem>
-                                            <SelectItem value="classy">Clasic</SelectItem>
-                                            <SelectItem value="classy-rounded">Clasic Rotunjit</SelectItem>
+                                            <SelectItem value="square">{translations.qr.square}</SelectItem>
+                                            <SelectItem value="dots">{translations.qr.dots}</SelectItem>
+                                            <SelectItem value="rounded">{translations.qr.rounded}</SelectItem>
+                                            <SelectItem value="extra-rounded">{translations.qr.extraRounded}</SelectItem>
+                                            <SelectItem value="classy">{translations.qr.classy}</SelectItem>
+                                            <SelectItem value="classy-rounded">{translations.qr.classyRounded}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Stil Colț Interior</Label>
+                                    <Label>{translations.qr.cornerInnerStyle}</Label>
                                     <Select onValueChange={(val) => setCornerDotType(val as any)} defaultValue={cornerDotType}>
                                         <SelectTrigger><SelectValue/></SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="square">Pătrat</SelectItem>
-                                            <SelectItem value="dot">Punct</SelectItem>
+                                            <SelectItem value="square">{translations.qr.square}</SelectItem>
+                                            <SelectItem value="dot">{translations.qr.dot}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Stil Colț Exterior</Label>
+                                    <Label>{translations.qr.cornerOuterStyle}</Label>
                                     <Select onValueChange={(val) => setCornerSquareType(val as any)} defaultValue={cornerSquareType}>
                                         <SelectTrigger><SelectValue/></SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="square">Pătrat</SelectItem>
-                                            <SelectItem value="dot">Punct</SelectItem>
-                                            <SelectItem value="extra-rounded">Extra Rotunjit</SelectItem>
+                                            <SelectItem value="square">{translations.qr.square}</SelectItem>
+                                            <SelectItem value="dot">{translations.qr.dot}</SelectItem>
+                                            <SelectItem value="extra-rounded">{translations.qr.extraRounded}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
                             </div>
                             
                             <div className="space-y-2 pt-2">
-                                <Label>Format Descărcare</Label>
+                                <Label>{translations.qr.downloadFormat}</Label>
                                 <Select onValueChange={(val: FileExtension) => setFileExt(val)} defaultValue={fileExt}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Selectează formatul" />
+                                        <SelectValue placeholder={translations.qr.selectFormat} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="png">PNG</SelectItem>
@@ -224,7 +226,7 @@ export function QrGeneratorPanel() {
                             
                             <Button onClick={handleDownload} className="w-full">
                                 <Download className="mr-2 h-4 w-4" />
-                                Descărcare
+                                {translations.qr.download}
                             </Button>
                         </div>
 
