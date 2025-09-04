@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ArrowRight, Bot, BarChart2, Heart, Play, Volume2, Maximize, Film } from 'lucide-react';
@@ -76,12 +77,10 @@ export function AiSection() {
                 </>
               )}
             </div>
-            <MagnifyingGlass>
-              <FadeInWords 
-                text={translations.videoProductionSolutions}
-                glowOnHover={true}
-              />
-            </MagnifyingGlass>
+            <FadeInWords 
+              text={translations.videoProductionSolutions}
+              glowOnHover={true}
+            />
         </div>
 
         {/* Visual Composition */}
