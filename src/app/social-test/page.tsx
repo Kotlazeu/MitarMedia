@@ -17,9 +17,6 @@ export default function SocialTestPage() {
         <div className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border animate-idle-perspective">
           
           <header className="relative h-20 p-4">
-             <div className="relative flex justify-end items-center">
-              
-            </div>
           </header>
 
           {/* Content Card */}

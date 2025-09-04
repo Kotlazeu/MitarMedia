@@ -27,7 +27,7 @@ export default function SocialPage() {
             {socialLinksData.map((link) => {
               const Icon = socialIcons[link.iconName];
               if (!Icon) return null;
-               const isTelLink = link.href.startsWith('tel:');
+              const isTelLink = link.href.startsWith('tel:');
               const Component = isTelLink ? 'a' : Link;
 
               return (

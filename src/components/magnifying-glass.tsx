@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNode; mapLink: string }) {
+export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNode; mapLink?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -39,36 +39,30 @@ export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNo
   const magnifierSize = 100;
   const zoomFactor = 1.5;
 
-  return (
+  const content = (
     <div
       ref={containerRef}
-      className="magnify-container group relative rounded-2xl overflow-hidden mb-6 aspect-square"
+      className="magnify-container group relative rounded-2xl overflow-hidden mb-6 aspect-square w-full h-full"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Background GIF */}
       {children}
       
-      {/* Static button for mobile */}
-      {!isDesktop && (
+      {!isDesktop && mapLink && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300 p-4">
-          <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="w-full max-w-[200px]">
+          <div className="w-full max-w-[200px]">
             <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105">
               <span className="text-sm font-semibold text-white/90">
                 Fă-ne o vizită
               </span>
             </div>
-          </Link>
+          </div>
         </div>
       )}
 
-      {/* Mouse-following button for desktop */}
-      {isDesktop && (
-        <Link 
-            href={mapLink} 
-            target="_blank" 
-            rel="noopener noreferrer"
+      {isDesktop && mapLink && (
+        <div
             className="magnifier glassmorphism-button"
             style={{
                 left: `${position.x}px`,
@@ -87,8 +81,18 @@ export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNo
                     Fă-ne o vizită
                 </span>
             </div>
-        </Link>
+        </div>
       )}
     </div>
   );
+
+  if (mapLink) {
+    return (
+        <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+            {content}
+        </Link>
+    )
+  }
+
+  return content;
 }
