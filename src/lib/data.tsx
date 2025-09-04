@@ -9,7 +9,7 @@ type SocialLinkData = {
 };
 
 export const socialLinksData: SocialLinkData[] = [
-  { name: 'Facebook', iconName: 'Facebook', href: '#' },
+  { name: 'TikTok', iconName: 'TikTok', href: '#' },
   { name: 'Instagram', iconName: 'Instagram', href: 'https://www.instagram.com/georgemitarfilms/' },
   { name: 'Phone', iconName: 'Phone', href: 'tel:+40769833101' },
 ];
