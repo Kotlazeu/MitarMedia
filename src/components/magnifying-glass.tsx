@@ -3,12 +3,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useLanguage } from '@/context/language-context';
 
 export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNode; mapLink?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const { translations } = useLanguage();
 
   useEffect(() => {
     const checkIsDesktop = () => {
@@ -54,7 +56,7 @@ export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNo
           <div className="w-full max-w-[200px]">
             <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105">
               <span className="text-sm font-semibold text-white/90">
-                Fă-ne o vizită
+                {translations.visitUs}
               </span>
             </div>
           </div>
@@ -78,7 +80,7 @@ export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNo
                 className="flex items-center justify-center h-full w-full"
             >
                 <span className="text-sm font-semibold text-white/90">
-                    Fă-ne o vizită
+                    {translations.visitUs}
                 </span>
             </div>
         </div>

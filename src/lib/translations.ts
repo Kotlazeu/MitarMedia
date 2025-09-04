@@ -11,6 +11,7 @@ export const translations = {
     clientFastResponse: "A fost super rapid!",
     latestFromInstagram: "Noutăți de pe Instagram",
     followUsOn: "Urmărește-ne",
+    visitUs: "Fă-ne o vizită",
     metrics: {
       views: "Milioane vizualizări",
       followers: "Milioane urmăritori",
@@ -29,6 +30,7 @@ export const translations = {
     clientFastResponse: "That was super fast!",
     latestFromInstagram: "Latest from Instagram",
     followUsOn: "Follow us",
+    visitUs: "Pay us a visit",
     metrics: {
       views: "Million Views",
       followers: "Million Followers",
