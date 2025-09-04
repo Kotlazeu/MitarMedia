@@ -9,7 +9,7 @@ import React from 'react';
 import { MagnifyingGlass } from '@/components/magnifying-glass';
 
 export default function SocialTestPage() {
-  const mapLink = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.0001506308622!2d21.245516633957912!3d45.79528108724393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sro!4v1756980823138!5m2!1sen!2sro";
+  const mapLink = "https://maps.app.goo.gl/d5p4jkWzqeHGqipQ8";
 
   return (
     <div className="flex justify-center items-center min-h-screen font-sans w-full p-4">
