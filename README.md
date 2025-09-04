@@ -288,7 +288,7 @@ Acest ghid vă arată cum să configurați un server de mail complet pe VPS-ul d
 
 #### **10.1. Configurare DNS pentru Mail**
 
-Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la serverul dumneavoastră.
+Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la serverul dumneavoastră și pentru ca serverul să fie considerat de încredere.
 
 1.  **Înregistrare `A` pentru subdomeniu:**
     *   **Tip:** `A`
@@ -311,6 +311,10 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     *   **Gazdă/Nume:** `_dmarc`
     *   **Valoare:** `"v=DMARC1; p=none; rua=mailto:admin@mitarmedia.com"` (Mod de raportare; înlocuiți `admin@` cu un email valid)
 
+5.  **(Recomandat) Înregistrare `PTR` (Reverse DNS):**
+    *   Această înregistrare se configurează de obicei în panoul de control al furnizorului de VPS (nu la registrarul de domenii).
+    *   Asociați adresa IP a VPS-ului cu hostname-ul `mail.mitarmedia.com`. Acest pas este crucial pentru a evita ca email-urile să fie marcate ca spam.
+
 #### **10.2. Instalarea Postfix și Dovecot**
 
 1.  **Setați hostname-ul serverului:**
@@ -318,42 +322,88 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     sudo hostnamectl set-hostname mail.mitarmedia.com
     ```
 
-2.  **Instalați pachetele necesare:**
+2.  **Instalați pachetele necesare (inclusiv SASL pentru autentificare):**
     ```bash
     sudo apt update
-    sudo apt install postfix dovecot-imapd dovecot-pop3d -y
+    sudo apt install postfix dovecot-core dovecot-imapd dovecot-lmtpd dovecot-pop3d sasl2-bin -y
     ```
 
-3.  **Configurarea Postfix:**
+3.  **Configurarea Postfix la instalare:**
     În timpul instalării, veți vedea o interfață de configurare:
     *   Alegeți **"Internet Site"**.
     *   La **"System mail name"**, introduceți domeniul principal: `mitarmedia.com`.
 
-4.  **Editarea fișierului de configurare principal Postfix:**
+4.  **Editarea fișierului de configurare principal Postfix (`main.cf`):**
     ```bash
     sudo nano /etc/postfix/main.cf
     ```
-    Asigurați-vă că aceste linii arată astfel (adăugați sau modificați):
-    ```
+    Asigurați-vă că aceste linii arată astfel (adăugați sau modificați-le pe cele existente):
+    ```ini
+    # Schimbați myhostname cu hostname-ul complet
     myhostname = mail.mitarmedia.com
+
+    # Schimbați myorigin
+    myorigin = /etc/mailname
+
+    # Adăugați domeniul la mydestination
     mydestination = $myhostname, mitarmedia.com, localhost.com, localhost
+
+    mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
+    # Folosim Maildir în loc de mbox
     home_mailbox = Maildir/
+
+    # Activare SASL (autentificare) pentru SMTP
+    smtpd_sasl_type = dovecot
+    smtpd_sasl_path = private/auth
+    smtpd_sasl_auth_enable = yes
+    smtpd_sasl_security_options = noanonymous
+    smtpd_sasl_local_domain = $myhostname
+    smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination
     ```
     Salvați și închideți fișierul.
 
-5.  **Reporniți Postfix:**
+5.  **Editarea fișierului de servicii Postfix (`master.cf`):**
+    Acest pas este **CRUCIAL** pentru a activa porturile securizate pe care le folosesc clienții de email precum Gmail/Outlook.
     ```bash
-    sudo systemctl restart postfix
+    sudo nano /etc/postfix/master.cf
     ```
+    Găsiți și decomentați (ștergeți `#` din fața liniei) următoarele secțiuni pentru `submission` (port 587) și `smtps` (port 465). Asigurați-vă că arată exact așa:
+    ```ini
+    # ==========================================================================
+    # service type  private unpriv  chroot  wakeup  maxprocs command + args
+    #               (yes)   (yes)   (yes)   (never) (100)
+    # ==========================================================================
+    smtp      inet  n       -       y       -       -       smtpd
+    #smtp      inet  n       -       y       -       1       postscreen
+    #smtpd     pass  -       -       y       -       -       smtpd
+    #dnsblog   unix  -       -       y       -       0       dnsblog
+    #tlsproxy  unix  -       -       y       -       0       tlsproxy
+    submission inet n       -       y       -       -       smtpd
+      -o syslog_name=postfix/submission
+      -o smtpd_tls_security_level=encrypt
+      -o smtpd_sasl_auth_enable=yes
+      -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+      -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+    smtps     inet  n       -       y       -       -       smtpd
+      -o syslog_name=postfix/smtps
+      -o smtpd_tls_wrappermode=yes
+      -o smtpd_sasl_auth_enable=yes
+      -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+      -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+    ```
+    Salvați și închideți.
 
 #### **10.3. Configurarea Dovecot**
+
+Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
 
 1.  **Editarea fișierului de configurare pentru mail:**
     ```bash
     sudo nano /etc/dovecot/conf.d/10-mail.conf
     ```
     Găsiți linia `mail_location` și asigurați-vă că arată astfel (decomentați-o dacă este necesar):
-    ```
+    ```ini
     mail_location = maildir:~/Maildir
     ```
 
@@ -361,14 +411,25 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     ```bash
     sudo nano /etc/dovecot/conf.d/10-auth.conf
     ```
-    Decomentați și modificați linia `disable_plaintext_auth`:
-    ```
+    Decomentați și modificați linia `disable_plaintext_auth`. De asemenea, asigurați-vă că `auth_mechanisms` include `plain login`.
+    ```ini
     disable_plaintext_auth = yes
+    auth_mechanisms = plain login
     ```
 
-3.  **Reporniți Dovecot:**
+3.  **Editarea fișierului master pentru a expune autentificarea pentru Postfix:**
     ```bash
-    sudo systemctl restart dovecot
+    sudo nano /etc/dovecot/conf.d/10-master.conf
+    ```
+    Găsiți secțiunea `service auth` și modificați-o astfel încât să conțină socket-ul pentru Postfix:
+    ```ini
+    service auth {
+      unix_listener /var/spool/postfix/private/auth {
+        mode = 0666
+        user = postfix
+        group = postfix
+      }
+    }
     ```
 
 #### **10.4. Securizarea cu SSL (Let's Encrypt)**
@@ -390,12 +451,15 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     sudo nano /etc/postfix/main.cf
     ```
     Adăugați aceste linii la finalul fișierului:
-    ```
+    ```ini
     # TLS parameters
     smtpd_tls_cert_file=/etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
     smtpd_tls_key_file=/etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     smtpd_use_tls=yes
     smtpd_tls_auth_only=yes
+    
+    # Adăugăm și pentru clientul SMTP (pentru relaying, dacă e cazul)
+    smtp_tls_security_level = may
     ```
 
 4.  **Configurați Dovecot să folosească certificatul SSL:**
@@ -403,12 +467,26 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     sudo nano /etc/dovecot/conf.d/10-ssl.conf
     ```
     Modificați liniile `ssl_cert` și `ssl_key`:
-    ```
+    ```ini
     ssl_cert = </etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
     ssl_key = </etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     ```
 
-5.  **Reporniți serviciile:**
+5.  **Deschiderea Porturilor în Firewall (Pas Crucial!):**
+    Dacă folosiți `ufw` (firewall-ul implicit din Ubuntu), trebuie să permiteți traficul pentru serviciile de mail.
+    ```bash
+    sudo ufw allow Postfix
+    sudo ufw allow "Postfix SMTPS"
+    sudo ufw allow "Postfix Submission"
+    sudo ufw allow "Dovecot IMAP"
+    sudo ufw allow "Dovecot POP3"
+    sudo ufw allow "Dovecot Secure IMAP"
+    sudo ufw allow "Dovecot Secure POP3"
+    sudo ufw enable # Activați firewall-ul dacă nu este deja activ
+    sudo ufw status # Verificați starea
+    ```
+
+6.  **Reporniți serviciile:**
     ```bash
     sudo systemctl restart postfix
     sudo systemctl restart dovecot
@@ -423,9 +501,10 @@ Fiecare căsuță de email este un utilizator de sistem standard.
     # 'contact' este numele utilizatorului
     sudo adduser contact
     ```
-    Urmați pașii pentru a seta o parolă și celelalte informații.
+    Urmați pașii pentru a seta o parolă și celelalte informații. Această parolă va fi parola pentru email.
 
-2.  **Creați directorul pentru mail-uri:**
+2.  **Creați directorul pentru mail-uri (opțional, ar trebui creat automat):**
+    Dacă nu se creează automat la primirea primului email, rulați:
     ```bash
     mkdir -p /home/contact/Maildir
     sudo chown -R contact:contact /home/contact/Maildir
@@ -434,7 +513,7 @@ Fiecare căsuță de email este un utilizator de sistem standard.
 
 #### **10.6. Testarea Serverului de Mail**
 
-Puteți folosi un client de mail precum Thunderbird, Outlook sau clientul nativ de pe telefon.
+Acum, la configurarea în Gmail (sau alt client), folosiți următoarele setări:
 
 *   **Configurare IMAP (primire):**
     *   **Server:** `mail.mitarmedia.com`
@@ -453,4 +532,4 @@ Puteți folosi un client de mail precum Thunderbird, Outlook sau clientul nativ 
 
 ### **Gata!**
 
-Felicitări! Ați publicat cu succes aplicația Next.js și ați configurat un server de mail funcțional. Site-ul este acum live, securizat cu HTTPS și rulează constant datorită PM2 și Nginx.
+Felicitări! Ați publicat cu succes aplicația Next.js și ați configurat un server de mail funcțional și securizat. Site-ul este acum live, securizat cu HTTPS și rulează constant datorită PM2 și Nginx.
