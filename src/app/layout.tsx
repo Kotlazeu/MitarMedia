@@ -4,7 +4,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Mitar Media',
+  title: 'Mitar Media - Producție Video Profesională',
   description: 'Crafting Visions, Creating Worlds. A modern media production company specializing in video marketing, social media content, and corporate presentations.',
   keywords: ['Mitar Media', 'producție video', 'video marketing', 'content social media', 'prezentări companie', 'video producție', 'filmare evenimente'],
   authors: [{ name: 'Mitar Media', url: 'https://mitarmedia.com' }],
