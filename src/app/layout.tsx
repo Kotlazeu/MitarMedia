@@ -7,17 +7,17 @@ export const metadata: Metadata = {
   title: 'Mitar Media',
   description: 'Crafting Visions, Creating Worlds. A modern media production company specializing in video marketing, social media content, and corporate presentations.',
   keywords: ['Mitar Media', 'producție video', 'video marketing', 'content social media', 'prezentări companie', 'video producție', 'filmare evenimente'],
-  authors: [{ name: 'Mitar Media', url: 'https://mitarmedia.ro' }],
+  authors: [{ name: 'Mitar Media', url: 'https://mitarmedia.com' }],
   creator: 'Mitar Media',
   publisher: 'Mitar Media',
-  metadataBase: new URL('https://mitarmedia.ro'),
+  metadataBase: new URL('https://mitarmedia.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Mitar Media - Crafting Visions, Creating Worlds',
     description: 'Complete video production solutions, from concept to final product. We create marketing videos, social media content, and corporate presentations.',
-    url: 'https://mitarmedia.ro',
+    url: 'https://mitarmedia.com',
     siteName: 'Mitar Media',
     images: [
       {
