@@ -334,34 +334,41 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     *   La **"System mail name"**, introduceți domeniul principal: `mitarmedia.com`.
 
 4.  **Editarea fișierului de configurare principal Postfix (`main.cf`):**
-    ```bash
-    sudo nano /etc/postfix/main.cf
-    ```
-    Asigurați-vă că aceste linii arată astfel (adăugați sau modificați-le pe cele existente):
+    Deschideți fișierul cu `sudo nano /etc/postfix/main.cf` și **înlocuiți complet** conținutul său cu următorul bloc de cod. Acest lucru asigură eliminarea setărilor conflictuale și aplicarea unei configurații curate și funcționale.
+
     ```ini
-    # Schimbați myhostname cu hostname-ul complet
+    # --- Setări Generale ---
+    smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+    biff = no
+    append_dot_mydomain = no
+    readme_directory = no
+    compatibility_level = 3.6
+
+    # --- Hostname și Domeniu ---
     myhostname = mail.mitarmedia.com
-
-    # Schimbați myorigin
     myorigin = /etc/mailname
-
-    # Adăugați domeniul la mydestination
-    mydestination = $myhostname, mitarmedia.com, localhost.com, localhost
-
+    mydestination = $myhostname, localhost.$mydomain, localhost
     mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 
-    # Folosim Maildir în loc de mbox
+    # --- Configurare Mailbox (pentru utilizatori de sistem) ---
     home_mailbox = Maildir/
 
-    # Activare SASL (autentificare) pentru SMTP
+    # --- Setări TLS (Securitate Conexiune) ---
+    smtpd_tls_cert_file=/etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
+    smtpd_tls_key_file=/etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
+    smtpd_use_tls=yes
+    smtpd_tls_auth_only=yes
+    smtp_tls_security_level = may
+    smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+    # --- Setări SASL (Autentificare SMTP) ---
     smtpd_sasl_type = dovecot
     smtpd_sasl_path = private/auth
     smtpd_sasl_auth_enable = yes
     smtpd_sasl_security_options = noanonymous
     smtpd_sasl_local_domain = $myhostname
-    smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination
+    smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
     ```
-    Salvați și închideți fișierul.
 
 5.  **Editarea fișierului de servicii Postfix (`master.cf`):**
     Acest pas este **CRUCIAL** pentru a activa porturile securizate pe care le folosesc clienții de email precum Gmail/Outlook.
@@ -383,13 +390,11 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
       -o syslog_name=postfix/submission
       -o smtpd_tls_security_level=encrypt
       -o smtpd_sasl_auth_enable=yes
-      -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
       -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
     smtps     inet  n       -       y       -       -       smtpd
       -o syslog_name=postfix/smtps
       -o smtpd_tls_wrappermode=yes
       -o smtpd_sasl_auth_enable=yes
-      -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
       -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
     ```
     Salvați și închideți.
@@ -447,20 +452,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     Urmați instrucțiunile pentru a obține certificatul.
 
 3.  **Configurați Postfix să folosească certificatul SSL:**
-    ```bash
-    sudo nano /etc/postfix/main.cf
-    ```
-    Adăugați aceste linii la finalul fișierului:
-    ```ini
-    # TLS parameters
-    smtpd_tls_cert_file=/etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
-    smtpd_tls_key_file=/etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
-    smtpd_use_tls=yes
-    smtpd_tls_auth_only=yes
-    
-    # Adăugăm și pentru clientul SMTP (pentru relaying, dacă e cazul)
-    smtp_tls_security_level = may
-    ```
+    Acest pas a fost deja inclus în configurația completă de la pasul 10.2, punctul 4.
 
 4.  **Configurați Dovecot să folosească certificatul SSL:**
     ```bash
