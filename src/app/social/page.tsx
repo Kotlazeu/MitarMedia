@@ -1,3 +1,4 @@
+
 "use client";
 
 import { socialLinksData, socialIcons } from '@/lib/data';
@@ -17,9 +18,6 @@ export default function SocialPage() {
   return (
     <LanguageProvider>
       <div className="relative min-h-screen w-full">
-         <div className="absolute top-4 right-4 z-20">
-            <LanguageToggle />
-        </div>
         <div className="flex justify-center items-center min-h-screen font-sans w-full p-4">
           <div style={{ perspective: '1000px' }}>
             <div className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border animate-idle-perspective">
@@ -41,6 +39,11 @@ export default function SocialPage() {
                       <p className="text-muted-foreground mt-2 px-4">
                           Soluții complete de producție video. Creăm viziuni, construim lumi.
                       </p>
+                  </div>
+                  
+                  {/* Language Toggle */}
+                  <div className="flex justify-center my-6">
+                    <LanguageToggle />
                   </div>
 
                   {/* Social Links */}
