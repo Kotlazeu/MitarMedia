@@ -322,10 +322,10 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     sudo hostnamectl set-hostname mail.mitarmedia.com
     ```
 
-2.  **Instalați pachetele necesare (inclusiv SASL pentru autentificare):**
+2.  **Instalați pachetele necesare:**
     ```bash
     sudo apt update
-    sudo apt install postfix dovecot-core dovecot-imapd dovecot-lmtpd dovecot-pop3d sasl2-bin -y
+    sudo apt install postfix dovecot-core dovecot-imapd dovecot-pop3d -y
     ```
 
 3.  **Configurarea Postfix la instalare:**
@@ -441,7 +441,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ```
     Decomentați și modificați linia `disable_plaintext_auth`. De asemenea, asigurați-vă că `auth_mechanisms` include `plain login`.
     ```ini
-    disable_plaintext_auth = yes
+    disable_plaintext_auth = no
     auth_mechanisms = plain login
     ```
 
@@ -474,7 +474,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ```
     Urmați instrucțiunile pentru a obține certificatul.
 
-3.  **Configurați Postfix să folosească certificatul SSL:**
+3.  **Configurați Postfix și Dovecot să folosească certificatul SSL:**
     Acest pas a fost deja inclus în configurația completă de la pasul 10.2, punctul 4.
 
 4.  **Configurați Dovecot să folosească certificatul SSL:**
@@ -501,10 +501,10 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     sudo ufw allow 25/tcp    # SMTP standard
     sudo ufw allow 587/tcp   # SMTP Submission (recomandat)
     sudo ufw allow 465/tcp   # SMTPS
-    sudo ufw allow 143/tcp   # IMAP
-    sudo ufw allow 993/tcp   # IMAPS
-    sudo ufw allow 110/tcp   # POP3
-    sudo ufw allow 995/tcp   # POP3S
+    sudo ufw allow 'Dovecot IMAP'
+    sudo ufw allow 'Dovecot POP3'
+    sudo ufw allow 'Dovecot Secure IMAP'
+    sudo ufw allow 'Dovecot Secure POP3'
     
     # Activați firewall-ul (rulați doar după ce ați permis SSH)
     sudo ufw enable 
