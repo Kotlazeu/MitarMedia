@@ -39,6 +39,17 @@ export function Header() {
     };
   }, []);
 
+  const navItems = [
+    ...socialLinks.map((link) => (
+        <Button key={link.name} variant="ghost" size="icon" asChild className="[&_svg]:size-6 !bg-transparent">
+            <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+            {link.icon}
+            </a>
+        </Button>
+    )),
+    <LanguageToggle key="lang-toggle" />
+  ];
+
   return (
     <header className={cn(
       "fixed top-0 z-50 w-full transition-opacity duration-500 ease-out",
@@ -59,14 +70,9 @@ export function Header() {
                 <nav className={cn(
                   "hidden md:flex items-center gap-4 transition-all duration-300"
                   )}>
-                  {socialLinks.map((link) => (
-                    <Button key={link.name} variant="ghost" size="icon" asChild className="[&_svg]:size-6 !bg-transparent">
-                      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
-                        {link.icon}
-                      </a>
-                    </Button>
-                  ))}
-                  <LanguageToggle />
+                  <div className="flex items-center gap-4">
+                    {navItems}
+                  </div>
                   <div className="h-6 w-px bg-white/20"></div>
                   <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
                     <a href="tel:+40769833101">
