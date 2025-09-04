@@ -1,3 +1,4 @@
+
 export const translations = {
   ro: {
     beDifferent: "Be Diferent",
