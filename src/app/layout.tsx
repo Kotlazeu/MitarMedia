@@ -5,8 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: 'Mitar Media - Producție Video Profesională',
-  description: 'Crafting Visions, Creating Worlds. A modern media production company specializing in video marketing, social media content, and corporate presentations.',
-  keywords: ['Mitar Media', 'producție video', 'video marketing', 'content social media', 'prezentări companie', 'video producție', 'filmare evenimente'],
+  description: 'O companie modernă de producție media specializată în marketing video, conținut pentru social media și prezentări corporate.',
+  keywords: ['Mitar Media', 'producție video', 'video marketing', 'content social media', 'prezentări companie', 'video producție', 'filmare evenimente', 'media', 'timisoara', 'timișoara', 'studio timisoara', 'video timisoara', 'reels', 'tiktok', 'banana studio', 'echipamente video', 'inchiriere studio', 'inchiriere spatiu'],
   authors: [{ name: 'Mitar Media', url: 'https://mitarmedia.com' }],
   creator: 'Mitar Media',
   publisher: 'Mitar Media',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Mitar Media - Crafting Visions, Creating Worlds',
-    description: 'Complete video production solutions, from concept to final product. We create marketing videos, social media content, and corporate presentations.',
+    description: 'O companie modernă de producție media specializată în marketing video, conținut pentru social media și prezentări corporate.',
     url: 'https://mitarmedia.com',
     siteName: 'Mitar Media',
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         url: '/og-image.png', // Trebuie să existe o imagine `og-image.png` în folderul `public`
         width: 1200,
         height: 630,
-        alt: 'Mitar Media - Video Production',
+        alt: 'Mitar Media - Producție Video',
       },
     ],
     locale: 'ro_RO',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mitar Media - Video Production',
+    title: 'Mitar Media - Producție Video',
     description: 'We craft compelling visual stories. From marketing videos to corporate presentations, we bring your vision to life.',
     creator: '@MitarMedia',
     images: ['/og-image.png'], // Trebuie să existe o imagine `og-image.png` în folderul `public`
