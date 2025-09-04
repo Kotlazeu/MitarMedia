@@ -86,7 +86,7 @@ export default function SocialTestPage() {
 
 
               {/* Website Link */}
-              <Button asChild className="w-full h-14 text-lg bg-secondary hover:bg-secondary/80 rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">
+              <Button asChild className="w-full h-14 text-lg text-primary-foreground rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">
                   <Link href="/">
                       <span>Vizitează site-ul</span>
                       <ArrowRight className="h-5 w-5" />
