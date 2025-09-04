@@ -6,7 +6,7 @@ import { Menu, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { ParallaxImage } from '@/components/parallax-image';
+import GlassSurface from '@/components/glass-surface';
 import { cn } from '@/lib/utils';
 
 export default function SocialTestPage() {
@@ -57,17 +57,33 @@ export default function SocialTestPage() {
                   })}
               </div>
 
-              {/* Parallax Image Map Section */}
-              <div className="rounded-2xl overflow-hidden mb-6 aspect-video">
-                 <ParallaxImage 
-                  imageLayers={[
-                    { src: "https://picsum.photos/seed/bg/800/600", speed: 0 },
-                    { src: "https://picsum.photos/seed/mid/800/600", speed: -10 },
-                    { src: "https://picsum.photos/seed/fg/800/600", speed: -20 },
-                  ]}
-                  mapLink={mapLink}
+              {/* GIF/Map Section */}
+              <div className="group relative rounded-2xl overflow-hidden mb-6 aspect-video animate-idle-perspective">
+                <Image 
+                  src="https://picsum.photos/seed/map-gif/800/600" 
+                  alt="Animated map background"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  data-ai-hint="satellite view"
                 />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300 p-4">
+                  <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="w-full max-w-[200px]">
+                    <GlassSurface
+                      height={50}
+                      width="100%"
+                      borderRadius={999}
+                      className="transition-all duration-300 group-hover:scale-105"
+                      borderWidth={0.1}
+                      blur={8}
+                    >
+                      <span className="text-sm font-semibold text-white/90">
+                        Fă-ne o vizită
+                      </span>
+                    </GlassSurface>
+                  </Link>
+                </div>
               </div>
+
 
               {/* Website Link */}
               <Button asChild className="w-full h-14 text-lg bg-secondary hover:bg-secondary/80 rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">

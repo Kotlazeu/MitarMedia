@@ -260,7 +260,7 @@ const GlassSurface = ({
             background: 'rgba(255, 255, 255, 0.4)',
             border: '1px solid rgba(255, 255, 255, 0.3)',
             boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
-                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.3)`
+                        inset 0 -1px- 0 0 rgba(255, 255, 255, 0.3)`
           };
         } else {
           return {
@@ -280,7 +280,7 @@ const GlassSurface = ({
   };
 
   const glassSurfaceClasses =
-    'relative flex items-center justify-center overflow-hidden transition-opacity duration-300 ease-out';
+    'relative flex items-center justify-center overflow-hidden transition-all duration-300 ease-out';
 
   const focusVisibleClasses = isDark
     ? 'focus-visible:outline-2 focus-visible:outline-[#0A84FF] focus-visible:outline-offset-2'
@@ -354,5 +354,3 @@ const GlassSurface = ({
 };
 
 export default GlassSurface;
-
-    
