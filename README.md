@@ -480,8 +480,8 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ```
     Modificați liniile `ssl_cert` și `ssl_key`:
     ```ini
-    ssl_cert = </etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
-    ssl_key = </etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
+    ssl_cert = /etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
+    ssl_key = /etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     ```
     *Notă: Pașii pentru a configura Postfix să folosească SSL sunt deja incluși în configurația completă de la pasul 10.2, punctul 4.*
 
