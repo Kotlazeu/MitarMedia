@@ -1,4 +1,3 @@
-
 "use client";
 
 import { ArrowRight, Bot, BarChart2, Heart, Play, Volume2, Maximize, Film } from 'lucide-react';
@@ -42,10 +41,51 @@ export function AiSection() {
   const fullInitialText = `${content.rotatingTexts?.[0] || ''} ${content.staticText || ''}`;
 
   return (
-    <section id="ai-services" className="w-full min-h-screen flex flex-col items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
-      <div className="container flex flex-col items-center gap-16">
+    <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
+      <div className="container grid lg:grid-cols-2 gap-16 items-center">
+        {/* Text Content */}
+        <div className="flex flex-col gap-6 text-center lg:text-left">
+            <div className={cn(
+                "flex items-baseline justify-center lg:justify-start text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+              )}>
+              {!isBlurAnimationComplete ? (
+                  <BlurText
+                    text={fullInitialText}
+                    className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+                    onAnimationComplete={handleAnimationComplete}
+                  />
+              ) : (
+                <>
+                  <div className="min-w-[170px] text-right">
+                    <RotatingText
+                        texts={content.rotatingTexts}
+                        staggerFrom={"first"}
+                        splitBy="words"
+                        mainClassName="inline-flex"
+                        splitLevelClassName=""
+                        elementLevelClassName="inline-block text-primary"
+                        initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
+                        animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+                        exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+                        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                    />
+                  </div>
+                  <span className="ml-4 whitespace-nowrap">
+                    {content.staticText}
+                  </span>
+                </>
+              )}
+            </div>
+            <MagnifyingGlass>
+              <FadeInWords 
+                text={translations.videoProductionSolutions}
+                glowOnHover={true}
+              />
+            </MagnifyingGlass>
+        </div>
+
         {/* Visual Composition */}
-        <div className="relative h-[500px] w-full max-w-2xl">
+        <div className="relative h-[500px] w-full max-w-2xl mx-auto lg:mx-0">
           {/* Card 1: Background */}
           <GlassCard 
             className="absolute top-0 left-0 w-[80%] h-[80%] transition-all duration-500 hover:scale-105 -rotate-3 hover:rotate-0"
@@ -99,46 +139,6 @@ export function AiSection() {
           </GlassCard>
         </div>
 
-        {/* Text Content */}
-        <div className="flex flex-col gap-6 text-center">
-            <div className={cn(
-                "flex items-baseline justify-center text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
-              )}>
-              {!isBlurAnimationComplete ? (
-                  <BlurText
-                    text={fullInitialText}
-                    className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
-                    onAnimationComplete={handleAnimationComplete}
-                  />
-              ) : (
-                <>
-                  <div className="min-w-[170px] text-right">
-                    <RotatingText
-                        texts={content.rotatingTexts}
-                        staggerFrom={"first"}
-                        splitBy="words"
-                        mainClassName="inline-flex"
-                        splitLevelClassName=""
-                        elementLevelClassName="inline-block text-primary"
-                        initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-                        animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                        exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
-                        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                    />
-                  </div>
-                  <span className="ml-4 whitespace-nowrap">
-                    {content.staticText}
-                  </span>
-                </>
-              )}
-            </div>
-            <MagnifyingGlass>
-              <FadeInWords 
-                text={translations.videoProductionSolutions}
-                glowOnHover={true}
-              />
-            </MagnifyingGlass>
-        </div>
       </div>
     </section>
   );
