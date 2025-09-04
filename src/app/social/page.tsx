@@ -7,15 +7,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { MagnifyingGlass } from '@/components/magnifying-glass';
-import { LanguageProvider } from '@/context/language-context';
+import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { LanguageToggle } from '@/components/language-toggle';
 
 
-export default function SocialPage() {
+function SocialPageContent() {
+  const { translations } = useLanguage();
   const mapLink = "https://maps.app.goo.gl/d5p4jkWzqeHGqipQ8";
 
   return (
-    <LanguageProvider>
       <div className="relative min-h-screen w-full">
         <div className="flex justify-center items-center min-h-screen font-sans w-full p-4">
           <div style={{ perspective: '1000px' }}>
@@ -36,7 +36,7 @@ export default function SocialPage() {
                   <div className="text-center">
                       <h1 className="text-3xl font-bold text-foreground">@MitarMedia</h1>
                       <p className="text-muted-foreground mt-2 px-4">
-                          Soluții complete de producție video. Creăm viziuni, construim lumi.
+                          {translations.videoProductionSolutions.split('. ')[1]}
                       </p>
                   </div>
                   
@@ -75,7 +75,7 @@ export default function SocialPage() {
                   {/* Website Link */}
                   <Button asChild className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90 rounded-full flex justify-between items-center px-6 transition-transform hover:scale-105">
                       <Link href="/">
-                          <span>Vizitează site-ul</span>
+                          <span>{translations.contact}</span>
                           <ArrowRight className="h-5 w-5" />
                       </Link>
                   </Button>
@@ -85,6 +85,14 @@ export default function SocialPage() {
           </div>
         </div>
       </div>
-    </LanguageProvider>
   );
+}
+
+
+export default function SocialPage() {
+    return (
+        <LanguageProvider>
+            <SocialPageContent />
+        </LanguageProvider>
+    )
 }
