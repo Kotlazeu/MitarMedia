@@ -45,47 +45,49 @@ export function AiSection() {
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center container">
         {/* Left Column: Text Content */}
-        <div style={{ perspective: '1000px' }}>
-            <div className="flex flex-col gap-6 animate-idle-perspective">
-              <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-              </div>
-              <div className={cn(
-                  "flex items-baseline text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
-                )}>
-                {!isBlurAnimationComplete ? (
-                   <BlurText
-                      text={fullInitialText}
-                      className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
-                      onAnimationComplete={handleAnimationComplete}
+        <div className="h-full flex flex-col justify-center">
+            <div style={{ perspective: '1000px' }}>
+                <div className="flex flex-col gap-6">
+                  <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
+                  </div>
+                  <div className={cn(
+                      "flex items-baseline text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+                    )}>
+                    {!isBlurAnimationComplete ? (
+                       <BlurText
+                          text={fullInitialText}
+                          className="text-4xl md:text-5xl font-custom font-bold leading-tight text-foreground"
+                          onAnimationComplete={handleAnimationComplete}
+                        />
+                    ) : (
+                      <>
+                        <div className="w-40 text-right">
+                          <RotatingText
+                              texts={content.rotatingTexts}
+                              staggerFrom={"first"}
+                              splitBy="words"
+                              mainClassName="inline-flex"
+                              splitLevelClassName=""
+                              elementLevelClassName="inline-block text-primary"
+                              initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
+                              animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+                              exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+                              transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                          />
+                        </div>
+                        <span className="ml-4 whitespace-nowrap">
+                          {content.staticText}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                   <MagnifyingGlass>
+                    <FadeInWords 
+                      text={translations.videoProductionSolutions}
+                      glowOnHover={true}
                     />
-                ) : (
-                  <>
-                    <div className="w-40 text-right">
-                      <RotatingText
-                          texts={content.rotatingTexts}
-                          staggerFrom={"first"}
-                          splitBy="words"
-                          mainClassName="inline-flex"
-                          splitLevelClassName=""
-                          elementLevelClassName="inline-block text-primary"
-                          initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-                          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                          exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
-                          transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                      />
-                    </div>
-                    <span className="ml-4 whitespace-nowrap">
-                      {content.staticText}
-                    </span>
-                  </>
-                )}
-              </div>
-               <MagnifyingGlass>
-                <FadeInWords 
-                  text={translations.videoProductionSolutions}
-                  glowOnHover={true}
-                />
-              </MagnifyingGlass>
+                  </MagnifyingGlass>
+                </div>
             </div>
         </div>
 
