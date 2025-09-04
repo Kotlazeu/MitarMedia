@@ -66,9 +66,6 @@ export function Header() {
                     <Link href="/" className="flex items-center">
                         <Image src="/logo.svg" alt="Mitar Media Logo" width={32} height={32} className="h-8 w-8" />
                     </Link>
-                    <div className="hidden md:block">
-                      <LanguageToggle />
-                    </div>
                 </div>
 
                 <nav className={cn(
@@ -77,13 +74,13 @@ export function Header() {
                   <div className="flex items-center gap-4">
                     {navItems}
                   </div>
-                  <div className="h-6 w-px bg-white/20"></div>
                   <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
                     <a href="tel:+40769833101">
                       <Phone className="mr-2 h-4 w-4" />
                       {translations.contact}
                     </a>
                   </Button>
+                  <LanguageToggle />
                 </nav>
 
                 <div className="md:hidden flex items-center gap-2">
