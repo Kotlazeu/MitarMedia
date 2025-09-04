@@ -1,3 +1,4 @@
+"use client";
 
 import { socialLinksData, socialIcons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -5,8 +6,16 @@ import { Menu, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { ParallaxImage } from '@/components/parallax-image';
 
 export default function SocialTestPage() {
+  const imageLayers = [
+    { src: "https://picsum.photos/seed/layer1/800/600", y: 0 },
+    { src: "https://picsum.photos/seed/layer2/800/600", y: 20 },
+    { src: "https://picsum.photos/seed/layer3/800/600", y: 40 },
+  ];
+  const mapLink = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.0001506308622!2d21.245516633957912!3d45.79528108724393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sro!4v1756980823138!5m2!1sen!2sro";
+
   return (
     <div className="flex justify-center items-center min-h-screen font-sans w-full p-4">
       <div className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border">
@@ -51,17 +60,16 @@ export default function SocialTestPage() {
                 })}
             </div>
 
-            {/* Map Section */}
+            {/* Parallax Image Map Section */}
             <div className="rounded-2xl overflow-hidden mb-6 aspect-video">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.0001506308622!2d21.245516633957912!3d45.79528108724393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sro!4v1756980823138!5m2!1sen!2sro" 
-                    width="100%" 
-                    height="100%" 
-                    style={{ border:0 }} 
-                    allowFullScreen={true} 
-                    loading="lazy" 
-                    referrerPolicy="no-referrer-when-downgrade">
-                </iframe>
+               <ParallaxImage 
+                imageLayers={[
+                  { src: "https://picsum.photos/seed/bg/800/600", speed: 0 },
+                  { src: "https://picsum.photos/seed/mid/800/600", speed: -10 },
+                  { src: "https://picsum.photos/seed/fg/800/600", speed: -20 },
+                ]}
+                mapLink={mapLink}
+              />
             </div>
 
             {/* Website Link */}
