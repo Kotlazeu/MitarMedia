@@ -1,4 +1,3 @@
-
 "use client";
 
 import { socialLinksData, socialIcons } from '@/lib/data';
@@ -41,13 +40,10 @@ export default function SocialPage() {
                       </p>
                   </div>
                   
-                  {/* Language Toggle */}
-                  <div className="flex justify-center my-6">
-                    <LanguageToggle />
-                  </div>
-
-                  {/* Social Links */}
-                  <div className="flex justify-center space-x-4 my-6">
+                  {/* Social Links & Language Toggle */}
+                  <div className="flex justify-center items-center space-x-4 my-6">
+                      <LanguageToggle />
+                      <div className="border-l h-8 self-center border-border/50"></div>
                       {socialLinksData.map((link) => {
                           const Icon = socialIcons[link.iconName];
                           if (!Icon) return null;
