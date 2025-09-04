@@ -59,8 +59,6 @@ export function Header() {
                 <nav className={cn(
                   "hidden md:flex items-center gap-4 transition-all duration-300"
                   )}>
-                  <LanguageToggle />
-                  <div className="h-6 w-px bg-white/20"></div>
                   {socialLinks.map((link) => (
                     <Button key={link.name} variant="ghost" size="icon" asChild className="[&_svg]:size-6 !bg-transparent">
                       <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
@@ -68,6 +66,8 @@ export function Header() {
                       </a>
                     </Button>
                   ))}
+                  <LanguageToggle />
+                  <div className="h-6 w-px bg-white/20"></div>
                   <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
                     <a href="tel:+40769833101">
                       <Phone className="mr-2 h-4 w-4" />
