@@ -20,9 +20,7 @@ export default function SocialTestPage() {
           {/* Header */}
           <header className="relative h-20 p-4">
              <div className="relative flex justify-end items-center">
-              <Button variant="ghost" size="icon" className="text-white backdrop-blur-sm bg-white/10 rounded-full">
-                <Menu />
-              </Button>
+              
             </div>
           </header>
 
