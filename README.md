@@ -347,7 +347,7 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     # --- Hostname și Domeniu ---
     myhostname = mail.mitarmedia.com
     myorigin = /etc/mailname
-    mydestination = $myhostname, localhost.$mydomain, localhost
+    mydestination = $myhostname, localhost.$mydomain, localhost, mitarmedia.com
     mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 
     # --- Configurare Mailbox (pentru utilizatori de sistem) ---
@@ -375,17 +375,40 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     ```bash
     sudo nano /etc/postfix/master.cf
     ```
-    Găsiți și decomentați (ștergeți `#` din fața liniei) următoarele secțiuni pentru `submission` (port 587) și `smtps` (port 465). **Asigurați-vă că fișierul arată exact așa, ștergând orice alte opțiuni `-o` sub aceste secțiuni:**
+    Asigurați-vă că fișierul conține următoarea configurație curată, eliminând toate liniile comentate și opțiunile duplicate de sub `submission` și `smtps`.
+
     ```ini
     # ==========================================================================
-    # service type  private unpriv  chroot  wakeup  maxprocs command + args
+    # service type  private unpriv  chroot  wakeup  maxproc command + args
     #               (yes)   (yes)   (yes)   (never) (100)
     # ==========================================================================
     smtp      inet  n       -       y       -       -       smtpd
-    #smtp      inet  n       -       y       -       1       postscreen
-    #smtpd     pass  -       -       y       -       -       smtpd
-    #dnsblog   unix  -       -       y       -       0       dnsblog
-    #tlsproxy  unix  -       -       y       -       0       tlsproxy
+    pickup    unix  n       -       y       60      1       pickup
+    cleanup   unix  n       -       y       -       0       cleanup
+    qmgr      unix  n       -       n       300     1       qmgr
+    tlsmgr    unix  -       -       y       1000?   1       tlsmgr
+    rewrite   unix  -       -       y       -       -       trivial-rewrite
+    bounce    unix  -       -       y       -       0       bounce
+    defer     unix  -       -       y       -       0       bounce
+    trace     unix  -       -       y       -       0       bounce
+    verify    unix  -       -       y       -       1       verify
+    flush     unix  n       -       y       1000?   0       flush
+    proxymap  unix  -       -       n       -       -       proxymap
+    proxywrite unix -       -       n       -       1       proxymap
+    smtp      unix  -       -       y       -       -       smtp
+    relay     unix  -       -       y       -       -       smtp
+    showq     unix  n       -       y       -       -       showq
+    error     unix  -       -       y       -       -       error
+    retry     unix  -       -       y       -       -       error
+    discard   unix  -       -       y       -       -       discard
+    local     unix  -       n       n       -       -       local
+    virtual   unix  -       n       n       -       -       virtual
+    lmtp      unix  -       -       y       -       -       lmtp
+    anvil     unix  -       -       y       -       1       anvil
+    scache    unix  -       -       y       -       1       scache
+    # ====================================================================
+    # Servicii pentru clienți de email
+    # ====================================================================
     submission inet n       -       y       -       -       smtpd
       -o syslog_name=postfix/submission
       -o smtpd_tls_security_level=encrypt
@@ -474,14 +497,14 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     # Permiteți traficul pentru Nginx (HTTP & HTTPS)
     sudo ufw allow 'Nginx Full'
 
-    # Permiteți traficul pentru serviciile de mail
-    sudo ufw allow Postfix
-    sudo ufw allow "Postfix SMTPS"
-    sudo ufw allow "Postfix Submission"
-    sudo ufw allow "Dovecot IMAP"
-    sudo ufw allow "Dovecot POP3"
-    sudo ufw allow "Dovecot Secure IMAP"
-    sudo ufw allow "Dovecot Secure POP3"
+    # Permiteți traficul pentru serviciile de mail (SMTP, IMAP, POP3)
+    sudo ufw allow 25/tcp    # SMTP standard
+    sudo ufw allow 587/tcp   # SMTP Submission (recomandat)
+    sudo ufw allow 465/tcp   # SMTPS
+    sudo ufw allow 143/tcp   # IMAP
+    sudo ufw allow 993/tcp   # IMAPS
+    sudo ufw allow 110/tcp   # POP3
+    sudo ufw allow 995/tcp   # POP3S
     
     # Activați firewall-ul (rulați doar după ce ați permis SSH)
     sudo ufw enable 
