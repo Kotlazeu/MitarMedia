@@ -17,7 +17,7 @@ Acest ghid vă va purta prin toți pașii necesari pentru a publica (a face "dep
     *   Creați sau modificați următoarele înregistrări de tip **`A`**:
         *   **Înregistrarea principală (root):**
             *   **Tip:** `A`
-            *   **Gazdă/Nume (Host/Name):** `@` (acesta reprezintă domeniul principal, ex: `domeniul-tau.ro`)
+            *   **Gazdă/Nume (Host/Name):** `@` (acesta reprezintă domeniul principal, ex: `mitarmedia.com`)
             *   **Valoare (Value/Points to):** Adresa IP a VPS-ului (ex: `123.45.67.89`)
             *   **TTL (Time To Live):** Lăsați valoarea implicită (de obicei 1 oră sau automat).
         *   **Înregistrarea pentru `www`:**
@@ -184,14 +184,14 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
 4.  **Înlocuiți întregul conținut al fișierului:**
     Ștergeți tot conținutul existent și înlocuiți-l cu configurația de mai jos.
 
-    **Asigurați-vă că înlocuiți `domeniul-tau.ro` cu domeniul dumneavoastră real!**
+    **Asigurați-vă că înlocuiți `mitarmedia.com` cu domeniul dumneavoastră real!**
 
     ```nginx
     server {
         listen 80;
         listen [::]:80;
 
-        server_name domeniul-tau.ro www.domeniul-tau.ro;
+        server_name mitarmedia.com www.mitarmedia.com;
 
         location / {
             proxy_pass http://127.0.0.1:3000; # Portul pe care rulează aplicația Next.js
@@ -219,7 +219,7 @@ Nginx va prelua cererile de la vizitatori (pe portul 80) și le va redirecționa
     sudo systemctl reload nginx
     ```
 
-Acum, site-ul ar trebui să fie accesibil la adresa `http://domeniul-tau.ro` și să afișeze aplicația Next.js. Pagina implicită Nginx nu ar trebui să mai apară.
+Acum, site-ul ar trebui să fie accesibil la adresa `http://mitarmedia.com` și să afișeze aplicația Next.js. Pagina implicită Nginx nu ar trebui să mai apară.
 
 ---
 
@@ -235,7 +235,7 @@ Vom folosi Let's Encrypt și Certbot pentru a obține un certificat SSL gratuit.
 2.  **Obțineți și instalați certificatul:**
     ```bash
     # Înlocuiți cu domeniile dumneavoastră
-    sudo certbot --nginx -d domeniul-tau.ro -d www.domeniul-tau.ro
+    sudo certbot --nginx -d mitarmedia.com -d www.mitarmedia.com
     ```
     Urmați instrucțiunile de pe ecran. Certbot va modifica automat fișierul de configurare Nginx pentru a activa HTTPS și va configura reînnoirea automată a certificatului.
 
@@ -375,7 +375,7 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     ```bash
     sudo nano /etc/postfix/master.cf
     ```
-    Găsiți și decomentați (ștergeți `#` din fața liniei) următoarele secțiuni pentru `submission` (port 587) și `smtps` (port 465). Asigurați-vă că arată exact așa:
+    Găsiți și decomentați (ștergeți `#` din fața liniei) următoarele secțiuni pentru `submission` (port 587) și `smtps` (port 465). **Asigurați-vă că fișierul arată exact așa, ștergând orice alte opțiuni `-o` sub aceste secțiuni:**
     ```ini
     # ==========================================================================
     # service type  private unpriv  chroot  wakeup  maxprocs command + args
