@@ -9,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 // import { Typewriter } from './typewriter';
 import { FadeInWords } from './fade-in-words';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { MagnifyingGlass } from './magnifying-glass';
 import { useLanguage } from '@/context/language-context';
 import RotatingText from './rotating-text';
 import BlurText from './blur-text';
@@ -145,3 +144,5 @@ export function AiSection() {
     </section>
   );
 }
+
+    

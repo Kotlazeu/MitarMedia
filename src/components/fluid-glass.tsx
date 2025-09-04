@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useRef, useEffect } from 'react';
@@ -20,7 +21,7 @@ export function FluidGlass({ children, className }: FluidGlassProps) {
 
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-      const { top, left, width, height } = container.getBoundingClientRect();
+      const { top, left } = container.getBoundingClientRect();
       const x = clientX - left;
       const y = clientY - top;
 
@@ -58,8 +59,12 @@ export function FluidGlass({ children, className }: FluidGlassProps) {
     <div ref={containerRef} className={cn("fluid-glass-container", className)}>
       <div className="relative">
         <div ref={blobRef} className="blob-container" />
-        {children}
+        <div className="relative z-20">
+            {children}
+        </div>
       </div>
     </div>
   );
 }
+
+    
