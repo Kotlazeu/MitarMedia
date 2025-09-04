@@ -60,7 +60,7 @@ export default function SocialTestPage() {
               {/* GIF/Map Section */}
               <div className="group relative rounded-2xl overflow-hidden mb-6 aspect-video animate-idle-perspective">
                 <Image 
-                  src="https://picsum.photos/seed/map-gif/800/600" 
+                  src="/map-animation.gif" 
                   alt="Animated map background"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
