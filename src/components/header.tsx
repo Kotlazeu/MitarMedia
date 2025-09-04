@@ -47,7 +47,6 @@ export function Header() {
             </a>
         </Button>
     )),
-    <LanguageToggle key="lang-toggle" />
   ];
 
   return (
@@ -63,9 +62,14 @@ export function Header() {
               className="p-2.5 rounded-2xl glassmorphism"
             >
                <div className="flex items-center justify-between w-full">
-                <Link href="/" className="flex items-center">
-                  <Image src="/logo.svg" alt="Mitar Media Logo" width={32} height={32} className="h-8 w-8" />
-                </Link>
+                <div className="flex items-center gap-4">
+                    <Link href="/" className="flex items-center">
+                        <Image src="/logo.svg" alt="Mitar Media Logo" width={32} height={32} className="h-8 w-8" />
+                    </Link>
+                    <div className="hidden md:block">
+                      <LanguageToggle />
+                    </div>
+                </div>
 
                 <nav className={cn(
                   "hidden md:flex items-center gap-4 transition-all duration-300"
