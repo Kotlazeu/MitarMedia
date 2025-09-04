@@ -474,10 +474,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ```
     Urmați instrucțiunile pentru a obține certificatul.
 
-3.  **Configurați Postfix și Dovecot să folosească certificatul SSL:**
-    Acest pas a fost deja inclus în configurația completă de la pasul 10.2, punctul 4.
-
-4.  **Configurați Dovecot să folosească certificatul SSL:**
+3.  **Configurați Dovecot să folosească certificatul SSL:**
     ```bash
     sudo nano /etc/dovecot/conf.d/10-ssl.conf
     ```
@@ -486,8 +483,9 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ssl_cert = </etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
     ssl_key = </etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     ```
+    *Notă: Pașii pentru a configura Postfix să folosească SSL sunt deja incluși în configurația completă de la pasul 10.2, punctul 4.*
 
-5.  **Deschiderea Porturilor în Firewall (Pas CRUCIAL!):**
+4.  **Deschiderea Porturilor în Firewall (Pas CRUCIAL!):**
     Dacă folosiți `ufw` (firewall-ul implicit din Ubuntu), trebuie să permiteți traficul pentru toate serviciile necesare **înainte** de a activa firewall-ul.
     
     ```bash
@@ -497,14 +495,11 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     # Permiteți traficul pentru Nginx (HTTP & HTTPS)
     sudo ufw allow 'Nginx Full'
 
-    # Permiteți traficul pentru serviciile de mail (SMTP, IMAP, POP3)
-    sudo ufw allow 25/tcp    # SMTP standard
-    sudo ufw allow 587/tcp   # SMTP Submission (recomandat)
-    sudo ufw allow 465/tcp   # SMTPS
-    sudo ufw allow 'Dovecot IMAP'
-    sudo ufw allow 'Dovecot POP3'
-    sudo ufw allow 'Dovecot Secure IMAP'
-    sudo ufw allow 'Dovecot Secure POP3'
+    # Permiteți traficul pentru serviciile de mail (SMTP securizat și IMAP/POP3)
+    sudo ufw allow 587    # Portul SMTP Submission (recomandat pentru clienți)
+    sudo ufw allow 465    # Portul SMTPS (legacy, dar util pentru compatibilitate)
+    sudo ufw allow 993    # Portul IMAPS (IMAP peste SSL)
+    sudo ufw allow 995    # Portul POP3S (POP3 peste SSL)
     
     # Activați firewall-ul (rulați doar după ce ați permis SSH)
     sudo ufw enable 
@@ -514,7 +509,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ```
     **Notă de depanare urgentă:** Dacă după rularea `sudo ufw enable` nu vă mai puteți conecta la VPS, înseamnă că nu ați permis conexiunile SSH. Va trebui să folosiți consola web a furnizorului de VPS pentru a rula `sudo ufw allow ssh`.
 
-6.  **Reporniți serviciile:**
+5.  **Reporniți serviciile:**
     ```bash
     sudo systemctl restart postfix
     sudo systemctl restart dovecot
