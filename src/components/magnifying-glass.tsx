@@ -2,8 +2,9 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
-export function MagnifyingGlass({ children }: { children: React.ReactNode }) {
+export function MagnifyingGlass({ children, mapLink }: { children: React.ReactNode; mapLink: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -41,48 +42,52 @@ export function MagnifyingGlass({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={containerRef}
-      className="magnify-container relative text-foreground/70 text-lg text-center lg:text-left"
+      className="magnify-container group relative rounded-2xl overflow-hidden mb-6 aspect-square"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-        <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-            <defs>
-                <filter id="warp">
-                    <feImage xlinkHref="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3CradialGradient%20id%3D'g'%20cx%3D'50'%20cy%3D'50'%20r%3D'50'%3E%3Cstop%20offset%3D'70%25'%20stop-color%3D'white'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'black'%2F%3E%3C%2FradialGradient%3E%3Crect%20width%3D'100'%20height%3D'100'%20fill%3D'url(%23g)'%2F%3E%3C%2Fsvg%3E" x="0" y="0" width="100%" height="100%" result="gradient"/>
-                    <feDisplacementMap in="SourceGraphic" in2="gradient" scale="20" xChannelSelector="R" yChannelSelector="G"/>
-                </filter>
-            </defs>
-        </svg>
-
-      {/* Original, non-interactive content */}
+      {/* Background GIF */}
       {children}
       
-      {/* Magnifier visual effect */}
-      {isDesktop && (
-        <div
-          className="magnifier"
-          style={{
-            left: `${position.x}px`,
-            top: `${position.y}px`,
-            width: `${magnifierSize}px`,
-            height: `${magnifierSize}px`,
-            opacity: isHovering ? 1 : 0,
-            filter: 'url(#warp)',
-          }}
-        >
-          <div
-            className="magnifier-content"
-            style={{
-                left: `${-position.x * zoomFactor + magnifierSize / 2}px`,
-                top: `${-position.y * zoomFactor + magnifierSize / 2}px`,
-                width: containerRef.current?.clientWidth,
-                height: containerRef.current?.clientHeight,
-            }}
-          >
-            {children}
-          </div>
+      {/* Static button for mobile */}
+      {!isDesktop && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300 p-4">
+          <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="w-full max-w-[200px]">
+            <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105">
+              <span className="text-sm font-semibold text-white/90">
+                Fă-ne o vizită
+              </span>
+            </div>
+          </Link>
         </div>
+      )}
+
+      {/* Mouse-following button for desktop */}
+      {isDesktop && (
+        <Link 
+            href={mapLink} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="magnifier glassmorphism-button"
+            style={{
+                left: `${position.x}px`,
+                top: `${position.y}px`,
+                width: `150px`,
+                height: `50px`,
+                borderRadius: `9999px`,
+                opacity: isHovering ? 1 : 0,
+                transform: 'translate(-50%, -50%)',
+            }}
+        >
+             <div
+                className="flex items-center justify-center h-full w-full"
+            >
+                <span className="text-sm font-semibold text-white/90">
+                    Fă-ne o vizită
+                </span>
+            </div>
+        </Link>
       )}
     </div>
   );

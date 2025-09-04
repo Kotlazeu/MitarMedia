@@ -6,8 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { LanguageProvider } from '@/context/language-context';
-import { Instagram, Youtube, Linkedin } from 'lucide-react';
-import { TikTokIcon } from '@/components/icons/tiktok-icon';
 
 export default function SocialPage() {
   return (
@@ -29,16 +27,19 @@ export default function SocialPage() {
             {socialLinksData.map((link) => {
               const Icon = socialIcons[link.iconName];
               if (!Icon) return null;
+               const isTelLink = link.href.startsWith('tel:');
+              const Component = isTelLink ? 'a' : Link;
+
               return (
                 <Button
                   key={link.name}
                   asChild
                   className="w-full h-14 text-lg glassmorphism transition-transform duration-200 ease-in-out hover:scale-105"
                 >
-                  <Link href={link.href} target="_blank" rel="noopener noreferrer">
+                  <Component href={link.href} target={!isTelLink ? '_blank' : undefined} rel={!isTelLink ? 'noopener noreferrer' : undefined}>
                     {Icon && <div className="absolute left-4"><Icon className="h-6 w-6" /></div>}
                     <span>{link.name}</span>
-                  </Link>
+                  </Component>
                 </Button>
               );
             })}

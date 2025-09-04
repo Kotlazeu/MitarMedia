@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { MagnifyingGlass } from '@/components/magnifying-glass';
 
 export default function SocialTestPage() {
   const mapLink = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.0001506308622!2d21.245516633957912!3d45.79528108724393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sro!4v1756980823138!5m2!1sen!2sro";
@@ -15,7 +16,6 @@ export default function SocialTestPage() {
       <div style={{ perspective: '1000px' }}>
         <div className="w-full max-w-sm mx-auto bg-card/50 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-border animate-idle-perspective">
           
-          {/* Header */}
           <header className="relative h-20 p-4">
              <div className="relative flex justify-end items-center">
               
@@ -57,7 +57,7 @@ export default function SocialTestPage() {
               </div>
 
               {/* GIF/Map Section */}
-              <div className="group relative rounded-2xl overflow-hidden mb-6 aspect-square">
+              <MagnifyingGlass mapLink={mapLink}>
                 <Image 
                   src="/map-animation.gif" 
                   alt="Animated map background"
@@ -65,16 +65,7 @@ export default function SocialTestPage() {
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                   data-ai-hint="satellite view"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300 p-4">
-                  <Link href={mapLink} target="_blank" rel="noopener noreferrer" className="w-full max-w-[200px]">
-                    <div className="glassmorphism-button flex items-center justify-center h-[50px] rounded-full transition-all duration-300 group-hover:scale-105">
-                      <span className="text-sm font-semibold text-white/90">
-                        Fă-ne o vizită
-                      </span>
-                    </div>
-                  </Link>
-                </div>
-              </div>
+              </MagnifyingGlass>
 
 
               {/* Website Link */}
@@ -91,4 +82,3 @@ export default function SocialTestPage() {
     </div>
   );
 }
-    
