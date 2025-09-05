@@ -241,22 +241,33 @@ Vom folosi Let's Encrypt și Certbot pentru a obține un certificat SSL gratuit.
 
 ---
 
-### **Pasul 8 (Depanare): Ce fac dacă văd o eroare 502 Bad Gateway?**
+### **Pasul 8 (Depanare): Ce fac dacă văd o eroare sau ceva nu funcționează?**
 
-Eroarea 502 înseamnă că Nginx nu poate comunica cu aplicația Next.js.
+Când ceva nu merge bine, jurnalele (log-urile) sunt cel mai bun prieten al dumneavoastră.
 
-1.  **Verificați starea aplicației în PM2:**
-    ```bash
-    pm2 list
-    ```
-    Asigurați-vă că procesul are statusul `online`. Dacă este `errored` sau `stopped`, ceva este în neregulă cu aplicația.
-
-2.  **Verificați log-urile (jurnalele) aplicației:** Acesta este cel mai important pas de depanare.
+1.  **Verificați Jurnalul Aplicației (PM2):** Acesta este cel mai important loc de verificat pentru erori legate de codul aplicației Next.js.
     ```bash
     # Înlocuiți "numele-proiectului" cu numele pe care l-ați dat în PM2
     pm2 logs numele-proiectului
     ```
-    Această comandă vă va arăta în timp real orice eroare pe care o generează aplicația Next.js. Erorile comune includ variabile de mediu lipsă, probleme în cod sau erori de build. Dacă vedeți o eroare aici, ea vă va oferi indiciul necesar pentru a rezolva problema.
+    Această comandă arată erorile în timp real.
+
+2.  **Verificați Jurnalul Postfix (serverul de trimitere):**
+    ```bash
+    journalctl -u postfix
+    ```
+    Uitați-vă după linii care conțin "error", "warning" sau "fatal".
+
+3.  **Verificați Jurnalul Dovecot (serverul de primire/autentificare):**
+    ```bash
+    journalctl -u dovecot
+    ```
+    Aceasta este comanda cheie pentru a depana erorile de autentificare "imposibil de verificat numele sau parola".
+
+Erorile comune sunt:
+*   **502 Bad Gateway:** Nginx nu poate comunica cu aplicația. Verificați cu `pm2 list` dacă aplicația rulează.
+*   **Erori de autentificare email:** De obicei, o greșeală în fișierele de configurare Dovecot sau Postfix. Verificați jurnalele lor.
+*   **Erori de certificat SSL:** Asigurați-vă că ați rulat corect Certbot și că ați obținut certificate pentru *toate* domeniile necesare (`mitarmedia.com`, `www.mitarmedia.com`, `mail.mitarmedia.com`).
 
 ---
 
@@ -264,21 +275,60 @@ Eroarea 502 înseamnă că Nginx nu poate comunica cu aplicația Next.js.
 
 Pentru a simplifica procesul de actualizare a site-ului după ce faceți modificări și le încărcați pe GitHub, puteți folosi scriptul `deploy.sh`. Aceasta este metoda recomandată pentru **toate actualizările viitoare**.
 
-1.  **Faceți scriptul executabil (doar o singură dată):**
-    Navigați în directorul proiectului și rulați comanda:
+1.  **Creați fișierul de deploy:**
+    Navigați în directorul proiectului (`cd ~/numele-proiectului`) și creați fișierul:
+    ```bash
+    nano deploy.sh
+    ```
+
+2.  **Copiați conținutul în fișier:**
+    Adăugați următorul conținut în fișier. **Nu uitați să modificați `PM2_PROCESS_NAME`!**
+    ```sh
+    #!/bin/bash
+    # Script de Deploy pentru Aplicații Next.js
+    set -e
+
+    # --- Configurație (Modificați numele procesului PM2) ---
+    PM2_PROCESS_NAME="numele-proiectului" # IMPORTANT: Schimbați cu numele din `pm2 list`
+
+    echo "#######################################"
+    echo "# Pornire script de deploy..."
+    echo "#######################################"
+
+    # Resetare modificări locale și descărcare de pe GitHub
+    echo "-> Resetare modificări locale..."
+    git reset --hard
+    echo "-> Descărcare modificări de pe GitHub (git pull)..."
+    git pull origin main # sau 'master' dacă acesta este branch-ul principal
+
+    # Instalare dependențe noi
+    echo "-> Instalare dependențe (npm install)..."
+    npm install
+
+    # Construirea aplicației pentru producție
+    echo "-> Construire proiect (npm run build)..."
+    npm run build
+
+    # Reîncărcarea aplicației cu PM2 (fără downtime)
+    echo "-> Reîncărcare aplicație în PM2 (pm2 reload)..."
+    pm2 reload $PM2_PROCESS_NAME
+
+    echo "#######################################"
+    echo "# Deploy finalizat cu succes!"
+    echo "#######################################"
+    ```
+    Salvați și închideți (`Ctrl+X`, `Y`, `Enter`).
+
+3.  **Faceți scriptul executabil (doar o singură dată):**
     ```bash
     chmod +x deploy.sh
     ```
 
-2.  **Editați scriptul (dacă este necesar):**
-    Scriptul este pre-configurat pentru o structură standard. Deschideți-l cu `nano deploy.sh` dacă numele proiectului sau numele procesului PM2 este diferit.
-
-3.  **Rulați scriptul de deploy:**
-    De fiecare dată când doriți să actualizați site-ul cu cele mai recente modificări de pe GitHub, navigați în directorul proiectului și rulați o singură comandă:
+4.  **Rulați scriptul de deploy:**
+    De fiecare dată când doriți să actualizați site-ul, rulați o singură comandă din directorul proiectului:
     ```bash
     ./deploy.sh
     ```
-    Scriptul se va ocupa de tot: va crea un backup, va descărca modificările, va instala pachetele necesare, va construi proiectul și va reîncărca aplicația în PM2 fără downtime.
 
 ---
 
@@ -371,11 +421,7 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     ```
 
 5.  **Editarea fișierului de servicii Postfix (`master.cf`):**
-    Acest pas este **CRUCIAL** pentru a activa porturile securizate pe care le folosesc clienții de email precum Gmail/Outlook.
-    ```bash
-    sudo nano /etc/postfix/master.cf
-    ```
-    Asigurați-vă că fișierul conține următoarea configurație curată, eliminând toate liniile comentate și opțiunile duplicate.
+    Acest pas este **CRUCIAL** pentru a activa porturile securizate pe care le folosesc clienții de email precum Gmail/Outlook. Deschideți fișierul cu `sudo nano /etc/postfix/master.cf` și **înlocuiți complet** conținutul său cu următorul bloc.
 
     ```ini
     # ==========================================================================
@@ -473,7 +519,6 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ssl_cert = /etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
     ssl_key = /etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     ssl_min_protocol = TLSv1.2
-    # ssl_dh = /etc/dovecot/dh.pem # (Comentat - nu este necesar cu chei moderne)
     ```
 
 #### **10.4. Securizarea cu SSL (Let's Encrypt) și Firewall**
@@ -544,7 +589,7 @@ Fiecare căsuță de email este un utilizator de sistem standard.
 
 #### **10.6. Testarea Serverului de Mail**
 
-Acum, la configurarea în Apple Mail, Gmail (sau alt client), folosiți următoarele setări:
+Acum, la configurarea în Apple Mail, Gmail (sau alt client), folosiți următoarele setări. **Debifați orice opțiune de "setare automată" pentru a putea introduce manual porturile și metodele de securitate.**
 
 *   **Configurare IMAP (primire):**
     *   **Server:** `mail.mitarmedia.com`
