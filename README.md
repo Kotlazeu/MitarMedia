@@ -547,12 +547,14 @@ Acum, la configurarea în Gmail (sau alt client), folosiți următoarele setări
     *   **Server:** `mail.mitarmedia.com`
     *   **Port:** `993`
     *   **Securitate:** `SSL/TLS`
+    *   **Autentificare:** `Parolă`
     *   **Utilizator:** `contact` (sau numele utilizatorului creat)
     *   **Parolă:** Parola setată la crearea utilizatorului
 *   **Configurare SMTP (trimitere):**
     *   **Server:** `mail.mitarmedia.com`
     *   **Port:** `587`
     *   **Securitate:** `STARTTLS`
+    *   **Autentificare:** `Parolă`
     *   **Utilizator:** `contact`
     *   **Parolă:** Parola setată
 
