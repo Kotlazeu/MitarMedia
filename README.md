@@ -444,6 +444,8 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     disable_plaintext_auth = no
     auth_mechanisms = plain login
     ```
+    *Notă de depanare: Setarea `disable_plaintext_auth = no` este sigură deoarece conexiunea este deja criptată prin TLS. Unii clienți de email (inclusiv Apple Mail) pot avea probleme dacă această opțiune este setată pe `yes`.*
+
 
 3.  **Editarea fișierului master pentru a expune autentificarea pentru Postfix:**
     ```bash
@@ -470,7 +472,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ssl_cert = /etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
     ssl_key = /etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     ssl_min_protocol = TLSv1.2
-    # ssl_dh = </etc/dovecot/dh.pem # (Comentat - nu este necesar cu chei moderne)
+    # ssl_dh = /etc/dovecot/dh.pem # (Comentat - nu este necesar cu chei moderne)
     ```
 
 #### **10.4. Securizarea cu SSL (Let's Encrypt) și Firewall**
@@ -541,21 +543,21 @@ Fiecare căsuță de email este un utilizator de sistem standard.
 
 #### **10.6. Testarea Serverului de Mail**
 
-Acum, la configurarea în Gmail (sau alt client), folosiți următoarele setări:
+Acum, la configurarea în Apple Mail, Gmail (sau alt client), folosiți următoarele setări:
 
 *   **Configurare IMAP (primire):**
     *   **Server:** `mail.mitarmedia.com`
     *   **Port:** `993`
     *   **Securitate:** `SSL/TLS`
     *   **Autentificare:** `Parolă`
-    *   **Utilizator:** `contact` (sau numele utilizatorului creat)
+    *   **Nume utilizator:** `contact` (sau numele utilizatorului creat)
     *   **Parolă:** Parola setată la crearea utilizatorului
 *   **Configurare SMTP (trimitere):**
     *   **Server:** `mail.mitarmedia.com`
     *   **Port:** `587`
     *   **Securitate:** `STARTTLS`
     *   **Autentificare:** `Parolă`
-    *   **Utilizator:** `contact`
+    *   **Nume utilizator:** `contact`
     *   **Parolă:** Parola setată
 
 ---
