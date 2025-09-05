@@ -375,7 +375,7 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     ```bash
     sudo nano /etc/postfix/master.cf
     ```
-    Asigurați-vă că fișierul conține următoarea configurație curată, eliminând toate liniile comentate și opțiunile duplicate de sub `submission` și `smtps`.
+    Asigurați-vă că fișierul conține următoarea configurație curată, eliminând toate liniile comentate și opțiunile duplicate.
 
     ```ini
     # ==========================================================================
@@ -407,7 +407,7 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     anvil     unix  -       -       y       -       1       anvil
     scache    unix  -       -       y       -       1       scache
     # ====================================================================
-    # Servicii pentru clienți de email
+    # Servicii pentru clienți de email (Submission și SMTPS)
     # ====================================================================
     submission inet n       -       y       -       -       smtpd
       -o syslog_name=postfix/submission
@@ -426,32 +426,33 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
 
 Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
 
-1.  **Editarea fișierului de configurare pentru mail:**
+1.  **Editarea fișierului de configurare pentru mail (`10-mail.conf`):**
     ```bash
     sudo nano /etc/dovecot/conf.d/10-mail.conf
     ```
-    Găsiți linia `mail_location` și asigurați-vă că arată astfel (decomentați-o dacă este necesar):
+    Asigurați-vă că fișierul arată astfel, decomentând linia `mail_location`:
     ```ini
     mail_location = maildir:~/Maildir
     ```
 
-2.  **Editarea fișierului de autentificare:**
+2.  **Editarea fișierului de autentificare (`10-auth.conf`):**
     ```bash
     sudo nano /etc/dovecot/conf.d/10-auth.conf
     ```
-    Decomentați și modificați linia `disable_plaintext_auth`. De asemenea, asigurați-vă că `auth_mechanisms` include `plain login`.
+    **Înlocuiți complet** conținutul fișierului cu următoarele trei linii. Aceasta este o versiune simplificată și corectă.
     ```ini
     disable_plaintext_auth = no
     auth_mechanisms = plain login
+    !include auth-system.conf.ext
     ```
     *Notă de depanare: Setarea `disable_plaintext_auth = no` este sigură deoarece conexiunea este deja criptată prin TLS. Unii clienți de email (inclusiv Apple Mail) pot avea probleme dacă această opțiune este setată pe `yes`.*
 
 
-3.  **Editarea fișierului master pentru a expune autentificarea pentru Postfix:**
+3.  **Editarea fișierului master (`10-master.conf`) pentru a expune autentificarea pentru Postfix:**
     ```bash
     sudo nano /etc/dovecot/conf.d/10-master.conf
     ```
-    Găsiți secțiunea `service auth` și modificați-o astfel încât să conțină socket-ul pentru Postfix:
+    Găsiți secțiunea `service auth` și modificați-o astfel încât să conțină socket-ul pentru Postfix, inclusiv permisiunile corecte.
     ```ini
     service auth {
       unix_listener /var/spool/postfix/private/auth {
@@ -462,7 +463,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     }
     ```
 
-4.  **Editarea fișierului SSL (Pas important!):**
+4.  **Editarea fișierului SSL (`10-ssl.conf`) - Pas important!:**
     ```bash
     sudo nano /etc/dovecot/conf.d/10-ssl.conf
     ```
@@ -489,8 +490,8 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ```
     Urmați instrucțiunile pentru a obține certificatul.
 
-3.  **Configurați Dovecot să folosească certificatul SSL:**
-    Acest pas este deja acoperit în `10.3`, punctul 4, dar verificați pentru a vă asigura.
+3.  **Configurați Postfix și Dovecot să folosească certificatul SSL:**
+    Acești pași sunt deja acoperiți în secțiunile anterioare (`10.2` și `10.3`), dar verificați pentru a vă asigura că sunt corecți.
 
 4.  **Deschiderea Porturilor în Firewall (Pas CRUCIAL!):**
     Dacă folosiți `ufw` (firewall-ul implicit din Ubuntu), trebuie să permiteți traficul pentru toate serviciile necesare **înainte** de a activa firewall-ul.
