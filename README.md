@@ -460,6 +460,19 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     }
     ```
 
+4.  **Editarea fișierului SSL (Pas important!):**
+    ```bash
+    sudo nano /etc/dovecot/conf.d/10-ssl.conf
+    ```
+    Asigurați-vă că fișierul arată astfel, forțând utilizarea SSL și specificând căile corecte către certificate.
+    ```ini
+    ssl = required
+    ssl_cert = /etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
+    ssl_key = /etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
+    ssl_min_protocol = TLSv1.2
+    # ssl_dh = </etc/dovecot/dh.pem # (Comentat - nu este necesar cu chei moderne)
+    ```
+
 #### **10.4. Securizarea cu SSL (Let's Encrypt) și Firewall**
 
 1.  **Instalați Certbot (dacă nu l-ați instalat deja):**
@@ -475,15 +488,7 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     Urmați instrucțiunile pentru a obține certificatul.
 
 3.  **Configurați Dovecot să folosească certificatul SSL:**
-    ```bash
-    sudo nano /etc/dovecot/conf.d/10-ssl.conf
-    ```
-    Modificați liniile `ssl_cert` și `ssl_key`:
-    ```ini
-    ssl_cert = /etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
-    ssl_key = /etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
-    ```
-    *Notă: Pașii pentru a configura Postfix să folosească SSL sunt deja incluși în configurația completă de la pasul 10.2, punctul 4.*
+    Acest pas este deja acoperit în `10.3`, punctul 4, dar verificați pentru a vă asigura.
 
 4.  **Deschiderea Porturilor în Firewall (Pas CRUCIAL!):**
     Dacă folosiți `ufw` (firewall-ul implicit din Ubuntu), trebuie să permiteți traficul pentru toate serviciile necesare **înainte** de a activa firewall-ul.
