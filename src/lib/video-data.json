@@ -1,0 +1,47 @@
+
+{
+  "videos": [
+    {
+      "id": "ai-section-background",
+      "location": "Fundal secțiune AI/Hero",
+      "videoSrc": "/videos/ForBiggerBlazes.mp4"
+    },
+    {
+      "id": "ai-section-card",
+      "location": "Card video mic secțiune AI/Hero",
+      "videoSrc": "/videos/BigBuckBunny.mp4"
+    },
+    {
+      "id": "carousel-1",
+      "location": "Carusel Video - Card 1",
+      "title": "Hotel Bellboy",
+      "description": "Creative Direction",
+      "category": "Industry Film",
+      "videoSrc": "/videos/ForBiggerJoyrides.mp4"
+    },
+    {
+      "id": "carousel-2",
+      "location": "Carusel Video - Card 2",
+      "title": "Project Beta",
+      "description": "Motion Graphics",
+      "category": "Social Media",
+      "videoSrc": "/videos/ForBiggerFun.mp4"
+    },
+    {
+      "id": "carousel-3",
+      "location": "Carusel Video - Card 3",
+      "title": "Project Gamma",
+      "description": "Social Media Campaign",
+      "category": "Commercial",
+      "videoSrc": "/videos/ForBiggerEscapes.mp4"
+    },
+    {
+      "id": "carousel-4",
+      "location": "Carusel Video - Card 4",
+      "title": "Project Delta",
+      "description": "Corporate Video",
+      "category": "Short Film",
+      "videoSrc": "/videos/ForBiggerBlazes.mp4"
+    }
+  ]
+}

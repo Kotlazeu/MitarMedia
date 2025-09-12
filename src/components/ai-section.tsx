@@ -13,6 +13,8 @@ import RotatingText from './rotating-text';
 import BlurText from './blur-text';
 import { motion } from 'framer-motion';
 import { getContent } from '@/lib/content-store';
+import videoData from '@/lib/video-data.json';
+
 
 const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={cn("glassmorphism rounded-2xl border border-white/10 p-4 shadow-2xl", className)} style={style}>
@@ -38,6 +40,9 @@ export function AiSection() {
   };
   
   const fullInitialText = `${content.rotatingTexts?.[0] || ''} ${content.staticText || ''}`;
+  
+  const backgroundVideo = videoData.videos.find(v => v.id === 'ai-section-background');
+  const cardVideo = videoData.videos.find(v => v.id === 'ai-section-card');
 
   return (
     <section id="ai-services" className="w-full min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
@@ -94,7 +99,9 @@ export function AiSection() {
               <BarChart2 className="text-foreground/50" />
             </div>
             <div className="relative w-full h-[80%] rounded-lg overflow-hidden">
-                <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
+                {backgroundVideo && (
+                  <video src={backgroundVideo.videoSrc} autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>
           </GlassCard>
@@ -104,7 +111,9 @@ export function AiSection() {
             className="absolute bottom-0 right-0 w-[65%] lg:w-[50%] transition-all duration-500 hover:scale-105 z-10 p-2 rotate-3 hover:rotate-0"
             >
             <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
-              <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
+              {cardVideo && (
+                <video src={cardVideo.videoSrc} autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
+              )}
             </div>
             <div className="flex items-center gap-2 text-foreground/80">
               <Film className="h-4 w-4" />

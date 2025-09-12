@@ -19,36 +19,11 @@ import Autoplay from "embla-carousel-autoplay";
 import { PerspectiveWrapper } from "./perspective-wrapper";
 import { useLanguage } from "@/context/language-context";
 import ScrollFloat from "./scroll-float";
+import videoData from '@/lib/video-data.json';
 
-const videoData = [
-  {
-    title: "Hotel Bellboy",
-    description: "Creative Direction",
-    category: "Industry Film",
-    videoSrc: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-  },
-  {
-    title: "Project Beta",
-    description: "Motion Graphics",
-    category: "Social Media",
-    videoSrc: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-  },
-  {
-    title: "Project Gamma",
-    description: "Social Media Campaign",
-    category: "Commercial",
-    videoSrc: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-  },
-  {
-    title: "Project Delta",
-    description: "Corporate Video",
-    category: "Short Film",
-    videoSrc: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-  },
-];
+const carouselVideos = videoData.videos.filter(v => v.id.startsWith('carousel-'));
 
-
-const VideoCard = ({ video, onClick }: { video: typeof videoData[0], onClick: () => void }) => {
+const VideoCard = ({ video, onClick }: { video: typeof carouselVideos[0], onClick: () => void }) => {
     return (
         <PerspectiveWrapper>
             <div
@@ -117,7 +92,7 @@ export function VideoCarousel() {
           ]}
         >
           <CarouselContent className="-ml-4">
-            {videoData.map((video, index) => (
+            {carouselVideos.map((video, index) => (
               <CarouselItem key={index} className="pl-4 sm:basis-1/2 md:basis-1/2 lg:basis-1/3">
                 <VideoCard video={video} onClick={() => handleVideoClick(video.videoSrc)} />
               </CarouselItem>
