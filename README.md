@@ -357,7 +357,7 @@ După rularea acestor comenzi, puteți urma pașii de mai jos pentru o instalare
 
 #### **10.1. Configurare DNS pentru Mail**
 
-Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la serverul dumneavoastră și pentru ca serverul să fie considerat de încredere.
+Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la serverul dumneavoastră și pentru ca serverul să fie considerat de încredere. Introduceți valorile **fără ghilimele** în panoul de administrare DNS.
 
 1.  **Înregistrare `A` pentru subdomeniu:**
     *   **Tip:** `A`
@@ -373,12 +373,12 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
 3.  **Înregistrare `SPF` (Sender Policy Framework) - Anti-Spam:**
     *   **Tip:** `TXT`
     *   **Gazdă/Nume:** `@`
-    *   **Valoare:** `"v=spf1 mx -all"` (Permite doar serverului specificat în MX să trimită mail)
+    *   **Valoare:** `v=spf1 mx -all`
 
 4.  **Înregistrare `DMARC` (Domain-based Message Authentication, Reporting & Conformance):**
     *   **Tip:** `TXT`
     *   **Gazdă/Nume:** `_dmarc`
-    *   **Valoare:** `"v=DMARC1; p=none; rua=mailto:admin@mitarmedia.com"` (Mod de raportare; înlocuiți `admin@` cu un email valid)
+    *   **Valoare:** `v=DMARC1; p=none; rua=mailto:admin@mitarmedia.com` (înlocuiți `admin@` cu un email valid)
 
 5.  **(Recomandat) Înregistrare `PTR` (Reverse DNS):**
     *   Această înregistrare se configurează de obicei în panoul de control al furnizorului de VPS (nu la registrarul de domenii).
