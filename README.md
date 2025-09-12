@@ -336,6 +336,25 @@ Pentru a simplifica procesul de actualizare a site-ului după ce faceți modific
 
 Acest ghid vă arată cum să configurați un server de mail complet pe VPS-ul dumneavoastră folosind Postfix (pentru trimitere/primire) și Dovecot (pentru accesul clienților de mail). Vom folosi `mail.mitarmedia.com` ca exemplu.
 
+#### **Pasul 10.0: Resetarea Configurației de Mail (Opțional)**
+
+Dacă ați avut o tentativă anterioară de instalare și doriți să o luați de la zero, rulați aceste comenzi pentru a șterge complet Postfix și Dovecot, inclusiv fișierele de configurare.
+
+```bash
+# Oprirea serviciilor de mail
+sudo systemctl stop postfix
+sudo systemctl stop dovecot
+
+# Dezinstalarea completă a pachetelor și a fișierelor de configurare
+sudo apt-get purge -y postfix dovecot-*
+
+# Curățarea pachetelor care nu mai sunt necesare
+sudo apt-get autoremove -y
+
+echo "Pachetele Postfix și Dovecot au fost eliminate complet."
+```
+După rularea acestor comenzi, puteți urma pașii de mai jos pentru o instalare curată.
+
 #### **10.1. Configurare DNS pentru Mail**
 
 Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la serverul dumneavoastră și pentru ca serverul să fie considerat de încredere.
