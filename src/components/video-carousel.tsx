@@ -31,13 +31,15 @@ const VideoCard = ({ video, onClick }: { video: typeof carouselVideos[0], onClic
                 onClick={onClick}
             >
                 <video
-                    src={video.videoSrc}
                     muted
                     autoPlay
                     loop
                     playsInline
                     className="absolute inset-0 w-full h-full object-cover -z-10 transition-transform duration-500 group-hover:scale-110"
-                ></video>
+                >
+                  <source src={video.sources.h265} type="video/mp4; codecs=hvc1" />
+                  <source src={video.sources.h264} type="video/mp4; codecs=avc1" />
+                </video>
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full p-6 text-white">
                     <h3 className="text-2xl font-headline font-bold uppercase">{video.title}</h3>
@@ -58,11 +60,11 @@ const VideoCard = ({ video, onClick }: { video: typeof carouselVideos[0], onClic
 
 export function VideoCarousel() {
   const [open, setOpen] = React.useState(false);
-  const [selectedVideo, setSelectedVideo] = React.useState("");
+  const [selectedVideo, setSelectedVideo] = React.useState<{ h265: string; h264: string } | null>(null);
   const { translations } = useLanguage();
 
-  const handleVideoClick = (videoSrc: string) => {
-    setSelectedVideo(videoSrc);
+  const handleVideoClick = (videoSources: { h265: string; h264: string }) => {
+    setSelectedVideo(videoSources);
     setOpen(true);
   };
 
@@ -94,7 +96,7 @@ export function VideoCarousel() {
           <CarouselContent className="-ml-4">
             {carouselVideos.map((video, index) => (
               <CarouselItem key={index} className="pl-4 sm:basis-1/2 md:basis-1/2 lg:basis-1/3">
-                <VideoCard video={video} onClick={() => handleVideoClick(video.videoSrc)} />
+                <VideoCard video={video} onClick={() => handleVideoClick(video.sources)} />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -112,11 +114,12 @@ export function VideoCarousel() {
           <div className="relative aspect-video">
             {selectedVideo && (
               <video
-                src={selectedVideo}
                 controls
                 autoPlay
                 className="w-full h-full rounded-lg"
               >
+                <source src={selectedVideo.h265} type="video/mp4; codecs=hvc1" />
+                <source src={selectedVideo.h264} type="video/mp4; codecs=avc1" />
                 Your browser does not support the video tag.
               </video>
             )}

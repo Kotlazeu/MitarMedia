@@ -100,7 +100,10 @@ export function AiSection() {
             </div>
             <div className="relative w-full h-[80%] rounded-lg overflow-hidden">
                 {backgroundVideo && (
-                  <video src={backgroundVideo.videoSrc} autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
+                  <video autoPlay loop muted playsInline className="absolute w-full h-full object-cover">
+                    <source src={backgroundVideo.sources.h265} type="video/mp4; codecs=hvc1" />
+                    <source src={backgroundVideo.sources.h264} type="video/mp4; codecs=avc1" />
+                  </video>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>
@@ -112,7 +115,10 @@ export function AiSection() {
             >
             <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
               {cardVideo && (
-                <video src={cardVideo.videoSrc} autoPlay loop muted playsInline className="absolute w-full h-full object-cover"></video>
+                <video autoPlay loop muted playsInline className="absolute w-full h-full object-cover">
+                  <source src={cardVideo.sources.h265} type="video/mp4; codecs=hvc1" />
+                  <source src={cardVideo.sources.h264} type="video/mp4; codecs=avc1" />
+                </video>
               )}
             </div>
             <div className="flex items-center gap-2 text-foreground/80">
