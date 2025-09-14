@@ -472,7 +472,7 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     anvil     unix  -       -       y       -       1       anvil
     scache    unix  -       -       y       -       1       scache
     # ====================================================================
-    # Servicii pentru clienți de email (Submissio
+    # Servicii pentru clienți de email (Submission și SMTPS)
     # ====================================================================
     submission inet n       -       y       -       -       smtpd
       -o syslog_name=postfix/submission
@@ -529,15 +529,23 @@ Dovecot va gestiona autentificarea și livrarea către căsuțele de email.
     ```
 
 4.  **Editarea fișierului SSL (`10-ssl.conf`) - Pas important!:**
+    Mai întâi, generați un fișier de parametri Diffie-Hellman pentru o securitate sporită. Această comandă poate dura câteva minute.
+    ```bash
+    sudo openssl dhparam -out /etc/dovecot/dh.pem 4096
+    ```
+    Apoi, deschideți fișierul de configurare:
     ```bash
     sudo nano /etc/dovecot/conf.d/10-ssl.conf
     ```
-    Asigurați-vă că fișierul arată astfel, forțând utilizarea SSL și specificând căile corecte către certificate.
+    Asigurați-vă că fișierul arată astfel, forțând utilizarea SSL, specificând căile corecte către certificate și adăugând o listă de cifruri compatibile.
     ```ini
     ssl = required
-    ssl_cert = /etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
-    ssl_key = /etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
+    ssl_cert = </etc/letsencrypt/live/mail.mitarmedia.com/fullchain.pem
+    ssl_key = </etc/letsencrypt/live/mail.mitarmedia.com/privkey.pem
     ssl_min_protocol = TLSv1.2
+    ssl_cipher_list = EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
+    ssl_prefer_server_ciphers = yes
+    ssl_dh = </etc/dovecot/dh.pem
     ```
 
 #### **10.4. Securizarea cu SSL (Let's Encrypt) și Firewall**
