@@ -625,6 +625,30 @@ Acum, la configurarea în Apple Mail, Gmail (sau alt client), folosiți următoa
     *   **Nume utilizator:** `contact`
     *   **Parolă:** Parola setată
 
+#### **10.7. Administrarea Căsuțelor de Email**
+
+Deoarece fiecare cont de email este un utilizator de sistem, administrarea se face prin comenzi standard Linux.
+
+1.  **Modificarea Parolei (Recomandat și Simplu):**
+    Aceasta este cea mai comună operațiune.
+    ```bash
+    # Înlocuiți 'contact' cu numele de utilizator relevant
+    sudo passwd contact
+    ```
+    Sistemul vă va cere să introduceți noua parolă de două ori. După această comandă, parola va fi actualizată imediat pentru accesul la email.
+
+2.  **Modificarea Numelui de Utilizator (Avansat):**
+    Schimbarea numelui de utilizator este mai complexă și nu este recomandată decât dacă este absolut necesar. Este adesea mai simplu să creați un utilizator nou.
+    Dacă totuși doriți să o faceți, comanda este `usermod`. De exemplu, pentru a schimba `contact` în `info`:
+    ```bash
+    # IMPORTANT: Asigurați-vă că utilizatorul NU este logat în sistem.
+    # Sintaxa: usermod -l [nume_nou] -d /home/[nume_nou] -m [nume_vechi]
+    sudo usermod -l info -d /home/info -m contact
+    ```
+    *   `-l info`: Setează noul nume de login la `info`.
+    *   `-d /home/info`: Setează noul director `home`.
+    *   `-m`: Mută conținutul directorului `home` vechi (inclusiv emailurile din `Maildir`) în cel nou.
+
 ---
 
 ### **Gata!**
