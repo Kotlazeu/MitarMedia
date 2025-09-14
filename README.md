@@ -472,7 +472,7 @@ Aceste înregistrări sunt **esențiale** pentru ca email-urile să ajungă la s
     anvil     unix  -       -       y       -       1       anvil
     scache    unix  -       -       y       -       1       scache
     # ====================================================================
-    # Servicii pentru clienți de email (Submission și SMTPS)
+    # Servicii pentru clienți de email (Submissio
     # ====================================================================
     submission inet n       -       y       -       -       smtpd
       -o syslog_name=postfix/submission
